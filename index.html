@@ -10,9 +10,9 @@
             --bg-main: #fce4ec; 
             --bg-card: #ffffff; 
             --text-main: #000000; 
-            --text-muted: #666666;
             --accent: #ec407a; 
             --border: #f8bbd0;
+            --red: #ff5f5f;
             --radius: 12px;
         }
 
@@ -21,59 +21,82 @@
         
         .header { text-align: center; margin-bottom: 30px; }
         .header h1 { color: var(--accent); font-size: 28px; }
-        .header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
 
-        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { background: var(--bg-card); border: 2px solid var(--border); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
-        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 10px rgba(236, 64, 122, 0.3); }
+        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;}
+        .tab-btn { background: var(--bg-card); border: 2px solid var(--border); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .tab-content { display: none; background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto; }
+        .tab-content { display: none; background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 1000px; margin: 0 auto; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* DANH SÁCH CÔNG VIỆC */
-        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .input-group input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; font-size: 14px;}
-        .input-group input:focus { border-color: var(--accent); }
-        .input-group button { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* --- LỊCH THÁNG --- */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .cal-header { font-weight: bold; color: var(--accent); padding: 10px 0; border-bottom: 2px solid var(--border); }
+        .cal-day { border: 1px solid #f0f0f0; border-radius: 8px; min-height: 100px; display: flex; flex-direction: column; padding: 5px; transition: 0.2s; position: relative;}
+        .cal-day:hover { border-color: var(--accent); background: #fffafc; }
+        .day-num { font-weight: bold; margin-bottom: 5px; }
+        .event-tag { font-size: 11px; background: var(--bg-main); color: var(--accent); padding: 4px; border-radius: 4px; margin-bottom: 3px; text-align: left; cursor: pointer; border-left: 3px solid var(--accent); word-break: break-word;}
+        .add-event-btn { font-size: 10px; color: #999; cursor: pointer; border: 1px dashed #ccc; border-radius: 4px; margin-top: auto; padding: 2px; }
+        .add-event-btn:hover { background: var(--bg-main); color: var(--accent); border-color: var(--accent); }
 
-        .task-list { display: flex; flex-direction: column; gap: 10px; }
-        .task-card { display: flex; align-items: center; justify-content: space-between; padding: 15px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; border-left: 4px solid var(--accent); }
-        .task-card.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
-        
-        .task-left { display: flex; align-items: center; gap: 10px; }
-        .task-checkbox { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
-        .btn-delete { background: none; border: none; color: #ff5f5f; cursor: pointer; font-weight: bold; font-size: 16px; padding: 0 5px;}
+        /* --- KẾ HOẠCH TUẦN --- */
+        .weekly-grid { display: grid; grid-template-columns: 60px repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; }
+        .wk-header, .wk-time, .wk-cell { background: #fff; padding: 10px; }
+        .wk-header { text-align: center; font-weight: bold; color: var(--accent); background: var(--bg-main); }
+        .wk-time { font-weight: bold; display: flex; align-items: center; justify-content: center; background: var(--bg-main); color: var(--accent); writing-mode: vertical-rl; transform: rotate(180deg);}
+        .wk-cell { min-height: 120px; display: flex; flex-direction: column; gap: 5px; }
+        .wk-task { font-size: 11px; padding: 6px; border-radius: 4px; display: flex; align-items: flex-start; gap: 5px; background: #fafafa; border: 1px solid #eee; border-left: 3px solid var(--accent); }
+        .wk-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+        .wk-task input { margin-top: 2px; cursor: pointer; accent-color: var(--accent);}
+        .delete-btn { margin-left: auto; background: none; border: none; color: #ff5f5f; cursor: pointer; font-weight: bold; }
+
+        /* --- VIỆC HÔM NAY --- */
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        .input-group input { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        .input-group button { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;}
+        .daily-task { display: flex; align-items: center; justify-content: space-between; padding: 15px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); }
+        .daily-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+
+        @media (max-width: 768px) {
+            .weekly-grid { grid-template-columns: 1fr; }
+            .wk-header, .wk-time { display: none; }
+            .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
+            .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🌸 Workspace Của Tớ</h1>
-        <p>Quản lý thời gian • Kế hoạch cá nhân</p>
+        <h1>🌸 Rei</h1>
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('daily')">Việc Cần Làm (To-do)</button>
-        <button class="tab-btn" onclick="switchTab('about')">Hướng dẫn</button>
+        <button class="tab-btn active" onclick="switchTab('monthly')">Lịch Tháng</button>
+        <button class="tab-btn" onclick="switchTab('weekly')">Kế Hoạch Tuần</button>
+        <button class="tab-btn" onclick="switchTab('daily')">Việc Hôm Nay</button>
     </div>
 
-    <div id="daily" class="tab-content active">
-        <div class="input-group">
-            <input type="text" id="newTaskInput" placeholder="Nhập công việc mới (Ví dụ: Mua ruy băng, Check báo cáo...)">
-            <button onclick="addTask()">Thêm việc</button>
-        </div>
-        <div class="task-list" id="taskList">
+    <div id="monthly" class="tab-content active">
+        <h2 style="color: var(--accent); margin-bottom: 15px; text-align: center;">Tháng 4 / 2026</h2>
+        <div class="calendar-grid" id="calGrid">
+            <div class="cal-header">T2</div><div class="cal-header">T3</div><div class="cal-header">T4</div>
+            <div class="cal-header">T5</div><div class="cal-header">T6</div><div class="cal-header">T7</div><div class="cal-header">CN</div>
             </div>
     </div>
 
-    <div id="about" class="tab-content">
-        <h3 style="color: var(--accent); margin-bottom: 10px;">Lưu ý về Web Planner</h3>
-        <p style="line-height: 1.6; color: var(--text-muted);">
-            Trang web này hiện đã lưu trữ dữ liệu của cậu vào trình duyệt (LocalStorage). Cậu có thể thêm, xóa, tick hoàn thành công việc thoải mái. Dữ liệu sẽ không bị mất khi F5.<br><br>
-            *Tuy nhiên, vì đây là web tĩnh trên GitHub Pages, nếu cậu mở trên điện thoại, nó sẽ không đồng bộ dữ liệu với máy tính. Mỗi thiết bị sẽ lưu một danh sách riêng biệt.
-        </p>
+    <div id="weekly" class="tab-content">
+        <div class="weekly-grid" id="weekGrid">
+            </div>
+    </div>
+
+    <div id="daily" class="tab-content">
+        <div class="input-group">
+            <input type="text" id="dailyInput" placeholder="Ví dụ: Hoàn thiện báo cáo thực tập tại Trung tâm Kiểm nghiệm...">
+            <button onclick="addDailyTask()">Thêm</button>
+        </div>
+        <div id="dailyList"></div>
     </div>
 
     <script>
@@ -85,71 +108,15 @@
             event.target.classList.add('active');
         }
 
-        // --- XỬ LÝ DỮ LIỆU CÔNG VIỆC ---
-        const STORAGE_KEY = 'qn_web_tasks';
-        let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        // --- KHỞI TẠO DỮ LIỆU ---
+        let monthEvents = JSON.parse(localStorage.getItem('qn_month')) || {};
+        let weekTasks = JSON.parse(localStorage.getItem('qn_week')) || [];
+        let dailyTasks = JSON.parse(localStorage.getItem('qn_daily')) || [
+            { id: 1, text: 'Làm hoa ruy băng tặng Trâm Mei', done: false }
+        ];
 
-        function saveTasks() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-        }
-
-        function renderTasks() {
-            const listEl = document.getElementById('taskList');
-            listEl.innerHTML = '';
-            
-            tasks.forEach(task => {
-                const card = document.createElement('div');
-                card.className = `task-card ${task.done ? 'done' : ''}`;
-                
-                card.innerHTML = `
-                    <div class="task-left">
-                        <input type="checkbox" class="task-checkbox" ${task.done ? 'checked' : ''} onchange="toggleDone('${task.id}')">
-                        <span>${task.text}</span>
-                    </div>
-                    <button class="btn-delete" onclick="deleteTask('${task.id}')">✕</button>
-                `;
-                listEl.appendChild(card);
-            });
-        }
-
-        function addTask() {
-            const input = document.getElementById('newTaskInput');
-            const text = input.value.trim();
-            if (text === '') return;
-
-            tasks.push({
-                id: Date.now().toString(),
-                text: text,
-                done: false
-            });
-            
-            input.value = '';
-            saveTasks();
-            renderTasks();
-        }
-
-        // Cho phép nhấn Enter để thêm
-        document.getElementById('newTaskInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') addTask();
-        });
-
-        window.toggleDone = function(id) {
-            const task = tasks.find(t => t.id === id);
-            if (task) {
-                task.done = !task.done;
-                saveTasks();
-                renderTasks();
-            }
-        }
-
-        window.deleteTask = function(id) {
-            tasks = tasks.filter(t => t.id !== id);
-            saveTasks();
-            renderTasks();
-        }
-
-        // Tải dữ liệu lần đầu
-        renderTasks();
-    </script>
-</body>
-</html>
+        // --- 1. LOGIC LỊCH THÁNG ---
+        function renderMonth() {
+            const grid = document.getElementById('calGrid');
+            // Xóa các ô ngày cũ (giữ lại 7 ô header)
+            while (grid.children.length > 7) { grid.removeChild(grid.
