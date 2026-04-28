@@ -1,0 +1,53 @@
+/* --- GIAO DIỆN NHẬT KÝ BÍ MẬT --- */
+.diary-overlay {
+    display: none; 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.6); 
+    justify-content: center; align-items: center; 
+    z-index: 999; backdrop-filter: blur(4px);
+}
+
+.diary-box {
+    background: #fff0f5; /* Nền hồng nhạt siêu dễ thương */
+    width: 90%; max-width: 650px; 
+    border-radius: 20px; padding: 30px; 
+    position: relative;
+    box-shadow: 0 15px 35px rgba(236, 64, 122, 0.3);
+    border: 3px dashed #ffb6c1; /* Viền nét đứt đáng yêu */
+    overflow: hidden;
+}
+
+.diary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.diary-header h2 { color: #d81b60; font-family: 'Comic Sans MS', cursive, sans-serif; margin: 0; }
+.close-diary-btn { background: #ff4081; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; }
+
+/* Các hình vẽ doodle trang trí (Dùng emoji) */
+.doodle { position: absolute; font-size: 35px; opacity: 0.8; user-select: none; z-index: 0; }
+.doodle-1 { top: -10px; left: -10px; transform: rotate(-15deg); }
+.doodle-2 { bottom: 20px; right: 10px; transform: rotate(10deg); }
+.doodle-3 { top: 40px; right: -5px; transform: rotate(20deg); }
+.doodle-4 { bottom: -10px; left: 20px; font-size: 45px;}
+
+/* Khu vực soạn thảo Rich Text */
+.diary-toolbar {
+    display: flex; gap: 8px; margin-bottom: 10px; position: relative; z-index: 1;
+    background: rgba(255, 255, 255, 0.5); padding: 5px; border-radius: 8px;
+}
+.diary-toolbar button {
+    background: white; border: 1px solid #f8bbd0; color: #d81b60; 
+    padding: 5px 12px; border-radius: 6px; cursor: pointer; font-weight: bold;
+}
+.diary-toolbar button:hover { background: #f8bbd0; color: white; }
+.mood-selector { border: 1px solid #f8bbd0; border-radius: 6px; padding: 5px; color: #d81b60; outline: none; }
+
+.diary-editor {
+    background: white; width: 100%; min-height: 250px; max-height: 400px;
+    border-radius: 12px; border: 2px solid #fce4ec; 
+    padding: 20px; overflow-y: auto; outline: none;
+    font-size: 15px; line-height: 1.5; /* Khoảng cách dòng 1.5 theo ý cậu */
+    color: #333; position: relative; z-index: 1;
+}
+
+.diary-editor:empty:before { content: attr(placeholder); color: #aaa; pointer-events: none; display: block; }
+.diary-save-btn { background: #ec407a; color: white; border: none; padding: 12px 0; width: 100%; border-radius: 12px; margin-top: 15px; font-weight: bold; cursor: pointer; font-size: 16px; position: relative; z-index: 1; transition: 0.2s;}
+.diary-save-btn:hover { background: #d81b60; transform: translateY(-2px); }
