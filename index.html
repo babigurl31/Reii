@@ -45,14 +45,31 @@
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* VIỆC HÔM NAY & INPUTS */
+        .input-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;}
+        .input-item { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
+        .input-time, .input-prio { width: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
+        .btn-add-main { background: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        .daily-task { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); background: #fafafa;}
+        .daily-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+        .prio-high { color: var(--red); font-weight: bold; }
+        .prio-medium { color: #f57c00; font-weight: bold; }
+        .prio-low { color: #388e3c; font-weight: bold; }
+
+        /* LỊCH SỬ CÔNG VIỆC */
+        .history-section { margin-top: 30px; padding-top: 15px; border-top: 2px dashed var(--border); }
+        .history-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight: bold; text-decoration: underline; margin-bottom: 10px;}
+        .history-list { display: none; opacity: 0.7; }
+        .history-list.show { display: block; }
+
         /* BẢNG LỊCH THÁNG */
         .cal-nav { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
         .cal-nav button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         .cal-nav button:hover { background: var(--accent); color: white; }
-        
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         .cal-header { font-weight: bold; color: var(--accent); padding: 10px 0; text-align: center; border-bottom: 2px solid var(--border); }
-        .cal-day { border: 1px solid #f0f0f0; border-radius: 8px; min-height: 100px; padding: 5px; position: relative; display: flex; flex-direction: column; }
+        .cal-day { border: 1px solid #f0f0f0; border-radius: 8px; min-height: 100px; padding: 5px; display: flex; flex-direction: column; }
         .day-num { font-weight: bold; font-size: 12px; margin-bottom: 5px; }
         .event-tag { font-size: 11px; background: var(--bg-main); color: var(--accent); padding: 4px; border-radius: 4px; margin-bottom: 3px; cursor: pointer; border-left: 3px solid var(--accent); word-break: break-word; }
         
@@ -63,16 +80,25 @@
         .wk-time { font-weight: bold; display: flex; align-items: center; justify-content: center; background: var(--bg-main); color: var(--accent); }
         .wk-cell { min-height: 120px; display: flex; flex-direction: column; gap: 4px; }
         
-        .task-card { background: var(--bg-main); padding: 6px; border-radius: 4px; font-size: 11px; display: flex; align-items: flex-start; justify-content: space-between; border-left: 3px solid var(--accent); gap: 5px; }
-        .task-card-text { flex: 1; word-break: break-word; }
-        .task-del-btn { color: var(--red); cursor: pointer; font-weight: bold; font-size: 14px; background: none; border: none; }
-
+        .task-card { background: var(--bg-main); padding: 6px; border-radius: 4px; font-size: 11px; display: flex; align-items: flex-start; justify-content: space-between; border-left: 3px solid var(--accent); gap: 5px; flex-direction: column;}
+        .task-card.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+        .task-header { display: flex; justify-content: space-between; width: 100%; align-items: center;}
+        .task-meta { font-size: 9px; color: #555; display: flex; gap: 5px; align-items: center; margin-top: 3px;}
+        .task-del-btn { color: var(--red); cursor: pointer; font-weight: bold; font-size: 12px; background: none; border: none; }
         .add-btn-small { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: auto; text-align: center; border: 1px dashed var(--border); border-radius: 4px; padding: 4px; transition: 0.2s; }
         .add-btn-small:hover { background: var(--bg-main); border-color: var(--accent); }
 
-        /* VIỆC HÔM NAY */
-        .daily-task { display: flex; align-items: center; justify-content: space-between; padding: 15px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); }
-        .daily-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+        /* MODAL (BẢNG NHẬP LIỆU NỔI) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: var(--bg-card); padding: 20px; border-radius: var(--radius); width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; }
+        .modal-content h3 { color: var(--accent); margin-bottom: 10px; text-align: center; }
+
+        @media (max-width: 768px) {
+            .weekly-grid { grid-template-columns: 1fr; }
+            .wk-header, .wk-time { display: none; }
+            .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
+            .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
+        }
     </style>
 </head>
 <body>
@@ -95,32 +121,60 @@
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('monthly')">Lịch Quan Trọng</button>
+        <button class="tab-btn active" onclick="switchTab('daily')">Việc Hôm Nay</button>
         <button class="tab-btn" onclick="switchTab('weekly')">Kế Hoạch Tuần</button>
-        <button class="tab-btn" onclick="switchTab('daily')">Việc Hôm Nay</button>
+        <button class="tab-btn" onclick="switchTab('monthly')">Lịch Quan Trọng</button>
     </div>
 
-    <div id="monthly" class="tab-content active">
+    <div id="daily" class="tab-content active">
+        <div class="input-row">
+            <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Nghi ơi? (Ví dụ: Chốt số liệu chạy HPLC, làm hoa tặng Ánh Ngọc...)">
+            <input type="time" id="dailyTime" class="input-time">
+            <select id="dailyPrio" class="input-prio">
+                <option value="high">🔴 Hoàn thành trong thời gian quy định</option>
+                <option value="medium" selected>🟡 Hoàn thành trong 12 tiếng</option>
+                <option value="low">🔵 Hoàn thành trong ngày</option>
+            </select>
+            <button class="btn-add-main" onclick="addDaily()">Thêm</button>
+        </div>
+        <div id="dailyList"></div>
+
+        <div class="history-section">
+            <button class="history-btn" onclick="toggleHistory()">👁️ Xem / Ẩn lịch sử công việc đã xóa</button>
+            <div id="historyList" class="history-list"></div>
+        </div>
+    </div>
+
+    <div id="weekly" class="tab-content">
+        <div class="weekly-grid" id="weekGrid"></div>
+    </div>
+
+    <div id="monthly" class="tab-content">
         <div class="cal-nav">
             <button onclick="prevMonth()">◀ Trước</button>
             <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Tháng ...</h3>
             <button onclick="nextMonth()">Sau ▶</button>
         </div>
-        <div class="calendar-grid" id="calGrid">
-            </div>
+        <div class="calendar-grid" id="calGrid"></div>
     </div>
 
-    <div id="weekly" class="tab-content">
-        <div class="weekly-grid" id="weekGrid">
+    <div id="wkModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="wkModalTitle">Thêm việc mới</h3>
+            <input type="text" id="wkInput" class="input-item" placeholder="Tên công việc...">
+            <div style="display: flex; gap: 10px;">
+                <input type="time" id="wkTime" class="input-time" style="flex: 1;">
+                <select id="wkPrio" class="input-prio" style="flex: 1;">
+                    <option value="high">🔴 Hoàn thành trong thời gian quy định</option>
+                    <option value="medium" selected>🟡 Hoàn thành trong 12 tiếng</option>
+                    <option value="low">🔵 Hoàn thành trong ngày</option>
+                </select>
             </div>
-    </div>
-
-    <div id="daily" class="tab-content">
-        <div style="display:flex; gap:10px; margin-bottom:15px;">
-            <input type="text" id="dailyInput" placeholder="Hôm nay cần làm gì Babi ơi?" style="flex:1; padding:12px; border-radius:8px; border:1px solid var(--border); outline:none;">
-            <button onclick="addDaily()" style="background:var(--accent); color:white; border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-weight:bold;">Thêm</button>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-add-main" style="flex: 1;" onclick="saveWk()">Lưu</button>
+                <button class="btn-add-main" style="flex: 1; background: #999;" onclick="closeModal()">Hủy</button>
+            </div>
         </div>
-        <div id="dailyList"></div>
     </div>
 
     <script>
@@ -154,128 +208,134 @@
         }
         if(localStorage.getItem('qn_theme_accent')) setTheme(localStorage.getItem('qn_theme_accent'), localStorage.getItem('qn_theme_bg'));
 
-        // --- 3. LỊCH THÁNG ĐỘNG (DYNAMIC CALENDAR) ---
-        let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
-        let currDate = new Date(); // Lấy ngày giờ hiện tại
-        let currMonth = currDate.getMonth(); // 0-11
-        let currYear = currDate.getFullYear();
+        const prioLabels = { high: '🔴 Hoàn thành trong thời gian quy định', medium: '🟡 Hoàn thành trong 12 tiếng', low: '🔵 Hoàn thành trong ngày' };
+        const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
 
-        function renderCal() {
-            const grid = document.getElementById('calGrid');
-            document.getElementById('monthYearDisplay').innerText = `Tháng ${currMonth + 1} / ${currYear}`;
+        // --- 3. VIỆC HÔM NAY (ĐƯA LÊN TRƯỚC TRONG JS) ---
+        let dailyTasks = JSON.parse(localStorage.getItem('qn_daily_v2')) || [];
+        function renderDaily() {
+            const list = document.getElementById('dailyList');
+            const history = document.getElementById('historyList');
+            list.innerHTML = ''; history.innerHTML = '';
             
-            // Vẽ lại Header T2 - CN
-            grid.innerHTML = `
-                <div class="cal-header">T2</div><div class="cal-header">T3</div><div class="cal-header">T4</div>
-                <div class="cal-header">T5</div><div class="cal-header">T6</div><div class="cal-header">T7</div><div class="cal-header">CN</div>
-            `;
-
-            let firstDay = new Date(currYear, currMonth, 1).getDay();
-            let startOffset = firstDay === 0 ? 6 : firstDay - 1; // Điều chỉnh để Thứ 2 là đầu tuần
-            let daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
-
-            // Ô trống đầu tháng
-            for(let i = 0; i < startOffset; i++) {
-                grid.innerHTML += `<div class="cal-day" style="border:none; background:transparent;"></div>`;
-            }
-
-            // In các ngày
-            for(let i = 1; i <= daysInMonth; i++) {
-                let dateKey = `${currYear}-${currMonth + 1}-${i}`;
-                let events = (calData[dateKey] || []).map((ev, idx) => 
-                    `<div class="event-tag" onclick="deleteCal('${dateKey}', ${idx})">${ev}</div>`
-                ).join('');
-                
-                // Tô đậm nếu là ngày hôm nay
-                let isToday = (i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear());
-                let todayStyle = isToday ? 'background: #fff0f6; border: 2px solid var(--accent);' : '';
-
-                grid.innerHTML += `
-                    <div class="cal-day" style="${todayStyle}">
-                        <div class="day-num">${i}</div>
-                        ${events}
-                        <div class="add-btn-small" onclick="addCal('${dateKey}')">+ Thêm</div>
+            dailyTasks.forEach(t => {
+                let html = `
+                    <div class="daily-task ${t.done ? 'done' : ''}" style="opacity: ${t.archived ? '0.6' : '1'}">
+                        <div style="flex:1">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <input type="checkbox" style="width:18px;height:18px;accent-color:var(--accent)" ${t.done ? 'checked' : ''} onchange="toggleDaily(${t.id})">
+                                <span style="font-weight:bold">${t.text}</span>
+                            </div>
+                            <div style="font-size:11px; margin-top:5px; margin-left:28px; color:#666;">
+                                🕒 ${t.time || '--:--'} | Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span>
+                            </div>
+                        </div>
+                        <button class="task-del-btn" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ (Xóa)'}" onclick="${t.archived ? `hardDeleteDaily(${t.id})` : `archiveDaily(${t.id})`}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
                     </div>
                 `;
-            }
+                if(t.archived) history.innerHTML += html;
+                else list.innerHTML += html;
+            });
         }
 
-        function prevMonth() { currMonth--; if(currMonth < 0) { currMonth = 11; currYear--; } renderCal(); }
-        function nextMonth() { currMonth++; if(currMonth > 11) { currMonth = 0; currYear++; } renderCal(); }
-
-        window.addCal = (dateKey) => { 
-            let v = prompt("Ghi chú sự kiện quan trọng:"); 
-            if(v){ if(!calData[dateKey]) calData[dateKey]=[]; calData[dateKey].push(v); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); }
+        window.addDaily = () => {
+            const input = document.getElementById('dailyInput');
+            const time = document.getElementById('dailyTime');
+            const prio = document.getElementById('dailyPrio');
+            if(input.value.trim() !== '') { 
+                dailyTasks.push({ id: Date.now(), text: input.value.trim(), time: time.value, prio: prio.value, done: false, archived: false }); 
+                localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); 
+                input.value = ''; time.value = ''; renderDaily(); 
+            }
         };
-        window.deleteCal = (dateKey, idx) => { 
-            if(confirm('Xóa sự kiện này?')) { calData[dateKey].splice(idx, 1); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); }
-        };
+        document.getElementById('dailyInput').addEventListener('keypress', e => { if(e.key === 'Enter') addDaily(); });
+        
+        window.toggleDaily = (id) => { let task = dailyTasks.find(t => t.id === id); if(task) task.done = !task.done; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); };
+        
+        window.archiveDaily = (id) => { let task = dailyTasks.find(t => t.id === id); if(task) task.archived = true; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); };
+        window.hardDeleteDaily = (id) => { if(confirm("Xóa vĩnh viễn công việc này khỏi lịch sử?")) { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }};
 
-        // --- 4. WEEKLY PLANNER HOÀN CHỈNH ---
-        let weekData = JSON.parse(localStorage.getItem('qn_week')) || {};
+        function toggleHistory() { document.getElementById('historyList').classList.toggle('show'); }
+
+        // --- 4. WEEKLY PLANNER ---
+        let weekData = JSON.parse(localStorage.getItem('qn_week_v2')) || {};
         const daysWk = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','CN'];
         const timesWk = ['Sáng','Chiều','Tối'];
+        let currentWkKey = '';
 
         function renderWk() {
             const grid = document.getElementById('weekGrid');
             grid.innerHTML = '<div class="wk-header"></div>' + daysWk.map(d=>`<div class="wk-header">${d}</div>`).join('');
-            
             timesWk.forEach(t => {
                 grid.innerHTML += `<div class="wk-time">${t}</div>`;
                 daysWk.forEach(d => {
                     let key = `${d}-${t}`;
                     let tasks = (weekData[key] || []).map((task, idx) => `
-                        <div class="task-card">
-                            <span class="task-card-text">${task}</span>
-                            <button class="task-del-btn" onclick="deleteWk('${key}', ${idx})">✕</button>
+                        <div class="task-card ${task.done ? 'done' : ''}">
+                            <div class="task-header">
+                                <div style="display:flex; align-items:center; gap:5px;">
+                                    <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleWk('${key}', ${idx})">
+                                    <span style="font-weight:bold">${task.text}</span>
+                                </div>
+                                <button class="task-del-btn" onclick="deleteWk('${key}', ${idx})">✕</button>
+                            </div>
+                            <div class="task-meta">
+                                <span>🕒 ${task.time || '--:--'}</span> • <span class="${prioClasses[task.prio]}">${prioLabels[task.prio]}</span>
+                            </div>
                         </div>
                     `).join('');
-                    
-                    grid.innerHTML += `
-                        <div class="wk-cell">
-                            ${tasks}
-                            <div class="add-btn-small" onclick="addWk('${key}')">+ Thêm việc</div>
-                        </div>
-                    `;
+                    grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small" onclick="openWkModal('${key}')">+ Thêm việc</div></div>`;
                 });
             });
         }
 
-        window.addWk = (key) => {
-            let v = prompt(`Lên kế hoạch cho ${key.replace('-', ' - ')}:`);
-            if(v) { if(!weekData[key]) weekData[key] = []; weekData[key].push(v); localStorage.setItem('qn_week', JSON.stringify(weekData)); renderWk(); }
-        };
-        window.deleteWk = (key, idx) => {
-            weekData[key].splice(idx, 1); localStorage.setItem('qn_week', JSON.stringify(weekData)); renderWk();
-        };
-
-        // --- 5. VIỆC HÔM NAY (DAILY) ---
-        let dailyTasks = JSON.parse(localStorage.getItem('qn_daily')) || [];
-        function renderDaily() {
-            const list = document.getElementById('dailyList');
-            list.innerHTML = '';
-            dailyTasks.forEach(t => {
-                list.innerHTML += `
-                    <div class="daily-task ${t.done ? 'done' : ''}">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <input type="checkbox" style="width:18px;height:18px;accent-color:var(--accent)" ${t.done ? 'checked' : ''} onchange="toggleDaily(${t.id})">
-                            <span>${t.text}</span>
-                        </div>
-                        <button class="task-del-btn" onclick="deleteDaily(${t.id})">✕</button>
-                    </div>
-                `;
-            });
+        function openWkModal(key) {
+            currentWkKey = key;
+            document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`;
+            document.getElementById('wkInput').value = '';
+            document.getElementById('wkModal').style.display = 'flex';
         }
-        window.addDaily = () => {
-            const input = document.getElementById('dailyInput');
-            if(input.value.trim() !== '') { dailyTasks.push({ id: Date.now(), text: input.value.trim(), done: false }); localStorage.setItem('qn_daily', JSON.stringify(dailyTasks)); input.value = ''; renderDaily(); }
-        };
-        document.getElementById('dailyInput').addEventListener('keypress', e => { if(e.key === 'Enter') addDaily(); });
-        window.toggleDaily = (id) => { let task = dailyTasks.find(t => t.id === id); if(task) task.done = !task.done; localStorage.setItem('qn_daily', JSON.stringify(dailyTasks)); renderDaily(); };
-        window.deleteDaily = (id) => { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily', JSON.stringify(dailyTasks)); renderDaily(); };
+        function closeModal() { document.getElementById('wkModal').style.display = 'none'; }
+        function saveWk() {
+            let text = document.getElementById('wkInput').value.trim();
+            let time = document.getElementById('wkTime').value;
+            let prio = document.getElementById('wkPrio').value;
+            if(!text) return alert("Cần nhập tên công việc!");
+            if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
+            weekData[currentWkKey].push({ text, time, prio, done: false });
+            localStorage.setItem('qn_week_v2', JSON.stringify(weekData));
+            closeModal(); renderWk();
+        }
+        window.toggleWk = (key, idx) => { weekData[key][idx].done = !weekData[key][idx].done; localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); };
+        window.deleteWk = (key, idx) => { weekData[key].splice(idx, 1); localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); };
+
+        // --- 5. LỊCH THÁNG ---
+        let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
+        let currDate = new Date(); let currMonth = currDate.getMonth(); let currYear = currDate.getFullYear();
+
+        function renderCal() {
+            const grid = document.getElementById('calGrid');
+            document.getElementById('monthYearDisplay').innerText = `Tháng ${currMonth + 1} / ${currYear}`;
+            grid.innerHTML = `<div class="cal-header">T2</div><div class="cal-header">T3</div><div class="cal-header">T4</div><div class="cal-header">T5</div><div class="cal-header">T6</div><div class="cal-header">T7</div><div class="cal-header">CN</div>`;
+            let firstDay = new Date(currYear, currMonth, 1).getDay();
+            let startOffset = firstDay === 0 ? 6 : firstDay - 1; 
+            let daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
+            for(let i = 0; i < startOffset; i++) grid.innerHTML += `<div class="cal-day" style="border:none; background:transparent;"></div>`;
+            for(let i = 1; i <= daysInMonth; i++) {
+                let dateKey = `${currYear}-${currMonth + 1}-${i}`;
+                let events = (calData[dateKey] || []).map((ev, idx) => `<div class="event-tag" onclick="deleteCal('${dateKey}', ${idx})">${ev}</div>`).join('');
+                let isToday = (i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear());
+                let todayStyle = isToday ? 'background: #fff0f6; border: 2px solid var(--accent);' : '';
+                grid.innerHTML += `<div class="cal-day" style="${todayStyle}"><div class="day-num">${i}</div>${events}<div class="add-btn-small" onclick="addCal('${dateKey}')">+ Thêm</div></div>`;
+            }
+        }
+        function prevMonth() { currMonth--; if(currMonth < 0) { currMonth = 11; currYear--; } renderCal(); }
+        function nextMonth() { currMonth++; if(currMonth > 11) { currMonth = 0; currYear++; } renderCal(); }
+        window.addCal = (dateKey) => { let v = prompt("Ghi chú sự kiện:"); if(v){ if(!calData[dateKey]) calData[dateKey]=[]; calData[dateKey].push(v); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); }};
+        window.deleteCal = (dateKey, idx) => { if(confirm('Xóa sự kiện này?')) { calData[dateKey].splice(idx, 1); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); }};
 
         // Khởi động
-        renderCal(); renderWk(); renderDaily();
+        renderDaily(); renderWk(); renderCal(); 
     </script>
 </body>
 </html>
