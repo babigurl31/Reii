@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dailyInp = document.getElementById('dailyInput');
     if(dailyInp) dailyInp.addEventListener('keypress', e => { if(e.key === 'Enter') addDaily(); });
 });
+
 // --- ĐÓNG / MỞ NGĂN KÉO HAI BÊN ---
 window.toggleDrawer = (drawerId) => {
     document.getElementById(drawerId).classList.toggle('open');
