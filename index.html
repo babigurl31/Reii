@@ -12,90 +12,98 @@
 <body>
 
     <div class="header">
-        <h1>Quỳnh Nghi Workspace <span class="secret-flower" id="secretTrigger" title="Chỉ là bông hoa thôi... đúng không?">🌸</span></h1>
+        <h1>Rei <span class="secret-flower" id="secretTrigger" title="Nhật ký bí mật">🌸</span></h1>
         <div class="clock-box" id="vnClock">Đang tải giờ...</div>
+        
+        <div class="goal-container">
+            <span class="goal-text" id="myGoal">Mục tiêu: Kiếm 100 triệu đầu tiên!</span>
+            <span class="edit-goal-btn" onclick="editGoal()">[Chỉnh sửa]</span>
+        </div>
+
+        <div class="theme-picker">
+            <div class="color-dot" style="background: #ec407a;" onclick="setTheme('#ec407a', '#fce4ec')"></div>
+            <div class="color-dot" style="background: #7e57c2;" onclick="setTheme('#7e57c2', '#f3e5f5')"></div>
+            <div class="color-dot" style="background: #26a69a;" onclick="setTheme('#26a69a', '#e0f2f1')"></div>
+            <div class="color-dot" style="background: #ffa726;" onclick="setTheme('#ffa726', '#fff3e0')"></div>
+        </div>
     </div>
 
-    <div class="main-layout">
-        
-        <div class="sidebar-left">
+    <div class="main-container">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('daily')">Việc Hôm Nay</button>
+            <button class="tab-btn" onclick="switchTab('weekly')">Kế Hoạch Tuần</button>
+            <button class="tab-btn" onclick="switchTab('monthly')">Lịch Quan Trọng</button>
+        </div>
+
+        <div id="daily" class="tab-content active">
+            <div class="input-row">
+                <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì?">
+                <input type="time" id="dailyTime" class="input-time">
+                <select id="dailyPrio" class="input-prio">
+                    <option value="high">🔴 Quan trọng</option><option value="medium" selected>🟡 Trong 12 tiếng</option><option value="low">🔵 Trong ngày</option>
+                </select>
+                <button class="btn-add-main" onclick="addDaily()">Thêm</button>
+            </div>
+            <div id="dailyList"></div>
+            <div class="history-section">
+                <button class="history-btn" onclick="toggleHistory()">👁️ Xem / Ẩn lịch sử đã xóa</button>
+                <div id="historyList" class="history-list"></div>
+            </div>
+        </div>
+
+        <div id="weekly" class="tab-content"><div class="weekly-grid" id="weekGrid"></div></div>
+        <div id="monthly" class="tab-content">
+            <div class="cal-nav">
+                <button onclick="prevMonth()">◀ Trước</button>
+                <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Tháng ...</h3>
+                <button onclick="nextMonth()">Sau ▶</button>
+            </div>
+            <div class="calendar-grid" id="calGrid"></div>
+        </div>
+    </div>
+
+    <div id="leftDrawer" class="drawer drawer-left">
+        <button class="drawer-toggle toggle-left" onclick="toggleDrawer('leftDrawer')">⏳</button>
+        <div class="drawer-content">
             <div class="widget">
                 <img src="anh-timer.png" alt="Avatar Timer" class="widget-avatar">
-                <div class="widget-title">⏳ Trạm Tập Trung</div>
-                
-                <div class="timer-setting">
-                    Tập trung: <input type="number" id="timerInput" value="20" min="1"> phút
-                </div>
+                <div class="widget-title">Trạm Tập Trung</div>
+                <div class="timer-setting">Tập trung: <input type="number" id="timerInput" value="20" min="1"> p</div>
                 <div class="timer-display" id="timerDisplay">20:00</div>
                 <div class="timer-controls">
                     <button class="timer-btn" id="startTimerBtn" onclick="toggleTimer()">Bắt đầu</button>
                     <button class="timer-btn stop" onclick="resetTimer()">Bỏ cuộc</button>
                 </div>
-                <div class="widget-hint">Mỗi 20 phút tập trung = 1 bông hoa 🌸</div>
                 <div class="flower-garden" id="flowerGarden"></div>
             </div>
         </div>
+    </div>
 
-        <div class="content-center">
-            <div class="nav-tabs">
-                <button class="tab-btn active" onclick="switchTab('daily')">Việc Hôm Nay</button>
-                <button class="tab-btn" onclick="switchTab('weekly')">Kế Hoạch Tuần</button>
-                <button class="tab-btn" onclick="switchTab('monthly')">Lịch Quan Trọng</button>
-            </div>
-
-            <div id="daily" class="tab-content active">
-                <div class="input-row">
-                    <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Babi ơi?">
-                    <input type="time" id="dailyTime" class="input-time">
-                    <select id="dailyPrio" class="input-prio">
-                        <option value="high">🔴 Hoàn thành trong thời gian quy định</option><option value="medium" selected>🟡 Hoàn thành trong 12 tiếng</option><option value="low">🔵 Hoàn thành trong ngày</option>
-                    </select>
-                    <button class="btn-add-main" onclick="addDaily()">Thêm</button>
-                </div>
-                <div id="dailyList"></div>
-                <div class="history-section">
-                    <button class="history-btn" onclick="toggleHistory()">👁️ Xem / Ẩn lịch sử đã xóa</button>
-                    <div id="historyList" class="history-list"></div>
-                </div>
-            </div>
-
-            <div id="weekly" class="tab-content"><div class="weekly-grid" id="weekGrid"></div></div>
-            <div id="monthly" class="tab-content">
-                <div class="cal-nav">
-                    <button onclick="prevMonth()">◀ Trước</button>
-                    <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Tháng ...</h3>
-                    <button onclick="nextMonth()">Sau ▶</button>
-                </div>
-                <div class="calendar-grid" id="calGrid"></div>
-            </div>
-        </div>
-
-        <div class="sidebar-right">
-            
-            <div class="widget">
+    <div id="rightDrawer" class="drawer drawer-right">
+        <button class="drawer-toggle toggle-right" onclick="toggleDrawer('rightDrawer')">💡</button>
+        <div class="drawer-content">
+            <div class="widget" style="margin-bottom: 20px;">
                 <img src="anh-idea.png" alt="Avatar Idea" class="widget-avatar">
-                <div class="widget-title">💡 Kho Ý Tưởng Nhỏ</div>
+                <div class="widget-title">Kho Ý Tưởng Nhỏ</div>
                 <div class="mini-input-group">
-                    <input type="text" id="ideaInput" placeholder=" ">
+                    <input type="text" id="ideaInput" placeholder="Nảy ra ý tưởng gì?">
                     <button onclick="addIdea()">Lưu</button>
                 </div>
                 <ul class="mini-list" id="ideaList"></ul>
             </div>
-
+            
             <div class="widget">
                 <div class="widget-title">🛒 Checklist!</div>
-                <div class="widget-hint">Ghi đồ cần mua vào đây để không quên nhé</div>
                 <div class="mini-input-group">
-                    <input type="text" id="shopInput" placeholder=" ">
+                    <input type="text" id="shopInput" placeholder="Cần mua gì?">
                     <button onclick="addShop()">Thêm</button>
                 </div>
                 <ul class="mini-list" id="shopList"></ul>
             </div>
-
         </div>
     </div>
 
-    <div id="wkModal" class="modal-overlay">...</div>
+    <div id="wkModal" class="modal-overlay">... (Giữ nguyên cấu trúc ẩn) ...</div>
 
     <script src="script.js"></script>
     <script src="timer.js"></script>
