@@ -26,7 +26,7 @@ function setTheme(accent, bg) {
 }
 if(localStorage.getItem('qn_theme_accent')) setTheme(localStorage.getItem('qn_theme_accent'), localStorage.getItem('qn_theme_bg'));
 
-const prioLabels = { high: '🔴 Cao', medium: '🟡 T.Bình', low: '🔵 Thấp' };
+const prioLabels = { high: '🔴 Hoàn thành trong thời gian quy định', medium: '🟡 Hoàn thành trong 12 tiếng', low: '🔵 Hoàn thành trong ngày' };
 const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
 
 // --- VIỆC HÔM NAY ---
