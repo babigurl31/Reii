@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </svg>
 
                 <div class="diary-header">
-                    <h2>💌 Góc Của Rei</h2>
+                    <h2>💌 Góc Của Nghi</h2>
                     <button id="closeDiaryBtn" class="close-diary-btn">✕</button>
                 </div>
                 
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <option value="happy">🥰 Rất vui</option>
                         <option value="tired">🥱 Hơi mệt</option>
                         <option value="chill">🎧 Chill</option>
+                        <option value="love">💖 Đang yêu</option>
                     </select>
                 </div>
 
@@ -50,34 +51,30 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     
-    // Chèn vào cuối body
     document.body.insertAdjacentHTML('beforeend', diaryHTML);
 
-    // 2. Các biến điều khiển
-    const trigger = document.getElementById('secretTrigger'); // Bông hoa 🌸 trên index.html
+    const trigger = document.getElementById('secretTrigger');
     const modal = document.getElementById('secretDiaryModal');
     const closeBtn = document.getElementById('closeDiaryBtn');
     const saveBtn = document.getElementById('saveDiaryBtn');
     const editor = document.getElementById('diaryContent');
     const moodSelect = document.getElementById('diaryMood');
 
-    // 3. Tải lại dữ liệu cũ khi mở trang
     editor.innerHTML = localStorage.getItem('qn_secret_diary') || '';
     moodSelect.value = localStorage.getItem('qn_secret_mood') || '';
 
-    // 4. Bật nhật ký (Yêu cầu Mật khẩu cực xịn)
+    // LOGIC MẬT KHẨU
     if(trigger) {
         trigger.addEventListener('dblclick', () => {
             let pass = prompt("Nhập mật khẩu mở cửa trái tim:");
             if(pass === "EmYeuBinhLam") {
                 modal.style.display = 'flex';
             } else if (pass !== null) {
-                alert("Sai gòi! Người lạ không được vào đâu nha!");
+                alert("Sai gòi! Người lạ không được vào đâu nha 😛");
             }
         });
     }
 
-    // 5. Đóng và Lưu nhật ký
     closeBtn.addEventListener('click', () => modal.style.display = 'none');
     
     saveBtn.addEventListener('click', () => {
@@ -87,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
     });
 
-    // 6. Tính năng Bonus: Auto-save (Tự động lưu sau 2 giây ngừng gõ)
     let timeout = null;
     editor.addEventListener('input', () => {
         clearTimeout(timeout);
@@ -96,9 +92,5 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('qn_secret_mood', moodSelect.value);
             console.log("Đã tự động lưu nhật ký!");
         }, 2000);
-    });
-
-    moodSelect.addEventListener('change', () => {
-        localStorage.setItem('qn_secret_mood', moodSelect.value);
     });
 });
