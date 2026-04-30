@@ -107,9 +107,23 @@
             .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
             .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
         }
+        /* KHUNG VIỀN RUY BĂNG CUTE */
+        .khung-vien-cute {
+            position: absolute;
+            top: -40px;    /* Kéo khung nhô lên trên một chút để chừa chỗ cho nơ */
+            left: -20px;   /* Mở rộng sang trái */
+            right: -20px;  /* Mở rộng sang phải */
+            bottom: -20px; /* Mở rộng xuống dưới */
+            background: url('khung-vien.png') center center no-repeat;
+            background-size: 100% 100%;
+            pointer-events: none; /* Cực kỳ quan trọng: Cho phép chuột click xuyên qua viền */
+            z-index: 50; /* Cho khung nổi lên trên cùng */
+        }
     </style>
 </head>
 <body>
+    <!-- KHUNG VIỀN TOÀN TRANG NẰM Ở ĐÂY NÈ -->
+    <div class="khung-vien-toan-trang"></div>
 
     <div class="header">
         <h1>Rei <span class="secret-flower" id="secretTrigger" title="Chỉ là bông hoa thôi... đúng không?">🌸</span></h1>
