@@ -107,23 +107,9 @@
             .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
             .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
         }
-       /* KHUNG VIỀN BAO QUANH TOÀN BỘ TRANG WEB */
-        .khung-vien-toan-trang {
-            position: fixed; /* Ghim cố định vào màn hình, cuộn chuột khung vẫn đứng yên */
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: url('khung-vien.png') center center no-repeat;
-            background-size: 100% 100%;
-            pointer-events: none; /* Rất quan trọng: Giúp cậu click chuột xuyên qua khung */
-            z-index: 9999; /* Đảm bảo khung luôn nổi lên trên cùng */
-        }
     </style>
 </head>
 <body>
-    <!-- KHUNG VIỀN TOÀN TRANG NẰM Ở ĐÂY NÈ -->
-    <div class="khung-vien-toan-trang"></div>
 
     <div class="header">
         <h1>Rei <span class="secret-flower" id="secretTrigger" title="Chỉ là bông hoa thôi... đúng không?">🌸</span></h1>
