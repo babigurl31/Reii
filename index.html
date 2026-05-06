@@ -24,10 +24,25 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Syne', sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px; transition: 0.3s; overflow-x: hidden; }
         
-        /* HEADER & TIỆN ÍCH */
+/* HEADER & TIỆN ÍCH (Đã được đóng khung kính mờ bo tròn) */
         .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { color: var(--accent); font-size: 28px; }
-        .clock-box { font-size: 18px; font-weight: bold; margin: 10px 0; color: var(--text-main); }
+        
+        .header h1 { 
+            color: var(--accent); font-size: 30px; 
+            background: rgba(255, 255, 255, 0.85); /* Nền trắng trong suốt 85% */
+            padding: 5px 30px; border-radius: 20px; /* Bo tròn góc */
+            display: inline-block; margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
+        }
+        
+        .clock-box { 
+            font-size: 16px; font-weight: bold; color: var(--accent); 
+            background: rgba(255, 255, 255, 0.9); /* Nền trắng đục hơn xíu */
+            padding: 8px 25px; border-radius: 30px; /* Bo tròn thành hình viên thuốc */
+            border: 2px dashed var(--border); /* Viền đứt nét tone-sur-tone */
+            display: inline-block; margin: 0 auto 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
+        }
         
         /* CÔNG TẮC BÍ MẬT */
         .secret-flower { cursor: default; user-select: none; transition: transform 0.2s; display: inline-block; }
@@ -40,7 +55,12 @@
         .goal-text { font-weight: 800; font-size: 16px; color: var(--accent); }
         .edit-goal-btn { margin-left: 10px; cursor: pointer; font-size: 12px; color: var(--text-muted); text-decoration: underline; }
 
-        .theme-picker { margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; }
+.theme-picker { 
+            margin: 0 auto 20px; display: inline-flex; justify-content: center; gap: 10px; 
+            background: rgba(255, 255, 255, 0.85); padding: 8px 20px; 
+            border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            backdrop-filter: blur(5px);
+        }
         .color-dot { width: 25px; height: 25px; border-radius: 50%; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
         /* TABS */
