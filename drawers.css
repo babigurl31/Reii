@@ -1,5 +1,5 @@
 /* NGĂN KÉO TRƯỢT */
-.drawer { position: fixed; top: 50%; transform: translateY(-50%); background: var(--bg-main); border: 2px dashed var(--accent); width: 300px; z-index: 1000; transition: 0.4s ease-in-out; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.drawer { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 2px dashed var(--accent); width: 300px; z-index: 1000; transition: 0.4s ease-in-out; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 .drawer-left { left: -300px; border-left: none; border-radius: 0 20px 20px 0; }
 .drawer-left.open { left: 0; }
 .drawer-right { right: -300px; border-right: none; border-radius: 20px 0 0 20px; }
@@ -12,7 +12,7 @@
 .toggle-right { left: -40px; border-radius: 10px 0 0 10px; }
 
 /* CSS WIDGET BÊN TRONG */
-.widget { background: var(--bg-card); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+.widget { background: rgba(255, 255, 255, 0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
 .widget-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: block; border: 2px solid var(--accent); background: #fff0f5;}
 .widget-title { text-align: center; color: var(--accent); font-size: 15px; font-weight: bold; margin-bottom: 10px; }
 
