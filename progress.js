@@ -16,6 +16,9 @@ function renderCircleProgress() {
     let minDaysToEvent = Infinity;
 
     for (const [dateStr, events] of Object.entries(calData)) {
+        // BỘ LỌC MỚI: Nếu ngày đó đã bị xóa hết sự kiện (danh sách trống) thì bỏ qua hoàn toàn
+        if (!events || events.length === 0) continue;
+
         const [y, m, d] = dateStr.split('-').map(Number);
         const eventDate = new Date(y, m - 1, d);
         const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
@@ -23,13 +26,13 @@ function renderCircleProgress() {
         // Chỉ lấy sự kiện từ hôm nay trở đi
         if (diffDays >= 0 && diffDays < minDaysToEvent) {
             minDaysToEvent = diffDays;
-            upcomingEvent = { text: events[0], days: diffDays }; // Lấy sự kiện đầu tiên của ngày đó
+            upcomingEvent = { text: events[0], days: diffDays }; 
         }
     }
 
-    // Thiết lập số liệu cho ô Sự kiện (Quy ước: 30 ngày là vòng tròn cạn, 0 ngày là đầy 100%)
+    // Thiết lập số liệu cho ô Sự kiện (Nếu không có sự kiện nào sẽ tự động reset về rỗng)
     let eventPercent = 0;
-    let eventText = "Chưa có lịch trình";
+    let eventText = "Chưa có sự kiện";
     let eventDaysStr = "--";
     
     if (upcomingEvent) {

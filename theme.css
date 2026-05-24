@@ -2,7 +2,7 @@
 .settings-wrapper {
     position: fixed; top: 20px; right: 20px; z-index: 2000;
     display: flex; align-items: center; gap: 10px; 
-    /* Đã xóa lệnh đảo ngược, nút chính giờ sẽ chốt chặn ở sát lề phải */
+    /* Đã thiết lập để nút chính chốt chặn ở lề phải */
 }
 
 .settings-menu {
@@ -10,15 +10,13 @@
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     padding: 8px 15px; border-radius: 30px; border: 1px solid var(--border);
     
-    /* Bắt đầu: Giấu nó thụt lùi vào bên phải (phía sau nút chính) */
+    /* Trạng thái đóng: Giấu thụt vào bên phải (phía sau nút chính) */
     opacity: 0; transform: translateX(50px); pointer-events: none; 
-    
-    /* Hiệu ứng trượt có độ nảy nhẹ (bounce) siêu cute */
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Kết thúc: Trượt êm ái sang bên trái */
+/* Trạng thái mở: Trượt êm ái sang bên trái */
 .settings-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
 .main-set-btn, .set-btn {
