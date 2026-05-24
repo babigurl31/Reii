@@ -107,8 +107,6 @@
     </style>
 </head>
 <body>
-    <!-- NÚT ĐỔI HÌNH NỀN Ở GÓC PHẢI TRÊN CÙNG -->
-    <button onclick="changeBackground()" style="position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--bg-card); border: 2px dashed var(--accent); border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Đổi hình nền">🖼️</button>
 
 <div class="header">
         <h1>
@@ -218,6 +216,7 @@
     </div>
 </div>
 </div>
+
 <div id="rightDrawer" class="drawer drawer-right"> <!-- Dòng 229 -->
     <button class="drawer-toggle toggle-right" onclick="toggleDrawer('rightDrawer')">
     <img src="anh-idea.png" style="width: 25px; height: 25px; display: block;">
@@ -242,34 +241,6 @@
             </div>
         </div>
     </div>
-
-        <!-- CHỨC NĂNG ĐỔI HÌNH NỀN -->
-    <script>
-        function loadBackground() {
-            // Lấy ảnh cậu đã lưu, nếu chưa có thì dùng ảnh cánh hoa đào
-            let savedBg = localStorage.getItem('qn_bg') || 'nen-dong.gif';
-            
-            // Cài đặt ảnh nền và thêm một lớp phủ trắng mờ (0.3) để dễ đọc chữ
-            document.body.style.backgroundImage = `linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${savedBg}')`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundPosition = 'center center';
-            document.body.style.backgroundAttachment = 'fixed';
-            document.body.style.backgroundRepeat = 'no-repeat';
-            document.body.style.transition = 'background 0.5s ease-in-out'; // Đổi nền mượt mà
-        }
-
-        function changeBackground() {
-            let newBg = prompt("🌸 Babi hãy dán link ảnh mới vào đây nhé!\n(Hoặc nhập tên file ảnh cậu đã tải lên GitHub, ví dụ: nen2.jpg, nen-dong.gif)");
-            
-            if (newBg !== null && newBg.trim() !== "") {
-                localStorage.setItem('qn_bg', newBg.trim());
-                loadBackground();
-            }
-        }
-
-        // Tự động tải hình nền khi vừa mở web
-        loadBackground();
-    </script>
         
     <script>
         // --- 1. THỜI GIAN & CHUNG ---
@@ -437,5 +408,8 @@
     <script src="nhat_ky.js"></script>
     <link rel="stylesheet" href="progress.css">
     <script src="progress.js"></script>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+    
 </body>
 </html>

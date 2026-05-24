@@ -1,0 +1,66 @@
+/* --- NÚT SETTING DẠNG VIÊN THUỐC MỞ RỘNG --- */
+.settings-wrapper {
+    position: fixed; top: 20px; right: 20px; z-index: 2000;
+    display: flex; align-items: center; gap: 10px; flex-direction: row-reverse;
+}
+
+.settings-menu {
+    display: flex; gap: 10px; background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 8px 15px; border-radius: 30px; border: 1px solid var(--border);
+    opacity: 0; transform: translateX(30px); pointer-events: none; transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.settings-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
+
+.main-set-btn, .set-btn {
+    width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    background: var(--bg-card); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.2s; border: 2px solid var(--border); font-size: 20px;
+}
+.main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
+
+/* Ảnh tự căn chỉnh vừa vặn vào nút tròn */
+.main-set-btn img, .set-btn img { width: 60%; height: 60%; object-fit: contain; border-radius: 50%; }
+
+/* --- BẢNG MODAL CHỈNH SỬA --- */
+.theme-modal-overlay {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 3000;
+    justify-content: center; align-items: center;
+}
+.theme-modal {
+    background: var(--bg-card); padding: 25px; border-radius: 20px;
+    width: 90%; max-width: 350px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center; border: 2px dashed var(--accent);
+}
+.theme-modal h3 { color: var(--accent); margin-bottom: 20px; }
+.theme-modal input[type="text"] {
+    width: 100%; padding: 12px; border: 1px solid var(--border);
+    border-radius: 8px; margin-top: 15px; outline: none;
+    background: var(--bg-main); color: var(--text-main); font-weight: bold;
+}
+
+/* NÚT GẠT CÔNG TẮC (TOGGLE SWITCH) */
+.toggle-container { display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; font-size: 13px; color: var(--text-main); }
+.switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;}
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;}
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(22px); }
+
+.modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+.modal-btns button { flex: 1; padding: 10px; border: none; border-radius: 8px; background: var(--accent); color: white; font-weight: bold; cursor: pointer; }
+.modal-btns button.cancel { background: var(--text-muted); }
+
+/* --- CHẾ ĐỘ DARK MODE --- */
+body.dark-mode {
+    --bg-main: #121212 !important;
+    --bg-card: #1e1e1e !important;
+    --text-main: #ffffff !important;
+    --text-muted: #aaaaaa !important;
+    --border: #333333 !important;
+}
