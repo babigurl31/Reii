@@ -5,7 +5,7 @@
 }
 
 .settings-menu {
-    display: flex; gap: 10px; background: rgba(255,255,255,0.5);
+    display: flex; gap: 10px; background: rgba(255,255,255,0.4);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border);
     
@@ -18,7 +18,7 @@
 /* Trạng thái mở: Trượt sang bên trái */
 .settings-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
-/* TÁCH RIÊNG NÚT CHÍNH ĐỂ NGHI DỄ FIX SIZE THU NHỎ */
+/* NÚT CHÍNH NHỎ XINH */
 .main-set-btn {
     width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
     display: flex; justify-content: center; align-items: center;
@@ -34,13 +34,7 @@
     transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
 }
 .main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
-
-/* Căn lại tỷ lệ ảnh bên trong để không bị lem ra ngoài nút nhỏ */
 .main-set-btn img, .set-btn img { width: 55%; height: 55%; object-fit: contain; border-radius: 50%; }
-.main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
-
-/* Ảnh tự căn chỉnh vừa vặn vào nút tròn */
-.main-set-btn img, .set-btn img { width: 60%; height: 60%; object-fit: contain; border-radius: 50%; }
 
 /* --- BẢNG MODAL CHỈNH SỬA --- */
 .theme-modal-overlay {
@@ -54,7 +48,9 @@
     text-align: center; border: 2px dashed var(--accent);
 }
 .theme-modal h3 { color: var(--accent); margin-bottom: 20px; }
-.theme-modal input[type="text"] {
+
+/* Khung chọn select và nhập chữ */
+.theme-modal input[type="text"], .theme-modal select {
     width: 100%; padding: 12px; border: 1px solid var(--border);
     border-radius: 8px; margin-top: 15px; outline: none;
     background: var(--bg-main); color: var(--text-main); font-weight: bold;
