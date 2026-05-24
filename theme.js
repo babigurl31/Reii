@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. TỰ ĐỘNG NHÚNG GIAO DIỆN NÚT SETTING VÀO WEB
+    // 1. TỰ ĐỘNG NHÚNG GIAO DIỆN NÚT SETTING VÀO WEB (Đã thêm nút Font chữ)
     const themeHTML = `
         <div class="settings-wrapper">
             <div class="settings-menu" id="settingsMenu">
@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
                 <button class="set-btn" onclick="openColorModal()" title="Đổi màu Theme">
                     <img src="setting-color.png" alt="Color" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2919/2919736.png'">
+                </button>
+                <button class="set-btn" onclick="openFontModal()" title="Đổi Font chữ">
+                    <img src="setting-font.png" alt="Font" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2653/2653504.png'">
                 </button>
                 <button class="set-btn" onclick="toggleDarkMode()" title="Bật/Tắt Đèn">💡</button>
             </div>
@@ -48,22 +51,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         </div>
+
+        <div id="fontThemeModal" class="theme-modal-overlay">
+            <div class="theme-modal">
+                <h3>Đổi Font Chữ Web</h3>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Chọn mẫu có sẵn hoặc nhập một font bất kỳ trên Google Fonts nha!</div>
+                <select id="fontSelect" onchange="toggleCustomFontInput()">
+                    <option value="Syne">Syne (Mặc định của Nghi)</option>
+                    <option value="Playfair Display">Playfair Display (Chữ cổ điển quý phái)</option>
+                    <option value="Montserrat">Montserrat (Hiện đại, nét thanh thoát)</option>
+                    <option value="Dancing Script">Dancing Script (Chữ nghệ thuật uốn lượn)</option>
+                    <option value="Quicksand">Quicksand (Nét tròn siêu dễ thương)</option>
+                    <option value="Pacifico">Pacifico (Chữ viết bảng phóng khoáng)</option>
+                    <option value="Patrick Hand">Patrick Hand (Dạng chữ viết tay tự nhiên)</option>
+                    <option value="custom_font">👉 Nhập tên Font khác từ Google Fonts...</option>
+                </select>
+                <input type="text" id="customFontInput" placeholder="Nhập chuẩn tên trên Google Fonts (VD: Roboto, Inter)...">
+                <div class="modal-btns">
+                    <button onclick="saveFontSettings()">Áp Dụng</button>
+                    <button class="cancel" onclick="closeThemeModals()">Hủy</button>
+                </div>
+            </div>
+        </div>
     `;
     
     document.body.insertAdjacentHTML('beforeend', themeHTML);
 
     // Đồng bộ Color Picker và Ô nhập Hex
-    document.getElementById('colorPicker').addEventListener('input', (e) => document.getElementById('hexInput').value = e.target.value);
-    document.getElementById('hexInput').addEventListener('input', (e) => {
-        if(/^#[0-9A-F]{6}$/i.test(e.target.value)) document.getElementById('colorPicker').value = e.target.value;
-    });
+    const colorPicker = document.getElementById('colorPicker');
+    const hexInput = document.getElementById('hexInput');
+    if(colorPicker && hexInput) {
+        colorPicker.addEventListener('input', (e) => hexInput.value = e.target.value);
+        hexInput.addEventListener('input', (e) => {
+            if(/^#[0-9A-F]{6}$/i.test(e.target.value)) colorPicker.value = e.target.value;
+        });
+    }
 
     applyTheme(); // Khởi chạy giao diện ngay lúc mở web
 });
 
 // 2. CÁC HÀM XỬ LÝ NÚT BẤM
 window.toggleSettingsMenu = () => document.getElementById('settingsMenu').classList.toggle('open');
-window.closeThemeModals = () => { document.getElementById('bgThemeModal').style.display = 'none'; document.getElementById('colorThemeModal').style.display = 'none'; }
+window.closeThemeModals = () => { 
+    document.getElementById('bgThemeModal').style.display = 'none'; 
+    document.getElementById('colorThemeModal').style.display = 'none'; 
+    document.getElementById('fontThemeModal').style.display = 'none'; 
+}
 
 // Xử lý Form Hình Nền
 window.openBgModal = () => {
@@ -95,6 +128,46 @@ window.saveColorSettings = () => {
     applyTheme(); closeThemeModals();
 }
 
+// Xử lý Form Đổi Font chữ
+window.openFontModal = () => {
+    document.getElementById('fontThemeModal').style.display = 'flex';
+    let currentFont = localStorage.getItem('qn_font') || 'Syne';
+    let select = document.getElementById('fontSelect');
+    let customInput = document.getElementById('customFontInput');
+    
+    let exists = false;
+    for(let i=0; i<select.options.length; i++) {
+        if(select.options[i].value === currentFont) {
+            select.selectedIndex = i;
+            exists = true;
+            break;
+        }
+    }
+    if(!exists && currentFont !== 'Syne') {
+        select.value = 'custom_font';
+        customInput.value = currentFont;
+        customInput.style.display = 'block';
+    } else {
+        customInput.style.display = 'none';
+        customInput.value = '';
+    }
+    document.getElementById('settingsMenu').classList.remove('open');
+}
+window.toggleCustomFontInput = () => {
+    let select = document.getElementById('fontSelect');
+    document.getElementById('customFontInput').style.display = (select.value === 'custom_font') ? 'block' : 'none';
+}
+window.saveFontSettings = () => {
+    let select = document.getElementById('fontSelect');
+    let fontValue = select.value;
+    if(fontValue === 'custom_font') {
+        fontValue = document.getElementById('customFontInput').value.trim();
+    }
+    if(!fontValue) fontValue = 'Syne';
+    localStorage.setItem('qn_font', fontValue);
+    applyTheme(); closeThemeModals();
+}
+
 // Xử lý Dark Mode
 window.toggleDarkMode = () => {
     let isDark = localStorage.getItem('qn_dark_mode') === 'on';
@@ -102,28 +175,25 @@ window.toggleDarkMode = () => {
     applyTheme(); document.getElementById('settingsMenu').classList.remove('open');
 }
 
-// Hàm phụ trợ biến màu HEX thành màu RGB nhạt hơn
 function hexToRgba(hex, alpha) {
     hex = hex.replace('#', '');
     if(hex.length === 3) hex = hex.split('').map(c => c + c).join('');
     return `rgba(${parseInt(hex.substring(0,2), 16)}, ${parseInt(hex.substring(2,4), 16)}, ${parseInt(hex.substring(4,6), 16)}, ${alpha})`;
 }
 
-// 3. BỘ NÃO TRUNG TÂM - ÁP DỤNG MÀU & NỀN
+// 3. BỘ NÃO TRUNG TÂM - ÁP DỤNG MÀU, NỀN & FONT CHỮ
 window.applyTheme = () => {
     let accent = localStorage.getItem('qn_theme_accent') || '#ec407a';
     let bgMode = localStorage.getItem('qn_bg_mode') || 'image';
     let bgLink = localStorage.getItem('qn_bg_link') || 'nen-dong.gif';
     let isDark = localStorage.getItem('qn_dark_mode') === 'on';
+    let savedFont = localStorage.getItem('qn_font') || 'Syne';
 
-    // Đổi màu chủ đạo
     document.documentElement.style.setProperty('--accent', accent);
 
-    // Kích hoạt/Tắt Dark Mode
     if(isDark) document.body.classList.add('dark-mode'); 
     else document.body.classList.remove('dark-mode');
 
-    // Xử lý Hình nền / Màu nền nhạt
     if(bgMode === 'image') {
         let overlay = isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.3)';
         document.body.style.backgroundImage = `linear-gradient(${overlay}, ${overlay}), url('${bgLink}')`;
@@ -132,9 +202,34 @@ window.applyTheme = () => {
         document.body.style.backgroundAttachment = 'fixed';
     } else {
         document.body.style.backgroundImage = 'none';
-        if (!isDark) { // Tính màu nhạt cho nền sáng
+        if (!isDark) {
             document.documentElement.style.setProperty('--bg-main', hexToRgba(accent, 0.15));
         }
         document.body.style.backgroundColor = 'var(--bg-main)';
+    }
+
+    // XỬ LÝ KẾT NỐI VÀ TẢI GOOGLE FONTS DỰA TRÊN LỰA CHỌN CỦA NGHI
+    let fontLink = document.getElementById('qnGoogleFontLink');
+    if (savedFont !== 'Syne') {
+        if (!fontLink) {
+            fontLink = document.createElement('link');
+            fontLink.id = 'qnGoogleFontLink';
+            fontLink.rel = 'stylesheet';
+            document.head.appendChild(fontLink);
+        }
+        fontLink.href = `https://fonts.googleapis.com/css2?family=${savedFont.replace(/ /g, '+')}:wght@400;600;700&display=swap`;
+    }
+
+    // Ép đè font chữ lên toàn bộ selector * của trang web
+    let fontStyle = document.getElementById('qnCustomFontStyle');
+    if (!fontStyle) {
+        fontStyle = document.createElement('style');
+        fontStyle.id = 'qnCustomFontStyle';
+        document.head.appendChild(fontStyle);
+    }
+    if (savedFont !== 'Syne') {
+        fontStyle.innerHTML = `* { font-family: '${savedFont}', sans-serif !important; }`;
+    } else {
+        fontStyle.innerHTML = ''; 
     }
 }
