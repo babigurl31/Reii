@@ -2,29 +2,41 @@
 .settings-wrapper {
     position: fixed; top: 20px; right: 20px; z-index: 2000;
     display: flex; align-items: center; gap: 10px; 
-    /* Đã thiết lập để nút chính chốt chặn ở lề phải */
 }
 
 .settings-menu {
     display: flex; gap: 10px; background: rgba(255,255,255,0.5);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    padding: 8px 15px; border-radius: 30px; border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border);
     
-    /* Trạng thái đóng: Giấu thụt vào bên phải (phía sau nút chính) */
+    /* Trạng thái đóng: Giấu thụt vào bên phải */
     opacity: 0; transform: translateX(50px); pointer-events: none; 
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Trạng thái mở: Trượt êm ái sang bên trái */
+/* Trạng thái mở: Trượt sang bên trái */
 .settings-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
-.main-set-btn, .set-btn {
-    width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer;
+/* TÁCH RIÊNG NÚT CHÍNH ĐỂ NGHI DỄ FIX SIZE THU NHỎ */
+.main-set-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
     display: flex; justify-content: center; align-items: center;
     background: var(--bg-card); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: 0.2s; border: 2px solid var(--border); font-size: 20px;
+    transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
 }
+
+/* Các nút con bên trong thanh trượt */
+.set-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    background: var(--bg-card); box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
+}
+.main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
+
+/* Căn lại tỷ lệ ảnh bên trong để không bị lem ra ngoài nút nhỏ */
+.main-set-btn img, .set-btn img { width: 55%; height: 55%; object-fit: contain; border-radius: 50%; }
 .main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
 
 /* Ảnh tự căn chỉnh vừa vặn vào nút tròn */
