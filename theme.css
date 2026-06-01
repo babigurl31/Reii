@@ -77,3 +77,25 @@ body.dark-mode {
     --text-muted: #aaaaaa !important;
     --border: #333333 !important;
 }
+/* --- NÚT LIST VÀ MENU LIST (NẰM DƯỚI NÚT SETTING) --- */
+.list-wrapper {
+    position: fixed; top: 80px; right: 20px; z-index: 2000; /* top: 80px để nằm dưới nút setting (top: 20px) */
+    display: flex; align-items: center; gap: 10px; 
+}
+
+.list-menu {
+    display: flex; gap: 10px; background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border);
+    opacity: 0; transform: translateX(50px); pointer-events: none; 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.list-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
+
+/* CSS cho Checklist Group */
+.checklist-group { background: #fafafa; border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 10px; }
+.group-title { font-weight: bold; color: var(--accent); margin-bottom: 8px; cursor: pointer; border-bottom: 1px dashed var(--border); padding-bottom: 5px; }
+.chk-item-row { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 5px; }
+.chk-item-row.done { opacity: 0.5; text-decoration: line-through; }
