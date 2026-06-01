@@ -99,3 +99,24 @@ body.dark-mode {
 .group-title { font-weight: bold; color: var(--accent); margin-bottom: 8px; cursor: pointer; border-bottom: 1px dashed var(--border); padding-bottom: 5px; }
 .chk-item-row { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 5px; }
 .chk-item-row.done { opacity: 0.5; text-decoration: line-through; }
+/* --- CHUYỂN NÚT TẠO, LƯU, THÊM THÀNH DẠNG CHỮ TEXT SUÔNG --- */
+.mini-input-group button, 
+.add-chk-item, 
+#btnAddIdea {
+    background: transparent !important;
+    color: var(--accent) !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    padding: 8px 5px !important;
+    transition: 0.2s ease-in-out;
+}
+
+/* Hiệu ứng khi lướt chuột qua nút */
+.mini-input-group button:hover, 
+.add-chk-item:hover, 
+#btnAddIdea:hover {
+    opacity: 0.6 !important;
+    transform: scale(0.95);
+}
