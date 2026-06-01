@@ -62,7 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', themeHTML);
 
-    document.getElementById('btnThemeMain').addEventListener('click', () => document.getElementById('settingsMenu').classList.toggle('open'));
+// Cơ chế: Mở nút Setting thì tự động đóng các nút khác (List, Trái, Phải...)
+    window.toggleExclusiveMenu = (menuIdToOpen) => {
+        const allMenus = ['settingsMenu', 'listMenu']; // Cứ thêm ID menu mới vào mảng này sau này
+        allMenus.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (id === menuIdToOpen) el.classList.toggle('open');
+                else el.classList.remove('open');
+            }
+        });
+    };
+
+    document.getElementById('btnThemeMain').addEventListener('click', () => {
+        window.toggleExclusiveMenu('settingsMenu');
+    });
     
     document.querySelectorAll('.btnCloseThemeModals').forEach(btn => btn.addEventListener('click', () => { 
         document.getElementById('bgThemeModal').style.display='none'; 
