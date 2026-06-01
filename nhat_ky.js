@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Giao diện HTML của Nhật Ký (Thêm thanh điều hướng ngày tháng)
     const diaryHTML = `
         <div id="secretDiaryModal" class="diary-overlay">
             <div class="diary-box">
@@ -22,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 
                 <div class="diary-toolbar">
-                    <button onclick="document.execCommand('bold', false, null)" title="In đậm"><b>B</b></button>
-                    <button onclick="document.execCommand('italic', false, null)" title="In nghiêng"><i>I</i></button>
-                    <button onclick="document.execCommand('underline', false, null)" title="Gạch chân"><u>U</u></button>
-                    <button onclick="document.execCommand('insertUnorderedList', false, null)" title="Tạo danh sách">• List</button>
+                    <button id="btnFormatBold" title="In đậm"><b>B</b></button>
+                    <button id="btnFormatItalic" title="In nghiêng"><i>I</i></button>
+                    <button id="btnFormatUnderline" title="Gạch chân"><u>U</u></button>
+                    <button id="btnFormatList" title="Tạo danh sách">• List</button>
                     
                     <select id="diaryMood" class="mood-selector">
                         <option value="">Tâm trạng...</option>
@@ -46,43 +45,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', diaryHTML);
 
-    // 2. Các biến điều khiển
+    // BẮT SỰ KIỆN CHO NÚT ĐỊNH DẠNG CHỮ
+    document.getElementById('btnFormatBold').addEventListener('click', () => document.execCommand('bold', false, null));
+    document.getElementById('btnFormatItalic').addEventListener('click', () => document.execCommand('italic', false, null));
+    document.getElementById('btnFormatUnderline').addEventListener('click', () => document.execCommand('underline', false, null));
+    document.getElementById('btnFormatList').addEventListener('click', () => document.execCommand('insertUnorderedList', false, null));
+
     const trigger = document.getElementById('secretTrigger');
     const modal = document.getElementById('secretDiaryModal');
     const editor = document.getElementById('diaryContent');
     const moodSelect = document.getElementById('diaryMood');
     const dateDisplay = document.getElementById('diaryDateDisplay');
 
-    // 3. LOGIC LƯU THEO NGÀY (Lật trang)
     let diaryPages = JSON.parse(localStorage.getItem('qn_diary_pages')) || {};
-    
-    // Đồng bộ dữ liệu cũ (để không bị mất)
-    let oldSingleData = localStorage.getItem('qn_secret_diary');
-    let todayObj = new Date();
     
     function getDateKey(date) {
         return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
     }
     
-    let todayKey = getDateKey(todayObj);
+    let todayKey = getDateKey(new Date());
 
+    let oldSingleData = localStorage.getItem('qn_secret_diary');
     if (oldSingleData && !diaryPages[todayKey]) {
         diaryPages[todayKey] = { text: oldSingleData, mood: localStorage.getItem('qn_secret_mood') || '' };
-        // Đã backup xong thì xóa cái cũ đi cho nhẹ máy
         localStorage.removeItem('qn_secret_diary');
         localStorage.setItem('qn_diary_pages', JSON.stringify(diaryPages));
     }
 
-    let viewDateObj = new Date(); // Ngày đang xem (mặc định là hôm nay)
+    let viewDateObj = new Date(); 
 
     function updateDiaryView() {
         let key = getDateKey(viewDateObj);
         let data = diaryPages[key] || { text: '', mood: '' };
-        
         editor.innerHTML = data.text;
         moodSelect.value = data.mood || '';
-
-        // Hiển thị chữ cho đẹp
         let displayStr = viewDateObj.toLocaleDateString('vi-VN');
         if (key === todayKey) {
             dateDisplay.innerText = `Hôm nay (${displayStr})`;
@@ -99,12 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('qn_diary_pages', JSON.stringify(diaryPages));
     }
 
-    // 4. XỬ LÝ NÚT BẤM VÀ MẬT KHẨU
     if(trigger) {
         trigger.addEventListener('dblclick', () => {
             let pass = prompt("Nhập mật khẩu mở cửa trái tim:");
             if(pass === "EmYeuBinhLam") {
-                viewDateObj = new Date(); // Luôn mở ra ở trang hôm nay
+                viewDateObj = new Date(); 
                 updateDiaryView();
                 modal.style.display = 'flex';
             } else if (pass !== null) {
@@ -113,36 +108,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Nút tắt và nút Khóa
     document.getElementById('closeDiaryBtn').addEventListener('click', () => { saveCurrentPage(); modal.style.display = 'none'; });
-    document.getElementById('saveDiaryBtn').addEventListener('click', () => {
-        saveCurrentPage();
-        alert('Đã giấu kín những dòng tâm sự này rồi nhé! ✨');
-        modal.style.display = 'none';
-    });
+    document.getElementById('saveDiaryBtn').addEventListener('click', () => { saveCurrentPage(); alert('Đã giấu kín những dòng tâm sự này rồi nhé! ✨'); modal.style.display = 'none'; });
 
-    // Lật trang Trước/Sau
-    document.getElementById('prevDiaryBtn').addEventListener('click', () => {
-        saveCurrentPage(); // Lưu trang hiện tại trước khi chuyển
-        viewDateObj.setDate(viewDateObj.getDate() - 1);
-        updateDiaryView();
-    });
-
-    document.getElementById('nextDiaryBtn').addEventListener('click', () => {
-        saveCurrentPage();
-        viewDateObj.setDate(viewDateObj.getDate() + 1);
-        updateDiaryView();
-    });
-
+    document.getElementById('prevDiaryBtn').addEventListener('click', () => { saveCurrentPage(); viewDateObj.setDate(viewDateObj.getDate() - 1); updateDiaryView(); });
+    document.getElementById('nextDiaryBtn').addEventListener('click', () => { saveCurrentPage(); viewDateObj.setDate(viewDateObj.getDate() + 1); updateDiaryView(); });
+    
     moodSelect.addEventListener('change', saveCurrentPage);
 
-    // Auto-save sau 2 giây ngừng gõ
     let timeout = null;
     editor.addEventListener('input', () => {
         clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            saveCurrentPage();
-            console.log("Đã tự động lưu nhật ký ngày: " + getDateKey(viewDateObj));
-        }, 2000);
+        timeout = setTimeout(() => { saveCurrentPage(); }, 2000);
     });
 });

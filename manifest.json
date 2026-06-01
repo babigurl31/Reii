@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Rei Planner",
+  "version": "1.0",
+  "description": "Góc làm việc và quản lý thời gian cực chill của Nghi!",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "128": "setting-main.png"
+  }
+}

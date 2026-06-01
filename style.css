@@ -1,53 +1,93 @@
-/* --- BỐ CỤC CHÍNH (QUAY VỀ Ở GIỮA) --- */
-.main-container { max-width: 1000px; margin: 0 auto; background: var(--bg-card); padding: 25px; border-radius: var(--radius); box-shadow: 0 5px 25px rgba(0,0,0,0.05); }
-
-/* --- NGĂN KÉO TRƯỢT (SLIDING DRAWERS) --- */
-.drawer { 
-    position: fixed; top: 50%; transform: translateY(-50%); 
-    background: var(--bg-main); border: 2px dashed var(--accent); 
-    width: 300px; z-index: 1000; transition: 0.4s ease-in-out; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+/* HỆ THỐNG MÀU SẮC GỐC */
+:root {
+    --accent: #ec407a; 
+    --bg-main: #fce4ec; 
+    --bg-card: #ffffff; 
+    --text-main: #000000; 
+    --text-muted: #666666;
+    --border: #f8bbd0;
+    --red: #ff5f5f;
+    --radius: 12px;
 }
-.drawer-left { left: -300px; border-left: none; border-radius: 0 20px 20px 0; }
-.drawer-left.open { left: 0; }
-.drawer-right { right: -300px; border-right: none; border-radius: 20px 0 0 20px; }
-.drawer-right.open { right: 0; }
 
-.drawer-content { padding: 15px; max-height: 85vh; overflow-y: auto; }
-.drawer-content::-webkit-scrollbar { width: 5px; }
-.drawer-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Syne', sans-serif; }
+body { background-color: var(--bg-main); color: var(--text-main); padding: 20px; transition: 0.3s; overflow-x: hidden; }
 
-/* CÁI NÚT ĐỂ MỞ NGĂN KÉO */
-.drawer-toggle { 
-    position: absolute; top: 50%; transform: translateY(-50%); 
-    background: var(--accent); color: white; border: none; 
-    padding: 20px 10px; cursor: pointer; font-size: 20px; 
-    box-shadow: 0 2px 10px rgba(236, 64, 122, 0.4); 
+/* HEADER & TIỆN ÍCH */
+.header { text-align: center; margin-bottom: 20px; }
+.header h1 { color: var(--accent); font-size: 28px; }
+.clock-box { font-size: 18px; font-weight: bold; margin: 10px 0; color: var(--text-main); }
+.secret-flower { cursor: default; user-select: none; transition: transform 0.2s; display: inline-block; }
+.secret-flower:active { transform: scale(0.9); }
+
+.goal-container { 
+    background: var(--bg-card); padding: 15px; border-radius: var(--radius); 
+    display: inline-block; border: 2px solid var(--accent); margin-bottom: 20px;
 }
-.toggle-left { right: -40px; border-radius: 0 10px 10px 0; }
-.toggle-right { left: -40px; border-radius: 10px 0 0 10px; }
-.drawer-toggle:hover { opacity: 0.9; }
+.goal-text { font-weight: 800; font-size: 16px; color: var(--accent); }
 
-/* --- WIDGETS TRONG NGĂN KÉO --- */
-.widget { background: var(--bg-card); padding: 15px; border-radius: 12px; }
-.widget-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: block; border: 2px solid var(--accent); }
-.widget-title { text-align: center; color: var(--accent); font-size: 15px; font-weight: bold; margin-bottom: 10px; }
+/* TABS */
+.nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;}
+.tab-btn { background: var(--bg-card); border: 2px solid var(--border); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-/* CSS cho Timer */
-.timer-display { font-size: 36px; font-weight: bold; text-align: center; color: var(--text-main); font-family: monospace; margin: 10px 0; }
-.timer-controls { display: flex; gap: 5px; margin-bottom: 10px; }
-.timer-btn { flex: 1; padding: 8px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.timer-btn.stop { background: var(--red); }
-.timer-setting { text-align: center; font-size: 12px; font-weight: bold; }
-.timer-setting input { width: 45px; text-align: center; border: 1px solid var(--border); border-radius: 4px; padding: 3px; font-weight: bold; outline: none;}
-.flower-garden { min-height: 40px; padding: 10px; background: #fff0f5; border-radius: 8px; text-align: center; font-size: 20px; word-wrap: break-word; border: 1px solid var(--border); }
+/* KHỐI NỘI DUNG CLEAN Ở GIỮA (GỐC) */
+.tab-content { display: none; background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 1000px; margin: 0 auto; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* CSS cho Idea & Shop */
-.mini-input-group { display: flex; gap: 5px; margin-bottom: 10px; }
-.mini-input-group input { flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; outline: none; }
-.mini-input-group button { padding: 8px 12px; background: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.mini-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 5px;}
-.mini-item { background: #fafafa; padding: 8px; border-radius: 6px; font-size: 12px; display: flex; justify-content: space-between; align-items: flex-start; border-left: 3px solid var(--accent); gap: 5px;}
-.mini-item.done span { text-decoration: line-through; opacity: 0.5; }
-.mini-item span { flex: 1; word-break: break-word; }
-.mini-del-btn { background: none; border: none; color: var(--red); font-weight: bold; cursor: pointer; }
+/* VIỆC HÔM NAY & INPUTS */
+.input-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;}
+.input-item { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
+.input-time, .input-prio { width: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
+.btn-add-main { background: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+.btn-add-main:hover { opacity: 0.8; }
+
+.daily-task { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); background: #fafafa;}
+.daily-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+.prio-high { color: var(--red); font-weight: bold; }
+.prio-medium { color: #f57c00; font-weight: bold; }
+.prio-low { color: #388e3c; font-weight: bold; }
+
+/* LỊCH SỬ CÔNG VIỆC */
+.history-section { margin-top: 30px; padding-top: 15px; border-top: 2px dashed var(--border); }
+.history-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight: bold; text-decoration: underline; margin-bottom: 10px;}
+.history-list { display: none; opacity: 0.7; }
+.history-list.show { display: block; }
+
+/* BẢNG LỊCH THÁNG */
+.cal-nav { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
+.cal-nav button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.cal-nav button:hover { background: var(--accent); color: white; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.cal-header { font-weight: bold; color: var(--accent); padding: 10px 0; text-align: center; border-bottom: 2px solid var(--border); }
+.cal-day { border: 1px solid #f0f0f0; border-radius: 8px; min-height: 100px; padding: 5px; display: flex; flex-direction: column; }
+.day-num { font-weight: bold; font-size: 12px; margin-bottom: 5px; }
+.event-tag { font-size: 11px; background: var(--bg-main); color: var(--accent); padding: 4px; border-radius: 4px; margin-bottom: 3px; cursor: pointer; border-left: 3px solid var(--accent); word-break: break-word; }
+
+/* WEEKLY PLANNER */
+.weekly-grid { display: grid; grid-template-columns: 70px repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.wk-header, .wk-time, .wk-cell { background: #fff; padding: 8px; font-size: 12px; }
+.wk-header { text-align: center; font-weight: bold; color: var(--accent); background: var(--bg-main); }
+.wk-time { font-weight: bold; display: flex; align-items: center; justify-content: center; background: var(--bg-main); color: var(--accent); }
+.wk-cell { min-height: 120px; display: flex; flex-direction: column; gap: 4px; }
+
+.task-card { background: var(--bg-main); padding: 6px; border-radius: 4px; font-size: 11px; display: flex; align-items: flex-start; justify-content: space-between; border-left: 3px solid var(--accent); gap: 5px; flex-direction: column;}
+.task-card.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
+.task-header { display: flex; justify-content: space-between; width: 100%; align-items: center;}
+.task-meta { font-size: 9px; color: #555; display: flex; gap: 5px; align-items: center; margin-top: 3px;}
+.task-del-btn { color: var(--red); cursor: pointer; font-weight: bold; font-size: 12px; background: none; border: none; }
+.add-btn-small { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: auto; text-align: center; border: 1px dashed var(--border); border-radius: 4px; padding: 4px; transition: 0.2s; }
+.add-btn-small:hover { background: var(--bg-main); border-color: var(--accent); }
+
+/* MODAL (BẢNG NHẬP LIỆU NỔI) */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px);}
+.modal-content { background: var(--bg-card); padding: 20px; border-radius: var(--radius); width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
+.modal-content h3 { color: var(--accent); margin-bottom: 10px; text-align: center; }
+
+@media (max-width: 768px) {
+    .weekly-grid { grid-template-columns: 1fr; }
+    .wk-header, .wk-time { display: none; }
+    .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
+    .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
+}

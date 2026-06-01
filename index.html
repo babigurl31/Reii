@@ -5,126 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rei 🌸</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="drawers.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* HỆ THỐNG MÀU SẮC (GIỮ NGUYÊN CỦA NGHI) */
-        :root {
-            --accent: #ec407a; 
-            --bg-main: #fce4ec; 
-            --bg-card: #ffffff; 
-            --text-main: #000000; 
-            --text-muted: #666666;
-            --border: #f8bbd0;
-            --red: #ff5f5f;
-            --radius: 12px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Syne', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding: 20px; transition: 0.3s; overflow-x: hidden; }
-        
-        /* HEADER & TIỆN ÍCH */
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { color: var(--accent); font-size: 28px; }
-        .clock-box { font-size: 18px; font-weight: bold; margin: 10px 0; color: var(--text-main); }
-        
-        /* CÔNG TẮC BÍ MẬT */
-        .secret-flower { cursor: default; user-select: none; transition: transform 0.2s; display: inline-block; }
-        .secret-flower:active { transform: scale(0.9); }
-        
-        .goal-container { 
-            background: var(--bg-card); padding: 15px; border-radius: var(--radius); 
-            display: inline-block; border: 2px solid var(--accent); margin-bottom: 20px;
-        }
-        .goal-text { font-weight: 800; font-size: 16px; color: var(--accent); }
-        .edit-goal-btn { margin-left: 10px; cursor: pointer; font-size: 12px; color: var(--text-muted); text-decoration: underline; }
-
-        /* TABS */
-        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;}
-        .tab-btn { background: var(--bg-card); border: 2px solid var(--border); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-
-        .tab-content { display: none; background: var(--bg-card); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 1000px; margin: 0 auto; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* VIỆC HÔM NAY & INPUTS */
-        .input-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;}
-        .input-item { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
-        .input-time, .input-prio { width: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; }
-        .btn-add-main { background: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s;}
-        .btn-add-main:hover { opacity: 0.8; }
-
-        .daily-task { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--accent); background: #fafafa;}
-        .daily-task.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
-        .prio-high { color: var(--red); font-weight: bold; }
-        .prio-medium { color: #f57c00; font-weight: bold; }
-        .prio-low { color: #388e3c; font-weight: bold; }
-
-        /* LỊCH SỬ CÔNG VIỆC */
-        .history-section { margin-top: 30px; padding-top: 15px; border-top: 2px dashed var(--border); }
-        .history-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-weight: bold; text-decoration: underline; margin-bottom: 10px;}
-        .history-list { display: none; opacity: 0.7; }
-        .history-list.show { display: block; }
-
-        /* BẢNG LỊCH THÁNG */
-        .cal-nav { display: flex; justify-content: center; align-items: center; margin-bottom: 15px; }
-        .cal-nav button { background: var(--bg-main); color: var(--accent); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .cal-nav button:hover { background: var(--accent); color: white; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-        .cal-header { font-weight: bold; color: var(--accent); padding: 10px 0; text-align: center; border-bottom: 2px solid var(--border); }
-        .cal-day { border: 1px solid #f0f0f0; border-radius: 8px; min-height: 100px; padding: 5px; display: flex; flex-direction: column; }
-        .day-num { font-weight: bold; font-size: 12px; margin-bottom: 5px; }
-        .event-tag { font-size: 11px; background: var(--bg-main); color: var(--accent); padding: 4px; border-radius: 4px; margin-bottom: 3px; cursor: pointer; border-left: 3px solid var(--accent); word-break: break-word; }
-        
-        /* WEEKLY PLANNER */
-        .weekly-grid { display: grid; grid-template-columns: 70px repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-        .wk-header, .wk-time, .wk-cell { background: #fff; padding: 8px; font-size: 12px; }
-        .wk-header { text-align: center; font-weight: bold; color: var(--accent); background: var(--bg-main); }
-        .wk-time { font-weight: bold; display: flex; align-items: center; justify-content: center; background: var(--bg-main); color: var(--accent); }
-        .wk-cell { min-height: 120px; display: flex; flex-direction: column; gap: 4px; }
-        
-        .task-card { background: var(--bg-main); padding: 6px; border-radius: 4px; font-size: 11px; display: flex; align-items: flex-start; justify-content: space-between; border-left: 3px solid var(--accent); gap: 5px; flex-direction: column;}
-        .task-card.done { opacity: 0.5; text-decoration: line-through; border-left-color: #ccc; }
-        .task-header { display: flex; justify-content: space-between; width: 100%; align-items: center;}
-        .task-meta { font-size: 9px; color: #555; display: flex; gap: 5px; align-items: center; margin-top: 3px;}
-        .task-del-btn { color: var(--red); cursor: pointer; font-weight: bold; font-size: 12px; background: none; border: none; }
-        .add-btn-small { font-size: 11px; color: var(--accent); cursor: pointer; margin-top: auto; text-align: center; border: 1px dashed var(--border); border-radius: 4px; padding: 4px; transition: 0.2s; }
-        .add-btn-small:hover { background: var(--bg-main); border-color: var(--accent); }
-
-        /* MODAL (BẢNG NHẬP LIỆU NỔI) */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px);}
-        .modal-content { background: var(--bg-card); padding: 20px; border-radius: var(--radius); width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
-        .modal-content h3 { color: var(--accent); margin-bottom: 10px; text-align: center; }
-
-        @media (max-width: 768px) {
-            .weekly-grid { grid-template-columns: 1fr; }
-            .wk-header, .wk-time { display: none; }
-            .wk-cell { border: 1px solid var(--border); margin-bottom: 10px; border-radius: 8px; padding-top: 30px; position: relative;}
-            .wk-cell::before { content: attr(data-label); position: absolute; top: 0; left: 0; right: 0; background: var(--bg-main); padding: 5px 10px; font-weight: bold; color: var(--accent); border-radius: 8px 8px 0 0; font-size: 12px;}
-        }
-    </style>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="drawers.css">
+    <link rel="stylesheet" href="nhat_ky.css">
+    <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="theme.css">
 </head>
 <body>
-
-<div class="header">
+    <div class="header">
         <h1>
-            <span id="siteTitle" ondblclick="editTitle()" style="cursor: pointer;" title="Nhấn đúp để đổi tên">Rei</span> 
+            <span id="siteTitle" style="cursor: pointer;" title="Nhấn đúp để đổi tên">Rei</span> 
             <span class="secret-flower" id="secretTrigger" title="Chỉ là bông hoa thôi... đúng không?">🌸</span>
         </h1>
-        
         <div class="clock-box" id="vnClock">Đang tải giờ...</div>
-        
         <div class="goal-container">
-            <span class="goal-text" id="myGoal" ondblclick="editGoal()" style="cursor: pointer;" title="Nhấn đúp để chỉnh sửa">Mục tiêu: Kiếm việc! Kiếm 100 triệu đầu tiên!</span>
+            <span class="goal-text" id="myGoal" style="cursor: pointer;" title="Nhấn đúp để chỉnh sửa">Mục tiêu: Kiếm việc! Kiếm 100 triệu đầu tiên!</span>
         </div>
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('daily')">Việc Hôm Nay</button>
-        <button class="tab-btn" onclick="switchTab('weekly')">Kế Hoạch Tuần</button>
-        <button class="tab-btn" onclick="switchTab('monthly')">Lịch Quan Trọng</button>
+        <button class="tab-btn active" id="tabDailyBtn">Việc Hôm Nay</button>
+        <button class="tab-btn" id="tabWeeklyBtn">Kế Hoạch Tuần</button>
+        <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
     </div>
 
     <div id="daily" class="tab-content active">
@@ -132,16 +36,15 @@
             <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Babi ơi?">
             <input type="time" id="dailyTime" class="input-time">
             <select id="dailyPrio" class="input-prio">
-                <option value="high">🔴 Hoàn thành trong thời gian quy định</option>
-                <option value="medium" selected>🟡 Hoàn thành trong 12 tiếng</option>
-                <option value="low">🔵 Hoàn thành trong tuần</option>
+                <option value="high">🔴 Quan trọng</option>
+                <option value="medium" selected>🟡 Trong 12 tiếng</option>
+                <option value="low">🔵 Trong ngày</option>
             </select>
-            <button class="btn-add-main" onclick="addDaily()">Thêm</button>
+            <button class="btn-add-main" id="btnDailyAdd">Thêm</button>
         </div>
         <div id="dailyList"></div>
-
         <div class="history-section">
-            <button class="history-btn" onclick="toggleHistory()">👁️ Xem / Ẩn lịch sử công việc đã xóa</button>
+            <button class="history-btn" id="btnToggleHistory">👁️ Xem / Ẩn lịch sử công việc đã xóa</button>
             <div id="historyList" class="history-list"></div>
         </div>
     </div>
@@ -152,13 +55,15 @@
 
     <div id="monthly" class="tab-content">
         <div class="cal-nav">
-            <button onclick="prevMonth()">◀ Trước</button>
+            <button id="btnPrevMonth">◀ Trước</button>
             <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Tháng ...</h3>
-            <button onclick="nextMonth()">Sau ▶</button>
+            <button id="btnNextMonth">Sau ▶</button>
         </div>
         <div class="calendar-grid" id="calGrid"></div>
     </div>
-<div id="circleProgressContainer" class="circle-progress-wrapper"></div>
+
+    <div id="circleProgressContainer" class="circle-progress-wrapper"></div>
+    
     <div id="wkModal" class="modal-overlay">
         <div class="modal-content">
             <h3 id="wkModalTitle">Thêm việc mới</h3>
@@ -172,244 +77,72 @@
                 </select>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button class="btn-add-main" style="flex: 1;" onclick="saveWk()">Lưu</button>
-                <button class="btn-add-main" style="flex: 1; background: #999;" onclick="closeModal()">Hủy</button>
+                <button class="btn-add-main" style="flex: 1;" id="btnWkSave">Lưu</button>
+                <button class="btn-add-main" style="flex: 1; background: #999;" id="btnWkCancel">Hủy</button>
             </div>
         </div>
     </div>
 
-<!-- NGĂN KÉO TRÁI: POMODORO NÂNG CẤP -->
     <div id="leftDrawer" class="drawer drawer-left">
-        <button class="drawer-toggle toggle-left" onclick="toggleDrawer('leftDrawer')">
-            <img src="anh-timer.png" style="width: 25px; height: 25px; display: block;">
+        <button class="drawer-toggle toggle-left" id="btnToggleLeft">
+            <img src="anh-timer.png" style="width: 25px; height: 25px; display: block;" alt="Timer">
         </button>
         <div class="drawer-content">
             <div class="widget">
                 <div class="widget-title">Trạm Tập Trung</div>
-                
-              <!-- BẢNG ĐIỀU CHỈNH THỜI GIAN (Nghỉ ngẫu nhiên) -->
                 <div class="timer-setting" style="margin-bottom: 10px; font-size: 14px; text-align: center;">
                     Làm: <input type="number" id="timerInput" value="25" min="1" style="width: 45px; padding: 3px; border-radius: 4px; border: 1px solid var(--accent); outline: none; text-align: center;"> p
                     &nbsp;|&nbsp;
                     Nghỉ: <span style="color: var(--accent); font-weight: bold;">Ngẫu nhiên 🎲</span>
                 </div>
-                
                 <div id="timerMode" style="text-align: center; font-size: 13px; font-weight: bold; color: var(--accent); margin-top: 5px;">Sẵn sàng làm việc!</div>
-                
                 <div class="timer-display" id="timerDisplay" style="font-size: 38px; font-weight: bold; text-align: center; margin: 15px 0;">25:00</div>
-                
                 <div class="timer-controls">
-                    <button class="timer-btn" id="startTimerBtn" onclick="toggleTimer()">Bắt đầu</button>
-                    <button class="timer-btn stop" onclick="resetTimer()">Cài lại từ đầu</button>
+                    <button class="timer-btn" id="startTimerBtn">Bắt đầu</button>
+                    <button class="timer-btn stop" id="resetTimerBtn">Cài lại</button>
                 </div>
-
-              <!-- BẢNG THỐNG KÊ NGÀY & TUẦN -->
                 <div style="text-align: center; font-size: 13px; margin-top: 20px; padding: 15px; background: #fff0f5; border-radius: 8px; border: 1px dashed var(--accent);">
                     🔥 Hôm nay:<br>
                     <span id="totalFocusDisplay" style="font-weight: bold; color: var(--red); font-size: 22px;">0 phút</span>
-                    
                     <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
-                    
-                    🌟 Tổng tuần này:<br>
+                    🌟 Tuần này:<br>
                     <span id="weeklyFocusDisplay" style="font-weight: bold; color: var(--accent); font-size: 16px;">0 phút</span>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
 
-<div id="rightDrawer" class="drawer drawer-right"> <!-- Dòng 229 -->
-    <button class="drawer-toggle toggle-right" onclick="toggleDrawer('rightDrawer')">
-    <img src="anh-idea.png" style="width: 25px; height: 25px; display: block;">
-</button>
+    <div id="rightDrawer" class="drawer drawer-right">
+        <button class="drawer-toggle toggle-right" id="btnToggleRight">
+            <img src="anh-idea.png" style="width: 25px; height: 25px; display: block;" alt="Idea">
+        </button>
         <div class="drawer-content">
             <div class="widget" style="margin-bottom: 20px;">
                 <div class="widget-title">Kho Ý Tưởng Nhỏ</div>
                 <div class="mini-input-group">
                     <input type="text" id="ideaInput" placeholder="Nảy ra ý tưởng gì?">
-                    <button onclick="addIdea()">Lưu</button>
+                    <button id="btnAddIdeaBtn">Lưu</button>
                 </div>
                 <ul class="mini-list" id="ideaList"></ul>
             </div>
-            
             <div class="widget">
                 <div class="widget-title">🛒 Checklist!</div>
                 <div class="mini-input-group">
                     <input type="text" id="shopInput" placeholder="Cần mua gì?">
-                    <button onclick="addShop()">Thêm</button>
+                    <button id="btnAddShopBtn">Thêm</button>
                 </div>
                 <ul class="mini-list" id="shopList"></ul>
             </div>
         </div>
     </div>
         
-    <script>
-        // --- 1. THỜI GIAN & CHUNG ---
-        function updateClock() {
-            const now = new Date();
-            const options = { timeZone: 'Asia/Ho_Chi_Minh', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-            const dateOptions = { timeZone: 'Asia/Ho_Chi_Minh', day: '2-digit', month: '2-digit', year: 'numeric' };
-            document.getElementById('vnClock').innerText = `🇻🇳 ${new Intl.DateTimeFormat('vi-VN', dateOptions).format(now)} - ${new Intl.DateTimeFormat('vi-VN', options).format(now)}`;
-        }
-        setInterval(updateClock, 1000); updateClock();
-
-        function switchTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // --- 2. TÙY CHỈNH TÊN & MỤC TIÊU (Nhấn đúp chuột) ---
-        function editTitle() {
-            const newTitle = prompt("Nhập tên mới:", document.getElementById('siteTitle').innerText);
-            if(newTitle && newTitle.trim() !== '') { document.getElementById('siteTitle').innerText = newTitle.trim(); localStorage.setItem('qn_title', newTitle.trim()); }
-        }
-        if(localStorage.getItem('qn_title')) document.getElementById('siteTitle').innerText = localStorage.getItem('qn_title');
-
-        function editGoal() {
-            const newGoal = prompt("Nhập mục tiêu mới:", document.getElementById('myGoal').innerText);
-            if(newGoal && newGoal.trim() !== '') { document.getElementById('myGoal').innerText = newGoal.trim(); localStorage.setItem('qn_goal', newGoal.trim()); }
-        }
-        if(localStorage.getItem('qn_goal')) document.getElementById('myGoal').innerText = localStorage.getItem('qn_goal');
-
-        function setTheme(accent, bg) {
-            document.documentElement.style.setProperty('--accent', accent);
-            document.documentElement.style.setProperty('--bg-main', bg);
-            localStorage.setItem('qn_theme_accent', accent); localStorage.setItem('qn_theme_bg', bg);
-        }
-        if(localStorage.getItem('qn_theme_accent')) setTheme(localStorage.getItem('qn_theme_accent'), localStorage.getItem('qn_theme_bg'));
-
-        const prioLabels = { high: '🔴 Cao', medium: '🟡 T.Bình', low: '🔵 Thấp' };
-        const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
-
-        // --- 4. VIỆC HÔM NAY ---
-        let dailyTasks = JSON.parse(localStorage.getItem('qn_daily_v2')) || [];
-        function renderDaily() {
-            const list = document.getElementById('dailyList');
-            const history = document.getElementById('historyList');
-            list.innerHTML = ''; history.innerHTML = '';
-            
-            dailyTasks.forEach(t => {
-                let html = `
-                    <div class="daily-task ${t.done ? 'done' : ''}" style="opacity: ${t.archived ? '0.6' : '1'}">
-                        <div style="flex:1">
-                            <div style="display:flex; align-items:center; gap:10px;">
-                                <input type="checkbox" style="width:18px;height:18px;accent-color:var(--accent)" ${t.done ? 'checked' : ''} onchange="toggleDaily(${t.id})">
-                                <span style="font-weight:bold">${t.text}</span>
-                            </div>
-                            <div style="font-size:11px; margin-top:5px; margin-left:28px; color:#666;">
-                                🕒 ${t.time || '--:--'} | Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span>
-                            </div>
-                        </div>
-                        <button class="task-del-btn" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ (Xóa)'}" onclick="${t.archived ? `hardDeleteDaily(${t.id})` : `archiveDaily(${t.id})`}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
-                    </div>
-                `;
-                if(t.archived) history.innerHTML += html;
-                else list.innerHTML += html;
-            });
-        }
-
-        window.addDaily = () => {
-            const input = document.getElementById('dailyInput');
-            const time = document.getElementById('dailyTime');
-            const prio = document.getElementById('dailyPrio');
-            if(input.value.trim() !== '') { 
-                dailyTasks.push({ id: Date.now(), text: input.value.trim(), time: time.value, prio: prio.value, done: false, archived: false }); 
-                localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); 
-                input.value = ''; time.value = ''; renderDaily(); 
-            }
-        };
-        document.getElementById('dailyInput').addEventListener('keypress', e => { if(e.key === 'Enter') addDaily(); });
-        window.toggleDaily = (id) => { let task = dailyTasks.find(t => t.id === id); if(task) task.done = !task.done; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); };
-        window.archiveDaily = (id) => { let task = dailyTasks.find(t => t.id === id); if(task) task.archived = true; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); };
-        window.hardDeleteDaily = (id) => { if(confirm("Xóa vĩnh viễn công việc này khỏi lịch sử?")) { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }};
-        function toggleHistory() { document.getElementById('historyList').classList.toggle('show'); }
-
-        // --- 5. WEEKLY PLANNER ---
-        let weekData = JSON.parse(localStorage.getItem('qn_week_v2')) || {};
-        const daysWk = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','CN'];
-        const timesWk = ['Sáng','Chiều','Tối'];
-        let currentWkKey = '';
-
-        function renderWk() {
-            const grid = document.getElementById('weekGrid');
-            grid.innerHTML = '<div class="wk-header"></div>' + daysWk.map(d=>`<div class="wk-header">${d}</div>`).join('');
-            timesWk.forEach(t => {
-                grid.innerHTML += `<div class="wk-time">${t}</div>`;
-                daysWk.forEach(d => {
-                    let key = `${d}-${t}`;
-                    let tasks = (weekData[key] || []).map((task, idx) => `
-                        <div class="task-card ${task.done ? 'done' : ''}">
-                            <div class="task-header">
-                                <div style="display:flex; align-items:center; gap:5px;">
-                                    <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleWk('${key}', ${idx})">
-                                    <span style="font-weight:bold">${task.text}</span>
-                                </div>
-                                <button class="task-del-btn" onclick="deleteWk('${key}', ${idx})">✕</button>
-                            </div>
-                            <div class="task-meta">
-                                <span>🕒 ${task.time || '--:--'}</span> • <span class="${prioClasses[task.prio]}">${prioLabels[task.prio]}</span>
-                            </div>
-                        </div>
-                    `).join('');
-                    grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small" onclick="openWkModal('${key}')">+ Thêm việc</div></div>`;
-                });
-            });
-        }
-
-        function openWkModal(key) { currentWkKey = key; document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`; document.getElementById('wkInput').value = ''; document.getElementById('wkModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('wkModal').style.display = 'none'; }
-        function saveWk() {
-            let text = document.getElementById('wkInput').value.trim();
-            let time = document.getElementById('wkTime').value; let prio = document.getElementById('wkPrio').value;
-            if(!text) return alert("Cần nhập tên công việc!");
-            if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
-            weekData[currentWkKey].push({ text, time, prio, done: false });
-            localStorage.setItem('qn_week_v2', JSON.stringify(weekData));
-            closeModal(); renderWk();
-        }
-        window.toggleWk = (key, idx) => { weekData[key][idx].done = !weekData[key][idx].done; localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); };
-        window.deleteWk = (key, idx) => { weekData[key].splice(idx, 1); localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); };
-
-        // --- 6. LỊCH THÁNG ---
-        let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
-        let currDate = new Date(); let currMonth = currDate.getMonth(); let currYear = currDate.getFullYear();
-
-        function renderCal() {
-            const grid = document.getElementById('calGrid');
-            document.getElementById('monthYearDisplay').innerText = `Tháng ${currMonth + 1} / ${currYear}`;
-            grid.innerHTML = `<div class="cal-header">T2</div><div class="cal-header">T3</div><div class="cal-header">T4</div><div class="cal-header">T5</div><div class="cal-header">T6</div><div class="cal-header">T7</div><div class="cal-header">CN</div>`;
-            let firstDay = new Date(currYear, currMonth, 1).getDay();
-            let startOffset = firstDay === 0 ? 6 : firstDay - 1; 
-            let daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
-            for(let i = 0; i < startOffset; i++) grid.innerHTML += `<div class="cal-day" style="border:none; background:transparent;"></div>`;
-            for(let i = 1; i <= daysInMonth; i++) {
-                let dateKey = `${currYear}-${currMonth + 1}-${i}`;
-                let events = (calData[dateKey] || []).map((ev, idx) => `<div class="event-tag" onclick="deleteCal('${dateKey}', ${idx})">${ev}</div>`).join('');
-                let isToday = (i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear());
-                let todayStyle = isToday ? 'background: #fff0f6; border: 2px solid var(--accent);' : '';
-                grid.innerHTML += `<div class="cal-day" style="${todayStyle}"><div class="day-num">${i}</div>${events}<div class="add-btn-small" onclick="addCal('${dateKey}')">+ Thêm</div></div>`;
-            }
-        }
-        function prevMonth() { currMonth--; if(currMonth < 0) { currMonth = 11; currYear--; } renderCal(); }
-        function nextMonth() { currMonth++; if(currMonth > 11) { currMonth = 0; currYear++; } renderCal(); }
-        window.addCal = (dateKey) => { let v = prompt("Ghi chú sự kiện:"); if(v){ if(!calData[dateKey]) calData[dateKey]=[]; calData[dateKey].push(v); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); if(typeof renderCircleProgress === 'function') renderCircleProgress(); }};
-        window.deleteCal = (dateKey, idx) => { if(confirm('Xóa sự kiện này?')) { calData[dateKey].splice(idx, 1); localStorage.setItem('qn_cal', JSON.stringify(calData)); renderCal(); if(typeof renderCircleProgress === 'function') renderCircleProgress(); }};
-
-        // Khởi động
-        renderDaily(); renderWk(); renderCal(); 
-    </script>
-
+    <script src="script.js"></script>
     <script src="drawer.js"></script>
     <script src="timer.js"></script>
     <script src="idea.js"></script>
     <script src="shop.js"></script>
-    <link rel="stylesheet" href="nhat_ky.css">
-    <script src="nhat_ky.js"></script>
-    <link rel="stylesheet" href="progress.css">
     <script src="progress.js"></script>
-    <link rel="stylesheet" href="theme.css">
+    <script src="nhat_ky.js"></script>
     <script src="theme.js"></script>
-    
 </body>
 </html>
