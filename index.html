@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="drawers.css">
     <link rel="stylesheet" href="nhat_ky.css">
     <link rel="stylesheet" href="progress.css">
     <link rel="stylesheet" href="theme.css">
@@ -82,65 +81,9 @@
             </div>
         </div>
     </div>
-
-    <div id="leftDrawer" class="drawer drawer-left">
-        <button class="drawer-toggle toggle-left" id="btnToggleLeft">
-            <img src="anh-timer.png" style="width: 25px; height: 25px; display: block;" alt="Timer">
-        </button>
-        <div class="drawer-content">
-            <div class="widget">
-                <div class="widget-title">Trạm Tập Trung</div>
-                <div class="timer-setting" style="margin-bottom: 10px; font-size: 14px; text-align: center;">
-                    Làm: <input type="number" id="timerInput" value="25" min="1" style="width: 45px; padding: 3px; border-radius: 4px; border: 1px solid var(--accent); outline: none; text-align: center;"> p
-                    &nbsp;|&nbsp;
-                    Nghỉ: <span style="color: var(--accent); font-weight: bold;">Ngẫu nhiên 🎲</span>
-                </div>
-                <div id="timerMode" style="text-align: center; font-size: 13px; font-weight: bold; color: var(--accent); margin-top: 5px;">Sẵn sàng làm việc!</div>
-                <div class="timer-display" id="timerDisplay" style="font-size: 38px; font-weight: bold; text-align: center; margin: 15px 0;">25:00</div>
-                <div class="timer-controls">
-                    <button class="timer-btn" id="startTimerBtn">Bắt đầu</button>
-                    <button class="timer-btn stop" id="resetTimerBtn">Cài lại</button>
-                </div>
-                <div style="text-align: center; font-size: 13px; margin-top: 20px; padding: 15px; background: #fff0f5; border-radius: 8px; border: 1px dashed var(--accent);">
-                    🔥 Hôm nay:<br>
-                    <span id="totalFocusDisplay" style="font-weight: bold; color: var(--red); font-size: 22px;">0 phút</span>
-                    <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
-                    🌟 Tuần này:<br>
-                    <span id="weeklyFocusDisplay" style="font-weight: bold; color: var(--accent); font-size: 16px;">0 phút</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="rightDrawer" class="drawer drawer-right">
-        <button class="drawer-toggle toggle-right" id="btnToggleRight">
-            <img src="anh-idea.png" style="width: 25px; height: 25px; display: block;" alt="Idea">
-        </button>
-        <div class="drawer-content">
-            <div class="widget" style="margin-bottom: 20px;">
-                <div class="widget-title">Kho Ý Tưởng Nhỏ</div>
-                <div class="mini-input-group">
-                    <input type="text" id="ideaInput" placeholder="Nảy ra ý tưởng gì?">
-                    <button id="btnAddIdeaBtn">Lưu</button>
-                </div>
-                <ul class="mini-list" id="ideaList"></ul>
-            </div>
-            <div class="widget">
-                <div class="widget-title">🛒 Checklist!</div>
-                <div class="mini-input-group">
-                    <input type="text" id="shopInput" placeholder="Cần mua gì?">
-                    <button id="btnAddShopBtn">Thêm</button>
-                </div>
-                <ul class="mini-list" id="shopList"></ul>
-            </div>
-        </div>
-    </div>
         
     <script src="script.js"></script>
-    <script src="drawer.js"></script>
     <script src="timer.js"></script>
-    <script src="idea.js"></script>
-    <script src="shop.js"></script>
     <script src="progress.js"></script>
     <script src="nhat_ky.js"></script>
     <script src="theme.js"></script>
