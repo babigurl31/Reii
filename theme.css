@@ -34,7 +34,21 @@
     transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
 }
 .main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
-.main-set-btn img, .set-btn img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+/* 1. Kích thước ảnh cho các nút NHỎ bên trong (giữ nguyên 55%) */
+.set-btn img { 
+    width: 55%; 
+    height: 55%; 
+    object-fit: contain; 
+    border-radius: 50%; 
+}
+
+/* 2. Kích thước ảnh CHỈ dành cho nút CHÍNH (Phóng to lên 80% - 90%) */
+.main-set-btn img { 
+    width: 95%; 
+    height: 95%; 
+    object-fit: contain; 
+    border-radius: 50%; 
+}
 
 /* --- BẢNG MODAL CHỈNH SỬA --- */
 .theme-modal-overlay {
