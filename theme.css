@@ -34,18 +34,18 @@
     transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
 }
 .main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
-/* 1. Kích thước ảnh cho các nút NHỎ bên trong (giữ nguyên 55%) */
+/* 1. Kích thước ảnh cho các nút NHỎ bên trong menu (Wishlist, Checklist, Idea, History...) */
 .set-btn img { 
-    width: 55%; 
+    width: 55%;  /* Chỉnh số này nhỏ xuống (VD: 50% hoặc 55%) để ảnh nhỏ hơn nút */
     height: 55%; 
     object-fit: contain; 
     border-radius: 50%; 
 }
 
-/* 2. Kích thước ảnh CHỈ dành cho nút CHÍNH (Phóng to lên 80% - 90%) */
+/* 2. Kích thước ảnh cho các nút CHÍNH bên ngoài (Nút Setting to và Nút List to) */
 .main-set-btn img { 
-    width: 95%; 
-    height: 95%; 
+    width: 85%;  /* Giữ số lớn để nút chính nổi bật */
+    height: 85%; 
     object-fit: contain; 
     border-radius: 50%; 
 }
