@@ -316,12 +316,17 @@ document.addEventListener('DOMContentLoaded', () => {
             renderHistory();
         }
     });
-// --- BỘ NHẬN DIỆN CLICK RA NGOÀI ĐỂ ĐÓNG (CLICK OUTSIDE) ---
+// --- BỘ NHẬN DIỆN CLICK RA NGOÀI (TÁCH BIỆT POPUP VÀ MENU) ---
     document.addEventListener('click', (e) => {
+        
+        // --- LUỒNG 1: ƯU TIÊN ĐÓNG POP-UP TRƯỚC ---
+        // Nếu click trúng cái nền tối (overlay) của Pop-up
         if (e.target.classList.contains('theme-modal-overlay')) {
             e.target.style.display = 'none';
+            return; // LÁ CHẮN Ở ĐÂY! Lệnh này giúp dừng toàn bộ hành động lại, tuyệt đối không chạy xuống phần đóng Menu bên dưới nữa.
         }
 
+        // --- LUỒNG 2: CHỈ ĐÓNG MENU KHI KHÔNG CÓ POP-UP CẢN ĐƯỜNG ---
         const listMenu = document.getElementById('listMenu');
         const btnListMain = document.getElementById('btnListMain');
         if (listMenu && listMenu.classList.contains('open') && !listMenu.contains(e.target) && !btnListMain.contains(e.target)) {
