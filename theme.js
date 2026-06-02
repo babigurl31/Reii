@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', themeHTML);
 
-// Cơ chế: Mở nút Setting thì tự động đóng các nút khác (List, Trái, Phải...)
+    // Cơ chế: Mở nút Setting thì tự động đóng các nút khác (List, Trái, Phải...)
     window.toggleExclusiveMenu = (menuIdToOpen) => {
         const allMenus = ['settingsMenu', 'listMenu']; // Cứ thêm ID menu mới vào mảng này sau này
         allMenus.forEach(id => {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('bgToggle').checked = (localStorage.getItem('qn_bg_mode') || 'image') === 'image';
         document.getElementById('bgLinkInput').style.display = document.getElementById('bgToggle').checked ? 'block' : 'none';
         document.getElementById('bgLinkInput').value = localStorage.getItem('qn_bg_link') || ''; 
-        document.getElementById('settingsMenu').classList.remove('open');
+        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('bgToggle').addEventListener('change', e => document.getElementById('bgLinkInput').style.display = e.target.checked ? 'block' : 'none');
     document.getElementById('btnSaveBg').addEventListener('click', () => {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let hex = localStorage.getItem('qn_theme_accent') || '#ec407a';
         document.getElementById('colorPicker').value = hex; 
         document.getElementById('hexInput').value = hex; 
-        document.getElementById('settingsMenu').classList.remove('open');
+        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('colorPicker').addEventListener('input', e => document.getElementById('hexInput').value = e.target.value);
     document.getElementById('hexInput').addEventListener('input', e => { if(/^#[0-9A-F]{6}$/i.test(e.target.value)) document.getElementById('colorPicker').value = e.target.value; });
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let found = Array.from(sel.options).some(o => o.value === cur);
         if(found) sel.value = cur; 
         else { sel.value = 'custom_font'; document.getElementById('customFontInput').value = cur; document.getElementById('customFontInput').style.display = 'block'; }
-        document.getElementById('settingsMenu').classList.remove('open');
+        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('fontSelect').addEventListener('change', e => document.getElementById('customFontInput').style.display = e.target.value === 'custom_font' ? 'block' : 'none');
     document.getElementById('btnSaveFont').addEventListener('click', () => {

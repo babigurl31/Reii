@@ -1,6 +1,6 @@
 /* --- NÚT SETTING DẠNG VIÊN THUỐC MỞ RỘNG --- */
 .settings-wrapper {
-    position: fixed; top: 20px; right: 20px; z-index: 2000;
+    position: fixed; top: 5px; right: 20px; z-index: 2000;
     display: flex; align-items: center; gap: 10px; 
 }
 
@@ -34,22 +34,21 @@
     transition: 0.2s; border: 2px solid var(--border); font-size: 16px;
 }
 .main-set-btn:hover, .set-btn:hover { transform: scale(1.1); border-color: var(--accent); }
-/* 1. Kích thước ảnh cho các nút NHỎ bên trong menu (Wishlist, Checklist, Idea, History...) */
+/* 1. Kích thước ảnh cho các nút nhỏ bên trong */
 .set-btn img { 
-    width: 55%;  /* Chỉnh số này nhỏ xuống (VD: 50% hoặc 55%) để ảnh nhỏ hơn nút */
+    width: 55%; 
     height: 55%; 
     object-fit: contain; 
     border-radius: 50%; 
 }
 
-/* 2. Kích thước ảnh cho các nút CHÍNH bên ngoài (Nút Setting to và Nút List to) */
+/* 2. Kích thước ảnh chỉ dành cho nút chính */
 .main-set-btn img { 
-    width: 85%;  /* Giữ số lớn để nút chính nổi bật */
-    height: 85%; 
+    width: 95%;  
+    height: 95%; 
     object-fit: contain; 
     border-radius: 50%; 
 }
-
 /* --- BẢNG MODAL CHỈNH SỬA --- */
 .theme-modal-overlay {
     display: none; position: fixed; top:0; left:0; width:100%; height:100%;
@@ -93,7 +92,7 @@ body.dark-mode {
 }
 /* --- NÚT LIST VÀ MENU LIST (NẰM DƯỚI NÚT SETTING) --- */
 .list-wrapper {
-    position: fixed; top: 80px; right: 20px; z-index: 2000; /* top: 80px để nằm dưới nút setting (top: 20px) */
+    position: fixed; top: 50px; right: 20px; z-index: 2000; /* top: 80px để nằm dưới nút setting (top: 20px) */
     display: flex; align-items: center; gap: 10px; 
 }
 
@@ -133,4 +132,51 @@ body.dark-mode {
 #btnAddIdea:hover {
     opacity: 0.6 !important;
     transform: scale(0.95);
+}
+/* =========================================================
+   GIAO DIỆN POP-UP MỚI: MÀU THEME NHẠT & HÌNH DỄ THƯƠNG
+   ========================================================= */
+
+.theme-modal {
+    /* Tự động lấy màu Theme của cậu pha với 90% màu trắng để ra nền siêu nhạt, trong trẻo */
+    background-color: color-mix(in srgb, var(--accent) 10%, #ffffff) !important;
+    
+    /* Xóa viền, bo góc mềm mại, đổ bóng nhẹ nhàng */
+    border: none !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    
+    position: relative;
+    color: var(--text-main) !important; 
+}
+
+/* Đổi lại màu chữ tiêu đề theo màu Theme */
+.theme-modal h3 {
+    color: var(--accent) !important;
+    font-family: 'Syne', sans-serif !important; 
+    border-bottom: 2px dashed var(--border);
+    padding-bottom: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Khôi phục lại ô nhập liệu và danh sách cho đồng bộ với giao diện mới */
+.theme-modal input, 
+.theme-modal textarea, 
+.theme-modal select {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+    border-radius: 8px !important;
+    position: relative; z-index: 1;
+}
+
+.mini-item {
+    border-bottom: none !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    padding: 8px;
+    position: relative; z-index: 1;
+    border-left: 3px solid var(--accent); /* Nhấn nhá thêm 1 vệt màu theme bên trái cho xinh */
 }
