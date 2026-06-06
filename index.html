@@ -30,10 +30,8 @@
         <button class="tab-btn" id="tabWeeklyBtn">Kế Hoạch Tuần</button>
         <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
     </div>
-<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
+<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center; padding-bottom: 50px;">
         
-        <button id="btnExitFocus" style="position: fixed; top: 20px; left: 20px; padding: 10px 20px; border-radius: 30px; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); border: 1px solid var(--border); font-weight: bold; cursor: pointer; color: var(--text-main); z-index: 3000; transition: 0.3s;">🔙 Quay lại</button>
-
         <button id="btnManualFocus" style="background: transparent; border: none; cursor: pointer; margin-top: 20px; transition: 0.3s;" title="Mở bộ đếm giờ">
             <img src="icon-pomodoro.png" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
         </button>
@@ -53,6 +51,13 @@
                 <button id="btnTimerStop" style="padding: 12px 30px; border-radius: 30px; background: var(--red); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Dừng hẳn</button>
             </div>
         </div>
+
+        <div style="margin-top: 50px;">
+            <button id="btnExitFocus" style="padding: 10px 25px; border-radius: 30px; background: rgba(255,255,255,0.5); backdrop-filter: blur(10px); border: 1px solid var(--border); font-weight: bold; cursor: pointer; color: var(--text-main); transition: 0.3s;">
+                🔙 Quay lại Kế hoạch
+            </button>
+        </div>
+
     </div>
     <div id="daily" class="tab-content active">
         <div class="input-row">
