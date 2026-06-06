@@ -229,3 +229,13 @@ body.dark-mode {
     font-size: 16px; color: #4caf50; transition: 0.2s; padding: 2px 5px;
 }
 .btn-play-task:hover { transform: scale(1.2); color: #388e3c; }
+/* --- CHẾ ĐỘ FOCUS TOÀN MÀN HÌNH (TÀNG HÌNH MỌI THỨ) --- */
+body.is-focusing .header,
+body.is-focusing .nav-tabs,
+body.is-focusing .settings-wrapper,
+body.is-focusing .list-wrapper,
+body.is-focusing .circle-progress-wrapper {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
