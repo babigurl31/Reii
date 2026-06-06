@@ -5,28 +5,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const timerDisplay = document.getElementById('timerDisplay');
     const focusTaskName = document.getElementById('focusTaskName');
     const btnManualFocus = document.getElementById('btnManualFocus');
-    const btnExitFocus = document.getElementById('btnExitFocus'); // Gọi Nút Thoát
     
     let timer;
-    let timeLeft = 25 * 60; 
+    let timeLeft = 25 * 60; // Mặc định 25 phút
     let isRunning = false;
 
-    // --- XỬ LÝ CHUYỂN TAB SANG TRẠM TẬP TRUNG (KÍCH HOẠT TÀNG HÌNH) ---
+    // --- XỬ LÝ CHUYỂN TAB SANG TRẠM TẬP TRUNG ---
     tabFocusBtn.addEventListener('click', () => {
+        // Tắt các tab khác
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         
+        // Bật tab Focus
         tabFocusBtn.classList.add('active');
         focusTab.classList.add('active');
-        
-        // Phép thuật Tàng Hình toàn web
-        document.body.classList.add('is-focusing');
     });
 
-    // --- NÚT QUAY LẠI (TẮT TÀNG HÌNH & VỀ PLANNER) ---
-    btnExitFocus.addEventListener('click', () => {
-        document.body.classList.remove('is-focusing'); // Hiện lại menu
-        document.getElementById('tabDailyBtn').click(); // Về tab Việc Hôm Nay
+    // Cập nhật lại các nút Tab cũ để nó tự đóng Focus Tab khi chuyển về
+    document.querySelectorAll('.tab-btn:not(#tabFocusBtn)').forEach(btn => {
+        btn.addEventListener('click', () => {
+            focusTab.classList.remove('active');
+            tabFocusBtn.classList.remove('active');
+        });
     });
 
     // --- BẤM NÚT PLAY TỪ CÁC TAB KHÁC ---
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- HÀM KHỞI ĐỘNG NHANH FOCUS MODE ---
     function startFocusMode(taskName) {
-        tabFocusBtn.click(); // Tự động chuyển trang và kích hoạt tàng hình
+        tabFocusBtn.click(); // Tự động chuyển trang
         
         pomodoroUI.style.opacity = '1';
         pomodoroUI.style.pointerEvents = 'auto';
