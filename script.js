@@ -37,6 +37,7 @@ function renderDaily() {
                 <div style="flex:1">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent)" ${t.done ? 'checked' : ''}>
+                        <button class="btn-play-task" data-task="${t.text}" style="background: transparent; border: none; cursor: pointer; font-size: 18px; transition: 0.2s;" title="Focus việc này!">▶️</button>
                         <span style="font-weight:bold">${t.text}</span>
                     </div>
                     <div style="font-size:11px; margin-top:5px; margin-left:28px; color:#666;">🕒 ${t.time || '--:--'} | Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span></div>
