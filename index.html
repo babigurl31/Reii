@@ -25,12 +25,33 @@
     </div>
 
     <div class="nav-tabs">
-        <button class="main-tab-btn" id="btnTabFocus">🎯 Focus</button>
+        <button class="tab-btn" id="TabFocusbtn">🎯 Focus</button>
         <button class="tab-btn active" id="tabDailyBtn">Việc Hôm Nay</button>
         <button class="tab-btn" id="tabWeeklyBtn">Kế Hoạch Tuần</button>
         <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
     </div>
+<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
+        
+        <button id="btnManualFocus" style="background: transparent; border: none; cursor: pointer; margin-top: 20px; transition: 0.3s;" title="Mở bộ đếm giờ">
+            <img src="icon-pomodoro.png" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+        </button>
 
+        <div id="pomodoroUI" style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; opacity: 0; transition: opacity 0.5s; pointer-events: none;">
+            <div id="focusTaskName" style="font-size: 20px; font-weight: bold; color: var(--accent); background: rgba(255,255,255,0.7); padding: 10px 30px; border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid var(--border); margin-bottom: 20px;">
+                Chọn việc để Focus nhé Babi!
+            </div>
+            
+            <div id="timerDisplay" style="font-size: 110px; font-weight: 800; color: var(--text-main); text-shadow: 2px 2px 15px rgba(255,255,255,0.9); line-height: 1;">
+                25:00
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button id="btnTimerStart" style="padding: 12px 30px; border-radius: 30px; background: var(--accent); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Bắt đầu</button>
+                <button id="btnTimerPause" style="padding: 12px 30px; border-radius: 30px; background: rgba(255,255,255,0.8); color: var(--text-main); border: 1px solid var(--border); font-weight: bold; cursor: pointer; font-size: 16px;">Tạm dừng</button>
+                <button id="btnTimerStop" style="padding: 12px 30px; border-radius: 30px; background: var(--red); color: white; border: none; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Dừng hẳn</button>
+            </div>
+        </div>
+    </div>
     <div id="daily" class="tab-content active">
         <div class="input-row">
             <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Babi ơi?">
@@ -48,26 +69,7 @@
             <div id="historyList" class="history-list"></div>
         </div>
     </div>
-<!-- ================= VÙNG FOCUS MODE & POMODORO ================= -->
-<div id="focusLayout" class="layout-content" style="display: none; height: 100%; position: relative;">
-    
-    <!-- Nút Icon Pomodoro nằm góc dưới thanh chuyển tab -->
-    <button id="btnPomoIcon" title="Cài đặt Pomodoro">
-        <img src="icon-pomodoro.png" alt="Pomodoro" onerror="this.style.display='none'">
-    </button>
 
-    <!-- Khu vực hiển thị trung tâm khi Focus -->
-    <div id="focusCenterUI" style="display: none;">
-        <h2 id="focusTaskName">Đang tập trung...</h2>
-        <div class="pomodoro-timer">
-            <span id="pomoMinutes">25</span><span class="colon">:</span><span id="pomoSeconds">00</span>
-        </div>
-        <div class="pomo-controls">
-            <button id="btnPomoToggle">Tạm dừng</button>
-            <button id="btnPomoStop">Kết thúc</button>
-        </div>
-    </div>
-</div>
     <div id="weekly" class="tab-content">
         <div class="weekly-grid" id="weekGrid"></div>
     </div>
@@ -108,5 +110,6 @@
     <script src="nhat_ky.js"></script>
     <script src="list.js"></script>
     <script src="theme.js"></script>
+    <script src="focus.js"></script>
 </body>
 </html>
