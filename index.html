@@ -29,6 +29,7 @@
         <button class="tab-btn active" id="tabDailyBtn">Việc Hôm Nay</button>
         <button class="tab-btn" id="tabWeeklyBtn">Kế Hoạch Tuần</button>
         <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
+        <button class="tab-btn" id="tabSummaryBtn">Tổng Hợp</button>
     </div>
 <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center; padding-bottom: 50px;">
         
@@ -89,7 +90,27 @@
         </div>
         <div class="calendar-grid" id="calGrid"></div>
     </div>
+<div id="summaryTab" class="tab-content" style="background: transparent; box-shadow: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            
+            <div class="summary-card">
+                <h3 class="sum-title">☀️ Việc Hôm Nay</h3>
+                <div id="sumDailyList" class="sum-list"></div>
+            </div>
 
+            <div class="summary-card">
+                <h3 class="sum-title">📅 Kế Hoạch Tuần</h3>
+                <div id="sumWeeklyList" class="sum-list"></div>
+            </div>
+
+            <div class="summary-card">
+                <h3 class="sum-title">🗓️ Lịch Quan Trọng</h3>
+                <div id="sumMonthlyList" class="sum-list"></div>
+            </div>
+
+        </div>
+    </div>
+    
     <div id="circleProgressContainer" class="circle-progress-wrapper"></div>
     
     <div id="wkModal" class="modal-overlay">
@@ -118,5 +139,6 @@
     <script src="list.js"></script>
     <script src="theme.js"></script>
     <script src="focus.js"></script>
+    <script src="summary.js"></script>
 </body>
 </html>
