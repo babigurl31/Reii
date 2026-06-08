@@ -239,3 +239,48 @@ body.is-focusing .circle-progress-wrapper {
     opacity: 0;
     pointer-events: none;
 }
+/* --- TRANG TRÍ TAB TỔNG HỢP --- */
+.summary-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.sum-title {
+    color: var(--accent);
+    font-size: 16px;
+    border-bottom: 2px dashed var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.sum-item {
+    font-size: 13px;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.sum-item.done {
+    opacity: 0.5;
+    text-decoration: line-through;
+    border-left-color: #ccc;
+}
+
+.sum-empty {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    font-style: italic;
+    padding: 10px;
+}
