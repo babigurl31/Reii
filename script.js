@@ -23,7 +23,7 @@ function editGoal() {
     if(newGoal) { document.getElementById('myGoal').innerText = newGoal; localStorage.setItem('qn_goal', newGoal); }
 }
 
-const prioLabels = { high: '🔴 Quan trọng', medium: '🟡 Trong 12 tiếng', low: '🔵 Trong ngày' };
+const prioLabels = { high: '🔴 Quan trọng', medium: '🟡 Cần thiết', low: '🔵 Có thể delay' };
 const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
 
 // --- 1. VIỆC HÔM NAY ---
@@ -78,14 +78,16 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.done ? 'done' : ''} weekly-highlight">
-                    <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''} style="width: 15px; height: 15px; accent-color: var(--accent);">
-                            <span style="font-weight:bold">${task.text}</span>
+                <div class="task-card weekly-highlight">
+                    <div class="task-header" style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
+                        
+                        <div style="display:flex; align-items:center; flex:1;">
+                            <span style="font-weight:bold; line-height:1.4;">${task.text}</span>
                         </div>
-                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
+                        
+                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red); font-weight:bold; padding-left:10px;" title="Xóa ghi chú">✕</button>
                     </div>
+                    
                     <div class="task-meta" style="margin-top: 5px; font-size: 12px; color: #555;">
                         <span>🕒 ${task.startTime || '--:--'} - ${task.endTime || '--:--'}</span>
                     </div>
