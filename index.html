@@ -43,47 +43,40 @@
     </button>
 </div>
 
-    <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
-        <div class="clean-pomodoro-box">
+<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
+        <div class="clean-focus-box" style="position: relative; padding: 40px; background: rgba(255, 255, 255, 0.4); border-radius: 20px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);">
             
-            <div id="overlayBreak" class="focus-overlay-img">
-                <img src="anh-break.png" alt="Stay Hydrated" style="max-width: 200px; border-radius: 15px;">
-                <h2 id="breakCountdown" style="font-size: 40px; color: var(--accent); margin-top: 15px;">05:00</h2>
-            </div>
-
-            <div id="overlayFinish" class="focus-overlay-img">
-                <img src="anh-finish.png" alt="Great Job" style="max-width: 200px;">
-                <button onclick="document.getElementById('overlayFinish').style.display='none'" class="mode-btn-clean" style="margin-top:20px;">Hoàn thành!</button>
-            </div>
-
-            <div class="mode-switch-clean">
-                <button class="mode-btn-clean active" id="btnModePomo">Pomodoro</button>
-                <button class="mode-btn-clean" id="btnModeShort">Short Break</button>
-                <button class="mode-btn-clean" id="btnModeLong">Long Break</button>
-            </div>
-
-            <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 20px; font-weight: bold;">🎯 Chọn việc để Focus nhé Babi!</div>
+            <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 25px; font-weight: bold;">🎯 Sẵn sàng tập trung chưa babi?</div>
             
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <input type="number" id="inputTimer" value="25" style="width: 100px; font-size: 80px; border: none; text-align: right; color: var(--text-main); outline: none; background: transparent; font-weight: bold;">
-                <span style="font-size: 60px; color: var(--text-main); margin-bottom: 10px;">:</span>
-                <div id="timerSeconds" style="font-size: 80px; color: var(--text-main); font-weight: bold;">00</div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px;">
+                <input type="number" id="inputTimer" value="25" min="1" max="180" style="width: 120px; font-size: 80px; border: none; text-align: right; color: var(--text-main); outline: none; background: transparent; font-weight: bold; font-family: inherit;">
+                <span style="font-size: 60px; color: var(--text-main); position: relative; top: -5px;">:</span>
+                <div id="timerSeconds" style="width: 120px; font-size: 80px; color: var(--text-main); font-weight: bold; text-align: left;">00</div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
+                <button class="focus-btn-mode active" id="btnModePomo" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: white; font-weight: bold; color: var(--text-main); pointer-events: none;">Pomodoro</button>
+                <button class="focus-btn-mode" id="btnModeBreak" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: white; font-weight: bold; color: var(--text-main); display: none; pointer-events: none;">Break Time</button>
+                <button id="btnResetTimer" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,77,77,0.1); color: var(--red); cursor: pointer; font-weight: bold; transition: 0.2s;">Reset</button>
+            </div>
+
+            <div style="font-size: 13px; color: #555; background: rgba(255,255,255,0.6); padding: 8px 18px; border-radius: 12px; display: inline-block; border: 1px solid var(--border);">
+                ⏱️ Tổng thời gian tích lũy: <span id="totalFocusTime" style="font-weight: bold; color: var(--accent);">0</span> phút
             </div>
             
         </div>
-    </div>
-            <div class="focus-footer-btns">
-                <button id="btnExitFocus" class="img-btn" title="Quay lại Kế hoạch">
-                    <img src="nut-back.png" alt="Back">
-                </button>
-                
-                <button id="btnTimerStart" class="img-btn" title="Bắt đầu Focus">
-                    <img src="nut-start.png" alt="Start">
-                </button>
-            </div>
-            
+
+        <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 35px;">
+            <button id="btnExitFocus" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Quay lại Theme chính">
+                <img src="nut-back.png" alt="Back" style="width: 60px; height: 60px; object-fit: contain;">
+            </button>
+            <button id="btnTimerStart" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Bắt đầu">
+                <img src="nut-start.png" alt="Start" style="width: 60px; height: 60px; object-fit: contain;">
+            </button>
+            <button id="btnTimerPause" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Tạm dừng">
+                <img src="nut-pause.png" alt="Pause" style="width: 60px; height: 60px; object-fit: contain;">
+            </button>
         </div>
-    </div>
     </div>
     <div id="daily" class="tab-content active">
         <div class="input-row">
