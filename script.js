@@ -26,31 +26,30 @@ function editGoal() {
 const prioLabels = { high: '🔴 Quan trọng', medium: '🟡 Trong 12 tiếng', low: '🔵 Trong ngày' };
 const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
 
+// --- 1. VIỆC HÔM NAY ---
 let dailyTasks = JSON.parse(localStorage.getItem('qn_daily_v2')) || [];
 function renderDaily() {
     const list = document.getElementById('dailyList'), history = document.getElementById('historyList');
     if(!list || !history) return;
     list.innerHTML = ''; history.innerHTML = '';
     dailyTasks.forEach(t => {
-let html = `
+        let html = `
             <div class="daily-task ${t.done ? 'done' : ''}" style="opacity: ${t.archived ? '0.6' : '1'}">
                 <div style="flex:1">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent);">
+                        <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent);" ${t.done ? 'checked' : ''}>
                         
-                        <button class="btn-play-task" onclick="window.startFocusFromPlanner('${t.text}', this.parentElement.parentElement.querySelector('.task-time-input').value)" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
+                        <button class="btn-play-task" onclick="if(window.startFocusFromPlanner) window.startFocusFromPlanner('${t.text}', this.parentElement.parentElement.querySelector('.task-time-input').value)" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
                         
                         <span style="font-weight:bold">${t.text}</span>
                     </div>
-                    
                     <div style="display:flex; align-items:center; font-size:11px; margin-top:5px; margin-left:28px; color:#666;">
-                        🕒 
-                        <input type="number" class="task-time-input" value="${t.time || 25}" style="width: 45px; padding: 2px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit;"> phút 
-                        </div>
+                        🕒 <input type="number" class="task-time-input" value="${t.time || 25}" style="width: 40px; padding: 2px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit;"> phút 
+                        <span style="margin-left: 10px;">| Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span></span>
+                    </div>
                 </div>
-                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;cursor:pointer;">🗑</button>
-            </div>
-        `;
+                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;color:var(--red);font-weight:bold;cursor:pointer;" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ'}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
+            </div>`;
         if(t.archived) history.innerHTML += html; else list.innerHTML += html;
     });
 }
@@ -65,9 +64,11 @@ function toggleDaily(id) { let task = dailyTasks.find(t => t.id === id); if(task
 function archiveDaily(id) { let task = dailyTasks.find(t => t.id === id); if(task) task.archived = true; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }
 function hardDeleteDaily(id) { if(confirm("Xóa vĩnh viễn công việc này?")) { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }}
 
+// --- 2. KẾ HOẠCH TUẦN ĐÃ NÂNG CẤP ---
 let weekData = JSON.parse(localStorage.getItem('qn_week_v2')) || {};
 const daysWk = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','CN'], timesWk = ['Sáng','Chiều','Tối'];
 let currentWkKey = '';
+
 function renderWk() {
     const grid = document.getElementById('weekGrid');
     if(!grid) return;
@@ -80,7 +81,7 @@ function renderWk() {
                 <div class="task-card ${task.done ? 'done' : ''} weekly-highlight">
                     <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
                         <div style="display:flex; align-items:center; gap:5px;">
-                            <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
+                            <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''} style="width: 15px; height: 15px; accent-color: var(--accent);">
                             <span style="font-weight:bold">${task.text}</span>
                         </div>
                         <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
@@ -105,13 +106,11 @@ function openWkModal(key) {
 function saveWk() {
     let t = document.getElementById('wkInput').value.trim();
     let startTm = document.getElementById('wkTime').value;
-    // Lấy thêm thời gian kết thúc
     let endTm = document.getElementById('wkTimeEnd') ? document.getElementById('wkTimeEnd').value : '';
     
     if(!t) return alert("Cần nhập tên công việc!");
     if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
     
-    // Lưu theo format mới: startTime và endTime, KHÔNG CÓ prio
     weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, done: false });
     
     localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); 
@@ -122,6 +121,7 @@ function saveWk() {
 function toggleWk(key, idx) { weekData[key][idx].done = !weekData[key][idx].done; localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 function deleteWk(key, idx) { weekData[key].splice(idx, 1); localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 
+// --- 3. LỊCH SỰ KIỆN QUAN TRỌNG ---
 let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
 let currDate = new Date(); let currMonth = currDate.getMonth(); let currYear = currDate.getFullYear();
 function renderCal() {
