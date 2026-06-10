@@ -1,108 +1,196 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabFocusBtn = document.getElementById('tabFocusBtn');
     const focusTab = document.getElementById('focusTab');
-    const focusControls = document.getElementById('focusControls');
+    const btnExitFocus = document.getElementById('btnExitFocus');
+    const btnTimerStart = document.getElementById('btnTimerStart');
+    const btnTimerPause = document.getElementById('btnTimerPause');
+    const btnResetTimer = document.getElementById('btnResetTimer');
     
-    let timer;
-    let timeLeft = 25 * 60;
-    let isRunning = false;
-    let currentMode = 'pomo'; 
-
     const inputTimer = document.getElementById('inputTimer');
     const timerSeconds = document.getElementById('timerSeconds');
     const focusTaskName = document.getElementById('focusTaskName');
-    const overlayBreak = document.getElementById('overlayBreak');
-    const breakCountdown = document.getElementById('breakCountdown');
-    const overlayFinish = document.getElementById('overlayFinish');
+    const totalFocusTimeEl = document.getElementById('totalFocusTime');
+    
+    const btnModePomo = document.getElementById('btnModePomo');
+    const btnModeBreak = document.getElementById('btnModeBreak');
 
-    // Mở Tab Focus thì hiện 3 nút điều khiển
-    tabFocusBtn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        tabFocusBtn.classList.add('active');
-        focusTab.classList.add('active');
-        focusControls.style.display = 'flex'; // Hiện thanh công cụ
-        document.body.classList.add('is-focusing');
-    });
+    let timer;
+    let reminderInterval;
+    let timeLeft = 25 * 60;
+    let isRunning = false;
+    let currentMode = 'pomo'; 
+    let initialMinutes = 25;
+    
+    // Tải dữ liệu tổng thời gian đã tích lũy từ LocalStorage
+    let totalMinutes = parseInt(localStorage.getItem('qn_total_focus_minutes')) || 0;
+    if (totalFocusTimeEl) totalFocusTimeEl.innerText = totalMinutes;
 
-    // Ẩn thanh công cụ khi click tab khác
-    document.querySelectorAll('.tab-btn:not(#tabFocusBtn)').forEach(btn => {
-        btn.addEventListener('click', () => { focusControls.style.display = 'none'; });
-    });
+    // Danh sách câu nhắc nhở ngẫu nhiên (sức khỏe & tư thế)
+    const reminderMessages = [
+        "Babi ơi, nhấp một ngụm nước cho tỉnh táo đầu óc nhé! 💧",
+        "Cậu ơi, chỉnh lại dáng ngồi thẳng lưng lên nào để bảo vệ cột sống nhé! 🧘‍♀️",
+        "Thả lỏng đôi vai và chớp mắt vài cái cho đỡ mỏi nhé babi! ✨",
+        "Vươn vai nhẹ nhàng một xíu và uống nước đi nào cậu ơi! 🌸"
+    ];
 
-    // Nút BACK
-    document.getElementById('btnExitFocus').addEventListener('click', () => {
-        document.body.classList.remove('is-focusing');
-        document.getElementById('tabDailyBtn').click(); 
-    });
+    // Danh sách câu khen ngợi tạo động lực ngẫu nhiên khi hoàn thành việc
+    const congratsMessages = [
+        "Xuất sắc luôn babi ơi! Cậu đã hoàn thành mục tiêu vô cùng chăm chỉ! 🥰🌸",
+        "Đỉnh quá đi mất! Hãy thưởng cho bản thân một khoảng thời gian nghỉ ngơi xứng đáng nhé! 🌟",
+        "Babi làm tốt lắm nha, tự hào về sự tập trung của cậu ghê gớm! 🎉",
+        "Hoàn thành xuất sắc rồi! Cậu là số một luôn nha! 🦄✨"
+    ];
+
+    // --- XỬ LÝ CHUYỂN TAB VÀ TÀNG HÌNH ---
+    if (tabFocusBtn) {
+        tabFocusBtn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            tabFocusBtn.classList.add('active');
+            if (focusTab) focusTab.classList.add('active');
+            document.body.classList.add('is-focusing');
+        });
+    }
+
+    if (btnExitFocus) {
+        btnExitFocus.addEventListener('click', () => {
+            document.body.classList.remove('is-focusing');
+            const tabDailyBtn = document.getElementById('tabDailyBtn');
+            if (tabDailyBtn) tabDailyBtn.click();
+        });
+    }
 
     function updateDisplay() {
         let m = Math.floor(timeLeft / 60);
         let s = timeLeft % 60;
         inputTimer.value = m;
         timerSeconds.innerText = s < 10 ? '0' + s : s;
-        if (overlayBreak.style.display === 'flex') breakCountdown.innerText = `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
     }
 
-    // Nhận lệnh từ Planner nhưng KHÔNG TỰ ĐỘNG CHẠY
+    // --- NHẬN LỆNH TỪ PLANNER VÀ CHỜ ẤN START ---
     window.startFocusFromPlanner = (taskName, minutes) => {
-        tabFocusBtn.click();
-        focusTaskName.innerText = "🎯 " + taskName;
-        inputTimer.value = minutes;
-        timeLeft = minutes * 60;
-        switchMode('pomo', false);
+        if (tabFocusBtn) tabFocusBtn.click();
+        focusTaskName.innerText = "🎯 Đang xử lý: " + taskName;
+        let mins = parseInt(minutes) || 25;
+        inputTimer.value = mins;
+        initialMinutes = mins;
+        timeLeft = mins * 60;
+        switchModeVisual('pomo');
         updateDisplay();
-        // KHÔNG GỌI startTimer() Ở ĐÂY NỮA!
     };
 
-    function startTimer() {
-        if (isRunning) return;
-        isRunning = true;
-        if (timeLeft === 0 || !timer) timeLeft = parseInt(inputTimer.value) * 60;
-        
-        timer = setInterval(() => {
-            if (timeLeft > 0) { timeLeft--; updateDisplay(); } 
-            else { finishStep(); }
-        }, 1000);
-    }
-
-    function finishStep() {
-        clearInterval(timer);
-        isRunning = false;
-        if (currentMode === 'pomo') {
-            overlayFinish.style.display = 'flex';
-            switchMode('short', false);
+    function switchModeVisual(mode) {
+        currentMode = mode;
+        if (mode === 'pomo') {
+            btnModePomo.classList.add('active');
+            btnModeBreak.classList.remove('active');
+            btnModeBreak.style.display = 'none';
         } else {
-            overlayBreak.style.display = 'none';
-            switchMode('pomo', false);
+            btnModePomo.classList.remove('active');
+            btnModeBreak.classList.add('active');
+            btnModeBreak.style.display = 'inline-block';
         }
     }
 
-    function switchMode(mode, updateTime = true) {
-        currentMode = mode;
-        overlayBreak.style.display = (mode === 'short' || mode === 'long') ? 'flex' : 'none';
-        document.querySelectorAll('.mode-btn-clean').forEach(btn => btn.classList.remove('active'));
-        
-        let mins = 25;
-        if(mode === 'pomo') { document.getElementById('btnModePomo').classList.add('active'); mins = parseInt(inputTimer.value) || 25; }
-        if(mode === 'short') { document.getElementById('btnModeShort').classList.add('active'); mins = 5; }
-        if(mode === 'long') { document.getElementById('btnModeLong').classList.add('active'); mins = 15; }
-        
-        if (updateTime) { inputTimer.value = mins; timeLeft = mins * 60; updateDisplay(); }
+    // --- LOGIC ĐỒNG HỒ ĐẾM NGƯỢC ---
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+
+        if (timeLeft === parseInt(inputTimer.value) * 60 || timeLeft <= 0) {
+            initialMinutes = parseInt(inputTimer.value) || 25;
+            timeLeft = initialMinutes * 60;
+        }
+
+        timer = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateDisplay();
+            } else {
+                handleTimeOut();
+            }
+        }, 1000);
+
+        // Kích hoạt đồng hồ nhắc nhở sức khỏe ngẫu nhiên khi đang ở mode làm việc
+        startReminderFlow();
     }
 
-    // Nút START và PAUSE
-    document.getElementById('btnTimerStart').addEventListener('click', startTimer);
-    document.getElementById('btnTimerPause').addEventListener('click', () => {
+    function pauseTimer() {
         clearInterval(timer);
+        clearInterval(reminderInterval);
         isRunning = false;
-    });
+    }
 
-    document.getElementById('btnModePomo').addEventListener('click', () => switchMode('pomo'));
-    document.getElementById('btnModeShort').addEventListener('click', () => switchMode('short'));
-    document.getElementById('btnModeLong').addEventListener('click', () => switchMode('long'));
+    function handleTimeOut() {
+        pauseTimer();
 
-    inputTimer.addEventListener('change', () => {
-        if(!isRunning) { timeLeft = parseInt(inputTimer.value) * 60; updateDisplay(); }
-    });
+        if (currentMode === 'pomo') {
+            // 1. Tích lũy thời gian vào tổng mục
+            totalMinutes += initialMinutes;
+            localStorage.setItem('qn_total_focus_minutes', totalMinutes);
+            if (totalFocusTimeEl) totalFocusTimeEl.innerText = totalMinutes;
+
+            // 2. Hiện popup khen ngợi tạo động lực ngẫu nhiên
+            let randomCongrats = congratsMessages[Math.floor(Math.random() * congratsMessages.length)];
+            alert(randomCongrats);
+
+            // 3. Thiết lập Break time ngẫu nhiên hợp lý theo công thức
+            let breakMins = 5;
+            if (initialMinutes < 30) {
+                // Dưới 30 phút -> Ngẫu nhiên từ 5 đến 10 phút
+                breakMins = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+            } else {
+                // Trên 30 phút -> Ngẫu nhiên từ 11 đến 15 phút (không nghỉ quá lâu gây mất tập trung)
+                breakMins = Math.floor(Math.random() * (15 - 11 + 1)) + 11;
+            }
+
+            focusTaskName.innerText = `⏳ Nghỉ giải lao một chút nhé! (${breakMins} phút)`;
+            timeLeft = breakMins * 60;
+            switchModeVisual('break');
+            updateDisplay();
+        } else {
+            // Hết giờ giải lao -> Tự động chuyển về mode làm việc để chuẩn bị tiếp tục
+            alert("⏰ Thời gian nghỉ đã hết rồi babi ơi! Sẵn sàng quay lại vạch tập trung nào! 💪");
+            focusTaskName.innerText = "🎯 Sẵn sàng tập trung chưa babi?";
+            timeLeft = initialMinutes * 60;
+            switchModeVisual('pomo');
+            updateDisplay();
+        }
+    }
+
+    // Cơ chế nhắc nhở uống nước / thẳng lưng ngẫu nhiên (Trong khoảng 6 đến 9 phút kiểm tra một lần)
+    function startReminderFlow() {
+        let randomTriggerTime = Math.floor(Math.random() * (540000 - 360000 + 1)) + 360000;
+        reminderInterval = setInterval(() => {
+            if (isRunning && currentMode === 'pomo') {
+                let randomMsg = reminderMessages[Math.floor(Math.random() * reminderMessages.length)];
+                alert(randomMsg);
+            }
+        }, randomTriggerTime);
+    }
+
+    // --- LIÊN KẾT SỰ KIỆN NÚT BẤM ---
+    if (btnTimerStart) btnTimerStart.addEventListener('click', startTimer);
+    if (btnTimerPause) btnTimerPause.addEventListener('click', pauseTimer);
+    
+    if (btnResetTimer) {
+        btnResetTimer.addEventListener('click', () => {
+            pauseTimer();
+            let mins = parseInt(inputTimer.value) || 25;
+            timeLeft = mins * 60;
+            switchModeVisual('pomo');
+            focusTaskName.innerText = "🎯 Sẵn sàng tập trung chưa babi?";
+            updateDisplay();
+        });
+    }
+
+    if (inputTimer) {
+        inputTimer.addEventListener('change', () => {
+            if (!isRunning) {
+                initialMinutes = parseInt(inputTimer.value) || 25;
+                timeLeft = initialMinutes * 60;
+                updateDisplay();
+            }
+        });
+    }
 });
