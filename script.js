@@ -32,18 +32,25 @@ function renderDaily() {
     if(!list || !history) return;
     list.innerHTML = ''; history.innerHTML = '';
     dailyTasks.forEach(t => {
-        let html = `
+let html = `
             <div class="daily-task ${t.done ? 'done' : ''}" style="opacity: ${t.archived ? '0.6' : '1'}">
                 <div style="flex:1">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent)" ${t.done ? 'checked' : ''}>
-                        <button class="btn-play-task" data-task="${t.text}" style="background: transparent; border: none; cursor: pointer; font-size: 18px; transition: 0.2s;" title="Focus việc này!">▶️</button>
+                        <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent);">
+                        
+                        <button class="btn-play-task" onclick="window.startFocusFromPlanner('${t.text}', this.parentElement.parentElement.querySelector('.task-time-input').value)" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
+                        
                         <span style="font-weight:bold">${t.text}</span>
                     </div>
-                    <div style="font-size:11px; margin-top:5px; margin-left:28px; color:#666;">🕒 ${t.time || '--:--'} | Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span></div>
+                    
+                    <div style="display:flex; align-items:center; font-size:11px; margin-top:5px; margin-left:28px; color:#666;">
+                        🕒 
+                        <input type="number" class="task-time-input" value="${t.time || 25}" style="width: 45px; padding: 2px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit;"> phút 
+                        </div>
                 </div>
-                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;color:var(--red);font-weight:bold;cursor:pointer;" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ'}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
-            </div>`;
+                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;cursor:pointer;">🗑</button>
+            </div>
+        `;
         if(t.archived) history.innerHTML += html; else list.innerHTML += html;
     });
 }
@@ -70,17 +77,21 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.done ? 'done' : ''}">
-                    <div class="task-header">
-                        <div style="display:flex; align-items:center; gap:5px;">
-                            <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
-                            <span style="font-weight:bold">${task.text}</span>
-                        </div>
-                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}">✕</button>
+let tasks = (weekData[key] || []).map((task, idx) => `
+            <div class="task-card ${task.done ? 'done' : ''} weekly-task-text" style="border-left: 5px solid ${task.color || 'var(--accent)'}; color: ${task.color || 'inherit'};">
+                
+                <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
+                        
+                        <span style="font-weight:bold">${task.icon ? task.icon + ' ' : ''}${task.text}</span>
                     </div>
-                    <div class="task-meta"><span>🕒 ${task.time || '--:--'}</span> • <span class="${prioClasses[task.prio]}">${prioLabels[task.prio]}</span></div>
+                    
+                    <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
                 </div>
-            `).join('');
+                
+            </div>
+        `).join('');
             grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
         });
     });
