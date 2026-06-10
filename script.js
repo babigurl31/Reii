@@ -78,20 +78,16 @@ function renderWk() {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
 let tasks = (weekData[key] || []).map((task, idx) => `
-            <div class="task-card ${task.done ? 'done' : ''} weekly-task-text" style="border-left: 5px solid ${task.color || 'var(--accent)'}; color: ${task.color || 'inherit'};">
-                
-                <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
-                    <div style="display:flex; align-items:center; gap:5px;">
-                        <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
-                        
-                        <span style="font-weight:bold">${task.icon ? task.icon + ' ' : ''}${task.text}</span>
+                    <div class="task-card ${task.done ? 'done' : ''} weekly-task-text" style="border-left: 5px solid ${task.color || 'var(--accent)'}; color: ${task.color || 'inherit'};">
+                        <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
+                            <div style="display:flex; align-items:center; gap:5px;">
+                                <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
+                                <span style="font-weight:bold">${task.icon ? task.icon + ' ' : ''}${task.text}</span>
+                            </div>
+                            <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
+                        </div>
                     </div>
-                    
-                    <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
-                </div>
-                
-            </div>
-        `).join('');
+                `).join('');
             grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
         });
     });
