@@ -77,7 +77,7 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.done ? 'done' : ''}">
+                <div class="task-card ${task.done ? 'done' : ''} ${task.prio ? prioClasses[task.prio] : ''}">
                     <div class="task-header">
                         <div style="display:flex; align-items:center; gap:5px;">
                             <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
