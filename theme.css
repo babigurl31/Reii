@@ -284,28 +284,30 @@ body.is-focusing .circle-progress-wrapper {
     font-style: italic;
     padding: 10px;
 }
-/* --- GIAO DIỆN POMODORO HIỆN ĐẠI TỐI GIẢN --- */
-.focus-ctrl-bar { display: none; justify-content: center; gap: 15px; margin: 15px 0; }
-.focus-ctrl-btn { padding: 8px 20px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.7); font-weight: bold; color: var(--text-main); cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px); }
-.focus-ctrl-btn:hover { background: var(--accent); color: white; }
-
-.clean-pomodoro-box { position: relative; padding: 40px; background: rgba(255,255,255,0.5); border-radius: 20px; border: 1px solid var(--border); max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
-.mode-switch-clean { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-.mode-btn-clean { padding: 8px 15px; border-radius: 15px; border: none; background: rgba(255,255,255,0.6); cursor: pointer; font-weight: bold; color: var(--text-main); transition: 0.2s; }
-.mode-btn-clean.active { background: var(--accent); color: white; }
-
-.focus-overlay-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px; z-index: 10; }
-
-/* Highlight công việc trên planner tuần (dựa trên class ưu tiên) */
+/* --- HIGHLIGHT CHO KẾ HOẠCH TUẦN --- */
 .task-card.prio-high {
-    border-left: 4px solid var(--red); /* Dải màu đỏ highlight bên trái */
-    background: rgba(255, 77, 77, 0.05); /* Nền đỏ cực nhạt */
+    border-left: 4px solid var(--red);
+    background: rgba(255, 77, 77, 0.05);
 }
 .task-card.prio-medium {
-    border-left: 4px solid #ffca28; /* Dải màu vàng highlight bên trái */
-    background: rgba(255, 202, 40, 0.05); /* Nền vàng cực nhạt */
+    border-left: 4px solid #ffca28;
+    background: rgba(255, 202, 40, 0.05);
 }
 .task-card.prio-low {
-    border-left: 4px solid #42a5f5; /* Dải màu xanh highlight bên trái */
-    background: rgba(66, 165, 245, 0.05); /* Nền xanh cực nhạt */
+    border-left: 4px solid #42a5f5;
+    background: rgba(66, 165, 245, 0.05);
+}
+
+/* --- BỔ TRỢ CHO TAB TẬP TRUNG NGUYÊN BẢN --- */
+.focus-btn-mode.active {
+    background: var(--accent) !important;
+    color: white !important;
+    border-color: var(--accent) !important;
+}
+
+/* Ẩn mũi tên tăng/giảm mặc định trong ô nhập phút để giao diện sạch hơn */
+.clean-focus-box input[type=number]::-webkit-inner-spin-button, 
+.clean-focus-box input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
 }
