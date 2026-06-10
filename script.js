@@ -77,22 +77,32 @@ function renderWk() {
         grid.innerHTML += `<div class="wk-time">${t}</div>`;
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
-            let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.isHighlight ? 'weekly-highlight' : ''}">
+            let tasks = (weekData[key] || []).map((task, idx) => {
+                
+                // TỰ ĐỘNG PHA MÀU DỰA TRÊN MÃ MÀU CẬU CHỌN
+                let bgStyle = '';
+                let fwStyle = '';
+                if (task.isHighlight) {
+                    let baseColor = task.color || '#ffea00';
+                    // Thêm '4D' vào đuôi mã hex để màu nền tự động nhạt đi thành màu pastel
+                    bgStyle = `background-color: ${baseColor}4D; border-left: 4px solid ${baseColor};`;
+                    fwStyle = `font-weight: bold;`;
+                }
+
+                return `
+                <div class="task-card" style="${bgStyle} border-radius: 6px; padding: 8px; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.2s;">
                     <div class="task-header" style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
-                        
                         <div style="display:flex; align-items:center; flex:1;">
-                            <span style="${task.isHighlight ? 'font-weight:bold;' : ''} line-height:1.4;">${task.text}</span>
+                            <span style="${fwStyle} line-height:1.4;">${task.text}</span>
                         </div>
-                        
                         <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red); font-weight:bold; padding-left:10px;" title="Xóa ghi chú">✕</button>
                     </div>
-                    
                     <div class="task-meta" style="margin-top: 5px; font-size: 12px; color: #555;">
                         <span>🕒 ${task.startTime || '--:--'} - ${task.endTime || '--:--'}</span>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
             grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
         });
     });
@@ -104,8 +114,10 @@ function openWkModal(key) {
     document.getElementById('wkInput').value = ''; 
     document.getElementById('wkTime').value = ''; 
     if(document.getElementById('wkTimeEnd')) document.getElementById('wkTimeEnd').value = '';
-    // Reset lại ô tick highlight mỗi khi mở cửa sổ mới
+    
+    // Reset lại ô tick và trả ô chọn màu về mặc định
     if(document.getElementById('wkHighlight')) document.getElementById('wkHighlight').checked = false;
+    if(document.getElementById('wkColor')) document.getElementById('wkColor').value = '#ffea00';
     
     document.getElementById('wkModal').style.display = 'flex'; 
 }
@@ -114,14 +126,22 @@ function saveWk() {
     let t = document.getElementById('wkInput').value.trim();
     let startTm = document.getElementById('wkTime').value;
     let endTm = document.getElementById('wkTimeEnd') ? document.getElementById('wkTimeEnd').value : '';
-    // Lấy trạng thái của ô tick
+    
     let isHi = document.getElementById('wkHighlight') ? document.getElementById('wkHighlight').checked : false;
+    let chosenColor = document.getElementById('wkColor') ? document.getElementById('wkColor').value : '#ffea00';
     
     if(!t) return alert("Cần nhập tên công việc!");
     if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
     
-    // Lưu trạng thái highlight vào dữ liệu
-    weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, isHighlight: isHi, done: false });
+    // Lưu thẳng mã màu vào trong data của tuần
+    weekData[currentWkKey].push({ 
+        text: t, 
+        startTime: startTm, 
+        endTime: endTm, 
+        isHighlight: isHi, 
+        color: chosenColor, 
+        done: false 
+    });
     
     localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); 
     document.getElementById('wkModal').style.display='none'; 
