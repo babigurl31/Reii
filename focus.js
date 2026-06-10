@@ -1,96 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tabFocusBtn = document.getElementById('tabFocusBtn');
-    const focusTab = document.getElementById('focusTab');
-    const pomodoroUI = document.getElementById('pomodoroUI');
-    const timerDisplay = document.getElementById('timerDisplay');
-    const focusTaskName = document.getElementById('focusTaskName');
-    const btnManualFocus = document.getElementById('btnManualFocus');
-    const btnExitFocus = document.getElementById('btnExitFocus'); // Gọi Nút Thoát
-    
     let timer;
-    let timeLeft = 25 * 60; 
+    let timeLeft = 25 * 60;
     let isRunning = false;
+    let currentMode = 'pomo'; // pomo, short, long
 
-    // --- XỬ LÝ CHUYỂN TAB SANG TRẠM TẬP TRUNG (KÍCH HOẠT TÀNG HÌNH) ---
-    tabFocusBtn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        tabFocusBtn.classList.add('active');
-        focusTab.classList.add('active');
-        
-        // Phép thuật Tàng Hình toàn web
-        document.body.classList.add('is-focusing');
-    });
+    const inputTimer = document.getElementById('inputTimer');
+    const timerSeconds = document.getElementById('timerSeconds');
+    const focusTaskName = document.getElementById('focusTaskName');
+    const overlayBreak = document.getElementById('overlayBreak');
+    const breakCountdown = document.getElementById('breakCountdown');
+    const overlayFinish = document.getElementById('overlayFinish');
 
-    // --- NÚT QUAY LẠI (TẮT TÀNG HÌNH & VỀ PLANNER) ---
-    btnExitFocus.addEventListener('click', () => {
-        document.body.classList.remove('is-focusing'); // Hiện lại menu
-        document.getElementById('tabDailyBtn').click(); // Về tab Việc Hôm Nay
-    });
-
-    // --- BẤM NÚT PLAY TỪ CÁC TAB KHÁC ---
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-play-task')) {
-            const taskName = e.target.getAttribute('data-task');
-            startFocusMode(taskName);
-        }
-    });
-
-    // --- BẤM NÚT ICON RIÊNG ĐỂ HIỆN/ẨN POMODORO ---
-    btnManualFocus.addEventListener('click', () => {
-        pomodoroUI.style.opacity = '1';
-        pomodoroUI.style.pointerEvents = 'auto';
-        focusTaskName.innerText = "🎯 Tự do tập trung";
-        resetTimer(25);
-    });
-
-    // --- HÀM KHỞI ĐỘNG NHANH FOCUS MODE ---
-    function startFocusMode(taskName) {
-        tabFocusBtn.click(); // Tự động chuyển trang và kích hoạt tàng hình
-        
-        pomodoroUI.style.opacity = '1';
-        pomodoroUI.style.pointerEvents = 'auto';
-        focusTaskName.innerText = "🎯 Đang Focus: " + taskName;
-        
-        resetTimer(25);
-        startTimer();
-    }
-
-    // --- LOGIC ĐỒNG HỒ POMODORO ---
     function updateDisplay() {
         let m = Math.floor(timeLeft / 60);
         let s = timeLeft % 60;
-        timerDisplay.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        inputTimer.value = m < 10 ? '0' + m : m;
+        timerSeconds.innerText = s < 10 ? '0' + s : s;
+        
+        if (overlayBreak.style.display === 'flex') {
+            breakCountdown.innerText = `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
+        }
     }
 
-    function resetTimer(minutes) {
-        clearInterval(timer);
-        isRunning = false;
+    // Nhận lệnh "Play" từ planner
+    window.startFocusFromPlanner = (taskName, minutes) => {
+        document.getElementById('tabFocusBtn').click();
+        focusTaskName.innerText = "🎯 " + taskName;
+        inputTimer.value = minutes;
         timeLeft = minutes * 60;
         updateDisplay();
-    }
+        startTimer();
+    };
 
     function startTimer() {
         if (isRunning) return;
         isRunning = true;
+        // Lấy thời gian từ ô input nếu người dùng có chỉnh sửa
+        if (timeLeft === (inputTimer.value * 60) || timeLeft === 0) {
+            timeLeft = parseInt(inputTimer.value) * 60;
+        }
+
         timer = setInterval(() => {
-            timeLeft--;
-            updateDisplay();
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                isRunning = false;
-                alert("⏰ Hết giờ Pomodoro! Babi làm tốt lắm, nghỉ giải lao xíu nha 🌸");
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateDisplay();
+            } else {
+                finishStep();
             }
         }, 1000);
     }
 
-    document.getElementById('btnTimerStart').addEventListener('click', startTimer);
-    document.getElementById('btnTimerPause').addEventListener('click', () => {
+    function finishStep() {
         clearInterval(timer);
         isRunning = false;
+        
+        if (currentMode === 'pomo') {
+            overlayFinish.style.display = 'flex';
+            // Sau khi xong việc thì tự động chuyển sang mode break
+            switchMode('short');
+        } else {
+            overlayBreak.style.display = 'none';
+            switchMode('pomo');
+        }
+    }
+
+    function switchMode(mode) {
+        currentMode = mode;
+        overlayBreak.style.display = (mode === 'short' || mode === 'long') ? 'flex' : 'none';
+        
+        let mins = 25;
+        if(mode === 'short') mins = 5;
+        if(mode === 'long') mins = 15;
+        
+        inputTimer.value = mins;
+        timeLeft = mins * 60;
+        updateDisplay();
+
+        // Cập nhật giao diện nút
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        if(mode === 'pomo') document.getElementById('btnModePomo').classList.add('active');
+        if(mode === 'short') document.getElementById('btnModeShort').classList.add('active');
+        if(mode === 'long') document.getElementById('btnModeLong').classList.add('active');
+    }
+
+    // Sự kiện nút bấm
+    document.getElementById('btnTimerStart').addEventListener('click', startTimer);
+    document.getElementById('btnResetTimer').addEventListener('click', () => {
+        clearInterval(timer);
+        isRunning = false;
+        switchMode('pomo');
     });
-    document.getElementById('btnTimerStop').addEventListener('click', () => {
-        resetTimer(25);
+
+    document.getElementById('btnModePomo').addEventListener('click', () => switchMode('pomo'));
+    document.getElementById('btnModeShort').addEventListener('click', () => switchMode('short'));
+    document.getElementById('btnModeLong').addEventListener('click', () => switchMode('long'));
+
+    // Cho phép chỉnh sửa thời gian bằng tay khi đang dừng
+    inputTimer.addEventListener('change', () => {
+        if(!isRunning) timeLeft = parseInt(inputTimer.value) * 60;
     });
 });
