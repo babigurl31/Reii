@@ -31,11 +31,17 @@
         <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
         <button class="tab-btn" id="tabSummaryBtn">Tổng Hợp</button>
     </div>
-<div id="focusControls" class="focus-ctrl-bar">
-        <button id="btnExitFocus" class="focus-ctrl-btn">🔙 Back</button>
-        <button id="btnTimerStart" class="focus-ctrl-btn">▶️ Start</button>
-        <button id="btnTimerPause" class="focus-ctrl-btn">⏸️ Pause</button>
-    </div>
+<div style="display: flex; gap: 10px; margin-top: 15px;">
+    <button class="img-btn" id="btnExitFocus" title="Quay lạitheme chính">
+        <img src="nut-back.png" alt="Back" style="width: 50px; height: 50px; cursor: pointer;">
+    </button>
+    <button class="img-btn" id="btnTimerStart" title="Bắt đầu Pomodoro">
+        <img src="nut-start.png" alt="Start" style="width: 50px; height: 50px; cursor: pointer;">
+    </button>
+    <button class="img-btn" id="btnTimerPause" title="Dừng Pomodoro">
+        <img src="nut-pause.png" alt="Pause" style="width: 50px; height: 50px; cursor: pointer;">
+    </button>
+</div>
 
     <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
         <div class="clean-pomodoro-box">
