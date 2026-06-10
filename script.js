@@ -92,7 +92,10 @@ function renderWk() {
                 </div>
             `).join('');
             
-            grid.innerHTML += `<div class="wk-cell" data-day="${d}" data-time="${t}">${tasks}</div>`;
+grid.innerHTML += `<div class="wk-cell" data-day="${d}" data-time="${t}">
+                    ${tasks}
+                    <button class="add-wk-btn" data-key="${key}" style="width:100%; border:none; background:transparent; font-size:20px; cursor:pointer; color:#999; margin-top:5px; transition:0.2s;" title="Thêm việc tuần">+</button>
+                </div>`;;
         });
     });
 }
