@@ -77,29 +77,48 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.done ? 'done' : ''} ${task.prio ? prioClasses[task.prio] : ''}">
-                    <div class="task-header">
+                <div class="task-card ${task.done ? 'done' : ''} weekly-highlight">
+                    <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
                         <div style="display:flex; align-items:center; gap:5px;">
                             <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
                             <span style="font-weight:bold">${task.text}</span>
                         </div>
-                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}">✕</button>
+                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
                     </div>
-                    <div class="task-meta"><span>🕒 ${task.time || '--:--'}</span> • <span class="${prioClasses[task.prio]}">${prioLabels[task.prio]}</span></div>
+                    <div class="task-meta" style="margin-top: 5px; font-size: 12px; color: #555;">
+                        <span>🕒 ${task.startTime || '--:--'} - ${task.endTime || '--:--'}</span>
+                    </div>
                 </div>
             `).join('');
             grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
         });
     });
 }
-function openWkModal(key) { currentWkKey = key; document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`; document.getElementById('wkInput').value = ''; document.getElementById('wkModal').style.display = 'flex'; }
+
+function openWkModal(key) { 
+    currentWkKey = key; 
+    document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`; 
+    document.getElementById('wkInput').value = ''; 
+    document.getElementById('wkModal').style.display = 'flex'; 
+}
+
 function saveWk() {
-    let t = document.getElementById('wkInput').value.trim(), tm = document.getElementById('wkTime').value, p = document.getElementById('wkPrio').value;
+    let t = document.getElementById('wkInput').value.trim();
+    let startTm = document.getElementById('wkTime').value;
+    // Lấy thêm thời gian kết thúc
+    let endTm = document.getElementById('wkTimeEnd') ? document.getElementById('wkTimeEnd').value : '';
+    
     if(!t) return alert("Cần nhập tên công việc!");
     if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
-    weekData[currentWkKey].push({ text: t, time: tm, prio: p, done: false });
-    localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); document.getElementById('wkModal').style.display='none'; renderWk();
+    
+    // Lưu theo format mới: startTime và endTime, KHÔNG CÓ prio
+    weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, done: false });
+    
+    localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); 
+    document.getElementById('wkModal').style.display='none'; 
+    renderWk();
 }
+
 function toggleWk(key, idx) { weekData[key][idx].done = !weekData[key][idx].done; localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 function deleteWk(key, idx) { weekData[key].splice(idx, 1); localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 
