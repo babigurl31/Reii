@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- MỞ POMODORO TỰ DO KHI BẤM NÚT GIỮA ---
+// Khi bấm vào nút bự giữa màn hình trống của Tab Focus
     if (btnCenterPomoIcon) {
         btnCenterPomoIcon.addEventListener('click', () => {
-            btnCenterPomoIcon.style.display = 'none'; // Ẩn nút bự
-            pomodoroUIWrapper.style.display = 'flex'; // Hiện UI
+            document.getElementById('focusWelcomeScreen').style.display = 'none'; // Ẩn màn hình chào chứa nút bự
+            pomodoroUIWrapper.style.display = 'flex'; // Hiện bộ đếm giờ lên
             focusTaskName.innerText = "🎯 Tự do tập trung";
             initialMinutes = 25;
             inputTimer.value = 25;
@@ -66,14 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- QUAY LẠI VÀ RESET UI ---
+    // Khi bấm nút Back (Quay lại)
     if (btnExitFocus) {
         btnExitFocus.addEventListener('click', () => {
             document.body.classList.remove('is-focusing');
             
-            // Trả giao diện về trạng thái nút bự ban đầu
+            // Trả Tab Focus về lại trạng thái màn hình trống có nút bự ban đầu
             pomodoroUIWrapper.style.display = 'none';
-            btnCenterPomoIcon.style.display = 'inline-block';
+            document.getElementById('focusWelcomeScreen').style.display = 'flex';
             pauseTimer();
 
             const tabDailyBtn = document.getElementById('tabDailyBtn');
@@ -81,19 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function updateDisplay() {
-        let m = Math.floor(timeLeft / 60);
-        let s = timeLeft % 60;
-        inputTimer.value = m;
-        timerSeconds.innerText = s < 10 ? '0' + s : s;
-    }
-
-    // --- NHẬN LỆNH TỪ PLANNER ---
+    // Khi có lệnh Play từ Planner truyền sang
     window.startFocusFromPlanner = (taskName, minutes) => {
         if (tabFocusBtn) tabFocusBtn.click();
         
-        // Trực tiếp mở UI đếm giờ
-        btnCenterPomoIcon.style.display = 'none';
+        // Vào thẳng giao diện đếm giờ luôn, không hiện nút bự nữa
+        document.getElementById('focusWelcomeScreen').style.display = 'none';
         pomodoroUIWrapper.style.display = 'flex';
 
         focusTaskName.innerText = "🎯 Đang xử lý: " + taskName;
