@@ -32,15 +32,17 @@
         <button class="tab-btn" id="tabSummaryBtn">Tổng Hợp</button>
     </div>
 
-<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
         
-        <button id="btnCenterPomoIcon" style="background: transparent; border: none; cursor: pointer; transition: transform 0.3s;" title="Mở Trạm Pomodoro Tự Do">
-            <img src="icon-pomodoro.png" alt="Pomo Icon" style="width: 150px; height: 150px; object-fit: contain;">
-        </button>
+        <div id="focusWelcomeScreen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; width: 100%;">
+            <button id="btnCenterPomoIcon" style="background: transparent; border: none; cursor: pointer; transition: transform 0.3s;" title="Mở Trạm Pomodoro Tự Do">
+                <img src="icon-pomodoro.png" alt="Pomo Icon" style="width: 160px; height: 160px; object-fit: contain;">
+            </button>
+        </div>
 
-        <div id="pomodoroUIWrapper" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+        <div id="pomodoroUIWrapper" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
             
-            <div class="clean-focus-box" style="position: relative; padding: 40px; background: rgba(255, 255, 255, 0.4); border-radius: 20px; border: 1px solid var(--border); max-width: 500px; width: 100%; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);">
+            <div class="clean-focus-box" style="position: relative; padding: 40px; background: rgba(255, 255, 255, 0.4); border-radius: 20px; border: 1px solid var(--border); max-width: 500px; width: 100%; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); margin: 0 auto;">
                 <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 25px; font-weight: bold;">🎯 Tự do tập trung</div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px;">
