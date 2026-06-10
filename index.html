@@ -36,13 +36,13 @@
         
         <div id="focusWelcomeScreen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; width: 100%;">
             <button id="btnCenterPomoIcon" style="background: transparent; border: none; cursor: pointer; transition: transform 0.3s;" title="Mở Trạm Pomodoro Tự Do">
-                <img src="icon-pomodoro.png" alt="Pomo Icon" style="width: 160px; height: 160px; object-fit: contain;">
+                <img src="icon-pomodoro.png" alt="Pomo Icon" style="width: 180px; height: 180px; object-fit: contain;">
             </button>
         </div>
 
         <div id="pomodoroUIWrapper" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
             
-            <div class="clean-focus-box" style="position: relative; padding: 40px; background: rgba(255, 255, 255, 0.4); border-radius: 20px; border: 1px solid var(--border); max-width: 500px; width: 100%; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); margin: 0 auto;">
+            <div class="clean-focus-box" style="position: relative; padding: 20px; max-width: 500px; width: 100%; margin: 0 auto; background: transparent; border: none; backdrop-filter: none; box-shadow: none;">
                 <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 25px; font-weight: bold;">🎯 Tự do tập trung</div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px;">
@@ -52,8 +52,8 @@
                 </div>
 
                 <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;">
-                    <button class="focus-btn-mode active" id="btnModePomo" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: white; font-weight: bold; color: var(--text-main); pointer-events: none;">Pomodoro</button>
-                    <button class="focus-btn-mode" id="btnModeBreak" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: white; font-weight: bold; color: var(--text-main); display: none; pointer-events: none;">Break Time</button>
+                    <button class="focus-btn-mode active" id="btnModePomo" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.8); font-weight: bold; color: var(--text-main); pointer-events: none;">Pomodoro</button>
+                    <button class="focus-btn-mode" id="btnModeBreak" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.8); font-weight: bold; color: var(--text-main); display: none; pointer-events: none;">Break Time</button>
                     <button id="btnResetTimer" style="padding: 6px 14px; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,77,77,0.1); color: var(--red); cursor: pointer; font-weight: bold; transition: 0.2s;">Reset</button>
                 </div>
 
@@ -64,13 +64,13 @@
 
             <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 35px;">
                 <button id="btnExitFocus" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Quay lại Theme chính">
-                    <img src="nut-back.png" alt="Back" style="width: 60px; height: 60px; object-fit: contain;">
+                    <img src="nut-back.png" alt="Back" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
                 <button id="btnTimerStart" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Bắt đầu">
-                    <img src="nut-start.png" alt="Start" style="width: 60px; height: 60px; object-fit: contain;">
+                    <img src="nut-start.png" alt="Start" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
                 <button id="btnTimerPause" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Tạm dừng">
-                    <img src="nut-pause.png" alt="Pause" style="width: 60px; height: 60px; object-fit: contain;">
+                    <img src="nut-pause.png" alt="Pause" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
             </div>
 
