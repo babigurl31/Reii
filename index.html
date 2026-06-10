@@ -133,20 +133,18 @@
         <div class="modal-content">
             <h3 id="wkModalTitle">Thêm việc mới</h3>
             <input type="text" id="wkInput" class="input-item" placeholder="Tên công việc...">
-            <div style="display: flex; gap: 10px;">
-                <input type="time" id="wkTime" class="input-time" style="flex: 1;">
-                <select id="wkPrio" class="input-prio" style="flex: 1;">
-                    <option value="high">🔴 Quan trọng</option>
-                    <option value="medium" selected>🟡 Cần thiết</option>
-                    <option value="low">🔵 Có thể delay</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button class="btn-add-main" style="flex: 1;" id="btnWkSave">Lưu</button>
-                <button class="btn-add-main" style="flex: 1; background: #999;" id="btnWkCancel">Hủy</button>
-            </div>
-        </div>
+       <div style="display:flex; gap:10px; margin-bottom:15px; align-items: center;">
+    <div style="flex: 1;">
+        <label style="font-size: 12px; color: #666; font-weight: bold;">Bắt đầu:</label>
+        <input type="time" id="wkTime" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border); outline:none;">
     </div>
+    <span style="font-weight: bold; color: #999; margin-top: 15px;">-</span>
+    <div style="flex: 1;">
+        <label style="font-size: 12px; color: #666; font-weight: bold;">Kết thúc:</label>
+        <input type="time" id="wkTimeEnd" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border); outline:none;">
+    </div>
+   </div>
+ </div>
 
     <script src="script.js"></script>
     <script src="timer.js"></script>
