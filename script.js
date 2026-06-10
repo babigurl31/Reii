@@ -78,11 +78,11 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card weekly-highlight">
+                <div class="task-card ${task.isHighlight ? 'weekly-highlight' : ''}">
                     <div class="task-header" style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
                         
                         <div style="display:flex; align-items:center; flex:1;">
-                            <span style="font-weight:bold; line-height:1.4;">${task.text}</span>
+                            <span style="${task.isHighlight ? 'font-weight:bold;' : ''} line-height:1.4;">${task.text}</span>
                         </div>
                         
                         <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red); font-weight:bold; padding-left:10px;" title="Xóa ghi chú">✕</button>
@@ -102,6 +102,11 @@ function openWkModal(key) {
     currentWkKey = key; 
     document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`; 
     document.getElementById('wkInput').value = ''; 
+    document.getElementById('wkTime').value = ''; 
+    if(document.getElementById('wkTimeEnd')) document.getElementById('wkTimeEnd').value = '';
+    // Reset lại ô tick highlight mỗi khi mở cửa sổ mới
+    if(document.getElementById('wkHighlight')) document.getElementById('wkHighlight').checked = false;
+    
     document.getElementById('wkModal').style.display = 'flex'; 
 }
 
@@ -109,11 +114,14 @@ function saveWk() {
     let t = document.getElementById('wkInput').value.trim();
     let startTm = document.getElementById('wkTime').value;
     let endTm = document.getElementById('wkTimeEnd') ? document.getElementById('wkTimeEnd').value : '';
+    // Lấy trạng thái của ô tick
+    let isHi = document.getElementById('wkHighlight') ? document.getElementById('wkHighlight').checked : false;
     
     if(!t) return alert("Cần nhập tên công việc!");
     if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
     
-    weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, done: false });
+    // Lưu trạng thái highlight vào dữ liệu
+    weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, isHighlight: isHi, done: false });
     
     localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); 
     document.getElementById('wkModal').style.display='none'; 
