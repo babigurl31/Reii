@@ -31,49 +31,51 @@
         <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
         <button class="tab-btn" id="tabSummaryBtn">Tổng Hợp</button>
     </div>
-    <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none;">
-    <div class="focus-container pixel-font">
-        
-        <div class="pomodoro-box">
-            <div id="overlayBreak" class="focus-overlay-img">
-                <img src="anh-break.png" alt="Stay Hydrated">
-                <h2 id="breakCountdown" style="font-size: 40px; margin-top: 10px;">05:00</h2>
-            </div>
-
-            <div id="overlayFinish" class="focus-overlay-img">
-                <img src="anh-finish.png" alt="Great Job">
-                <button onclick="document.getElementById('overlayFinish').style.display='none'" style="margin-top:10px; cursor:pointer;">Tiếp tục</button>
-            </div>
-
-            <div class="mode-switch">
-                <button class="mode-btn active" id="btnModePomo">Pomodoro</button>
-                <button class="mode-btn" id="btnModeShort">Short Break</button>
-                <button class="mode-btn" id="btnModeLong">Long Break</button>
-            </div>
-
-            <div id="focusTaskName" style="font-size: 24px; color: #666;">Ready to focus?</div>
+<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none;">
+        <div class="focus-container pixel-font">
             
-            <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                <input type="number" id="inputTimer" value="25" style="width: 100px; font-size: 80px; border: none; text-align: center; color: #3b82f6; font-family: 'VT323'; outline: none;">
-                <span style="font-size: 50px; color: #3b82f6;">:</span>
-                <div id="timerSeconds" style="font-size: 80px; color: #3b82f6;">00</div>
+            <div class="pomodoro-box">
+                <div id="overlayBreak" class="focus-overlay-img">
+                    <img src="tải xuống (9).jpg" alt="Stay Hydrated">
+                    <h2 id="breakCountdown" style="font-size: 50px; margin-top: 10px; color: #ff80ab;">05:00</h2>
+                </div>
+
+                <div id="overlayFinish" class="focus-overlay-img">
+                    <img src="image-removebg-preview.png" alt="Great Job">
+                    <button onclick="document.getElementById('overlayFinish').style.display='none'" class="mode-btn" style="margin-top:20px;">Xong!</button>
+                </div>
+
+                <div class="mode-switch">
+                    <button class="mode-btn active" id="btnModePomo">Pomodoro</button>
+                    <button class="mode-btn" id="btnModeShort">Short Break</button>
+                    <button class="mode-btn" id="btnModeLong">Long Break</button>
+                </div>
+
+                <div id="focusTaskName" style="font-size: 26px; color: #666; margin-bottom: 15px;">Ready to focus?</div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <input type="number" id="inputTimer" value="25" style="width: 120px; font-size: 100px; border: none; text-align: right; color: #3b82f6; font-family: 'VT323', monospace; outline: none; background: transparent;">
+                    <span style="font-size: 80px; color: #3b82f6; margin-bottom: 15px;">:</span>
+                    <div id="timerSeconds" style="font-size: 100px; color: #3b82f6;">00</div>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button id="btnResetTimer" class="mode-btn" style="background: #ff4d4d; color: white;">RESET</button>
+                </div>
             </div>
 
-            <div style="margin-top: 10px;">
-                <button id="btnResetTimer" class="mode-btn" style="background: #ff4d4d; color: white;">RESET</button>
+            <div class="focus-footer-btns">
+                <button id="btnExitFocus" class="img-btn" title="Quay lại Kế hoạch">
+                    <img src="nut-back.png" alt="Back">
+                </button>
+                
+                <button id="btnTimerStart" class="img-btn" title="Bắt đầu Focus">
+                    <img src="nut-start.png" alt="Start">
+                </button>
             </div>
-        </div>
-
-        <div class="focus-footer-btns">
-            <button id="btnExitFocus" class="img-btn">
-                <img src="nut-back.png" alt="Back">
-            </button>
-            <button id="btnTimerStart" class="img-btn">
-                <img src="nut-start.png" alt="Start">
-            </button>
+            
         </div>
     </div>
-</div>
     </div>
     <div id="daily" class="tab-content active">
         <div class="input-row">
