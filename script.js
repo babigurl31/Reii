@@ -71,31 +71,24 @@ let currentWkKey = '';
 function renderWk() {
     const grid = document.getElementById('weekGrid');
     if(!grid) return;
-    
     grid.innerHTML = '<div class="wk-header"></div>' + daysWk.map(d=>`<div class="wk-header">${d}</div>`).join('');
-    
     timesWk.forEach(t => {
         grid.innerHTML += `<div class="wk-time">${t}</div>`;
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
-            
-            // ĐOẠN CODE RENDER CÔNG VIỆC MỚI (IN ĐẬM, ĐỔI MÀU)
             let tasks = (weekData[key] || []).map((task, idx) => `
-                <div class="task-card ${task.done ? 'done' : ''} weekly-task-text" style="border-left: 5px solid ${task.color || 'var(--accent)'}; color: ${task.color || 'inherit'};">
-                    <div class="task-header" style="display:flex; justify-content:space-between; width:100%;">
+                <div class="task-card ${task.done ? 'done' : ''}">
+                    <div class="task-header">
                         <div style="display:flex; align-items:center; gap:5px;">
                             <input type="checkbox" class="chk-wk" data-key="${key}" data-idx="${idx}" ${task.done ? 'checked' : ''}>
-                            <span style="font-weight:bold">${task.icon ? task.icon + ' ' : ''}${task.text}</span>
+                            <span style="font-weight:bold">${task.text}</span>
                         </div>
-                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red);">✕</button>
+                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}">✕</button>
                     </div>
+                    <div class="task-meta"><span>🕒 ${task.time || '--:--'}</span> • <span class="${prioClasses[task.prio]}">${prioLabels[task.prio]}</span></div>
                 </div>
             `).join('');
-            
-grid.innerHTML += `<div class="wk-cell" data-day="${d}" data-time="${t}">
-                    ${tasks}
-                    <button class="add-wk-btn" data-key="${key}" style="width:100%; border:none; background:transparent; font-size:20px; cursor:pointer; color:#999; margin-top:5px; transition:0.2s;" title="Thêm việc tuần">+</button>
-                </div>`;;
+            grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
         });
     });
 }
