@@ -50,29 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', studyHTML);
 
-    // 2. LOGIC ĐÓNG MỞ NÚT VÀ CỬA SỔ (Tuân thủ CSP)
+    // 2. LOGIC ĐÓNG MỞ NÚT VÀ CỬA SỔ
     const btnStudyMain = document.getElementById('btnStudyMain');
-    const studyMenu = document.getElementById('studyMenu');
     const btnVocabGrammar = document.getElementById('btnVocabGrammar');
     const studyModalOverlay = document.getElementById('studyModalOverlay');
 
-    // Chức năng đóng chéo (Mở trái thì đóng phải)
-    btnStudyMain.addEventListener('click', () => {
-        if (window.toggleExclusiveMenu) window.toggleExclusiveMenu('studyMenu');
-    });
-
-    // Mở pop-up Sổ Vocab
-    btnVocabGrammar.addEventListener('click', () => {
-        studyModalOverlay.style.display = 'flex';
-        renderVocab();
-        renderGrammar();
-    });
-
-    // Tắt pop-up Sổ Vocab
-    document.querySelectorAll('.btnCloseStudyModal').forEach(btn => {
-        btn.addEventListener('click', () => {
-            studyModalOverlay.style.display = 'none';
+    if (btnStudyMain) {
+        btnStudyMain.addEventListener('click', () => {
+            if (window.toggleExclusiveMenu) window.toggleExclusiveMenu('studyMenu');
         });
+    }
+
+    if (btnVocabGrammar) {
+        btnVocabGrammar.addEventListener('click', () => {
+            studyModalOverlay.style.display = 'flex';
+            renderVocab();
+            renderGrammar();
+        });
+    }
+
+    document.querySelectorAll('.btnCloseStudyModal').forEach(btn => {
+        btn.addEventListener('click', () => studyModalOverlay.style.display = 'none');
     });
 
     // 3. LOGIC LƯU TRỮ VÀ CẢNH BÁO TRÙNG LẶP
@@ -85,12 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
             list.innerHTML = '<span style="color:#888; font-style:italic;">Chưa có từ vựng nào~</span>';
             return;
         }
+        // Dùng data-idx thay vì onclick để extension không báo lỗi
         list.innerHTML = vocabData.map((v, i) => `
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; border-bottom: 1px dashed var(--border); padding: 5px 0;">
                 <span style="font-weight:bold; color: var(--accent);">${v.l1}</span>
                 <span>${v.vi}</span>
                 <span style="font-weight:bold;">${v.l2}</span>
-                <button onclick="deleteVocab(${i})" style="background:none; border:none; color:red; cursor:pointer;">✕</button>
+                <button class="btn-del-vocab" data-idx="${i}" style="background:none; border:none; color:red; cursor:pointer;" title="Xóa">✕</button>
             </div>
         `).join('');
     }
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="border-bottom: 1px dashed var(--border); padding: 8px 0;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                     <span style="font-weight:bold; color: var(--accent);">[${g.lang}] ${g.formula}</span>
-                    <button onclick="deleteGrammar(${i})" style="background:none; border:none; color:red; cursor:pointer;">✕</button>
+                    <button class="btn-del-grammar" data-idx="${i}" style="background:none; border:none; color:red; cursor:pointer;" title="Xóa">✕</button>
                 </div>
                 <div style="color: #555;">💡 ${g.note}</div>
             </div>
@@ -119,14 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!vi) return alert('Vui lòng nhập ít nhất nghĩa tiếng Việt!');
 
-        // HỆ THỐNG CẢNH BÁO TRÙNG NGHĨA
         let isDuplicate = vocabData.some(item => item.vi.toLowerCase() === vi.toLowerCase());
         if (isDuplicate) {
             let confirmSave = confirm(`⚠️ Cảnh báo: Nghĩa tiếng Việt "${vi}" đã tồn tại trong sổ!\n\nNếu đây là từ đồng nghĩa, từ có nhiều nghĩa hoặc khác từ loại, hãy nhấn "OK" để tiếp tục lưu.\nNếu nhập trùng, hãy nhấn "Hủy".`);
             if (!confirmSave) return;
         }
 
-        vocabData.unshift({ l1, vi, l2 }); // Đẩy lên đầu danh sách
+        vocabData.unshift({ l1, vi, l2 });
         localStorage.setItem('qn_vocab', JSON.stringify(vocabData));
         
         document.getElementById('vocabLang1').value = '';
@@ -151,10 +149,26 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrammar();
     });
 
-    window.deleteVocab = (index) => {
-        if(confirm('Xóa từ vựng này?')) { vocabData.splice(index, 1); localStorage.setItem('qn_vocab', JSON.stringify(vocabData)); renderVocab(); }
-    };
-    window.deleteGrammar = (index) => {
-        if(confirm('Xóa ngữ pháp này?')) { grammarData.splice(index, 1); localStorage.setItem('qn_grammar', JSON.stringify(grammarData)); renderGrammar(); }
-    };
+    // Bắt sự kiện xóa bằng Radar (Chuẩn Extension)
+    document.getElementById('vocabList').addEventListener('click', (e) => {
+        if(e.target.classList.contains('btn-del-vocab')) {
+            let idx = parseInt(e.target.dataset.idx);
+            if(confirm('Xóa từ vựng này?')) { 
+                vocabData.splice(idx, 1); 
+                localStorage.setItem('qn_vocab', JSON.stringify(vocabData)); 
+                renderVocab(); 
+            }
+        }
+    });
+
+    document.getElementById('grammarList').addEventListener('click', (e) => {
+        if(e.target.classList.contains('btn-del-grammar')) {
+            let idx = parseInt(e.target.dataset.idx);
+            if(confirm('Xóa ngữ pháp này?')) { 
+                grammarData.splice(idx, 1); 
+                localStorage.setItem('qn_grammar', JSON.stringify(grammarData)); 
+                renderGrammar(); 
+            }
+        }
+    });
 });
