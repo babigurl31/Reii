@@ -308,11 +308,11 @@ body.is-focusing .circle-progress-wrapper {
     -webkit-appearance: none; 
     margin: 0; 
 }
-/* --- NÚT STUDY GÓC TRÁI (Đối xứng) --- */
+/* --- NÚT STUDY GÓC TRÁI (Đối xứng, trượt phải) --- */
 .study-wrapper {
     position: fixed; top: 5px; left: 20px; z-index: 2000;
     display: flex; align-items: center; gap: 10px;
-    flex-direction: row-reverse; /* Đẩy menu trượt sang phải */
+    flex-direction: row; /* Nút chính đứng trước, Menu trượt ra phía sau (phải) */
 }
 
 .study-menu {
@@ -320,13 +320,13 @@ body.is-focusing .circle-progress-wrapper {
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border);
     
-    /* Trạng thái đóng: Giấu thụt vào bên trái */
+    /* Trạng thái đóng: Nằm nấp dưới nút chính ở bên trái */
     opacity: 0; transform: translateX(-50px); pointer-events: none; 
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Trạng thái mở: Trượt sang phải */
+/* Trạng thái mở: Trượt sang phải về vị trí 0 */
 .study-menu.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
 
 .study-input {
