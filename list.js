@@ -316,27 +316,39 @@ document.addEventListener('DOMContentLoaded', () => {
             renderHistory();
         }
     });
-// --- BỘ NHẬN DIỆN CLICK RA NGOÀI (TÁCH BIỆT POPUP VÀ MENU) ---
+// --- BỘ NHẬN DIỆN CLICK RA NGOÀI (TÁCH BIỆT POPUP VÀ TỰ NHẬN DIỆN MENU MỚI) ---
     document.addEventListener('click', (e) => {
         
         // --- LUỒNG 1: ƯU TIÊN ĐÓNG POP-UP TRƯỚC ---
-        // Nếu click trúng cái nền tối (overlay) của Pop-up
         if (e.target.classList.contains('theme-modal-overlay')) {
             e.target.style.display = 'none';
-            return; // LÁ CHẮN Ở ĐÂY! Lệnh này giúp dừng toàn bộ hành động lại, tuyệt đối không chạy xuống phần đóng Menu bên dưới nữa.
+            return; // Chặn lại, không xử lý tiếp
         }
 
-        // --- LUỒNG 2: CHỈ ĐÓNG MENU KHI KHÔNG CÓ POP-UP CẢN ĐƯỜNG ---
-        const listMenu = document.getElementById('listMenu');
-        const btnListMain = document.getElementById('btnListMain');
-        if (listMenu && listMenu.classList.contains('open') && !listMenu.contains(e.target) && !btnListMain.contains(e.target)) {
-            listMenu.classList.remove('open');
+        // --- LUỒNG 1.5: ĐANG GÕ TRONG POP-UP THÌ KHÔNG LÀM GÌ CẢ ---
+        // Phép thuật ở đây: Nếu click trúng bất kỳ thứ gì BÊN TRONG Pop-up -> Dừng lại, giữ nguyên Menu!
+        if (e.target.closest('.theme-modal')) {
+            return; 
         }
 
-        const settingsMenu = document.getElementById('settingsMenu');
-        const btnThemeMain = document.getElementById('btnThemeMain');
-        if (settingsMenu && settingsMenu.classList.contains('open') && !settingsMenu.contains(e.target) && !btnThemeMain.contains(e.target)) {
-            settingsMenu.classList.remove('open');
+        // --- LUỒNG 2: CHỈ ĐÓNG MENU KHI CLICK RA KHOẢNG TRỐNG ---
+        // Hệ thống sẽ tự kiểm tra tất cả các nút (hiện tại và tương lai) có class .main-set-btn
+        let clickedInsideMenu = false;
+        let clickedOnMainBtn = e.target.closest('.main-set-btn');
+
+        if (window.allMyMenus) {
+            window.allMyMenus.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.contains(e.target)) clickedInsideMenu = true;
+            });
+        }
+
+        // Nếu click không trúng menu nào, và không trúng nút chính nào -> Thu hồi tất cả menu
+        if (!clickedInsideMenu && !clickedOnMainBtn && window.allMyMenus) {
+            window.allMyMenus.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('open');
+            });
         }
     });
-});
+    });

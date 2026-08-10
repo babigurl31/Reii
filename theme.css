@@ -180,6 +180,16 @@ body.dark-mode {
     position: relative; z-index: 1;
     border-left: 3px solid var(--accent); /* Nhấn nhá thêm 1 vệt màu theme bên trái cho xinh */
 }
+
+.mini-item {
+    border-bottom: none !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    padding: 8px;
+    position: relative; z-index: 1;
+    border-left: 3px solid var(--accent); /* Nhấn nhá thêm 1 vệt màu theme bên trái cho xinh */
+}
 /* --- GIAO DIỆN FOCUS MODE & POMODORO --- */
 
 /* Nút icon Pomodoro tải riêng */

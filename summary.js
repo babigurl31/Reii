@@ -1,68 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabSummaryBtn = document.getElementById('tabSummaryBtn');
-    const summaryTab = document.getElementById('summaryTab');
 
-    // Chuyển qua tab Tổng Hợp
-    tabSummaryBtn.addEventListener('click', () => {
-        // Tắt hết các tab khác
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        // Bật tab Tổng Hợp
-        tabSummaryBtn.classList.add('active');
-        summaryTab.classList.add('active');
-
-        // Chạy hàm quét dữ liệu
-        renderSummary();
-    });
-
-    // Rời khỏi tab Tổng Hợp
-    document.querySelectorAll('.tab-btn:not(#tabSummaryBtn)').forEach(btn => {
-        btn.addEventListener('click', () => {
-            summaryTab.classList.remove('active');
-            tabSummaryBtn.classList.remove('active');
-        });
-    });
+    // Lắng nghe khi bấm nút Tổng Hợp thì chỉ quét dữ liệu thôi (Chuyển tab đã có script.js lo)
+    if(tabSummaryBtn) {
+        tabSummaryBtn.addEventListener('click', renderSummary);
+    }
 
     // Hàm quét và hiển thị dữ liệu
     function renderSummary() {
-        // 1. Quét Việc Hôm Nay (Daily)
+        // 1. Quét Việc Hôm Nay
         let dailyNodes = document.querySelectorAll('#dailyList .daily-task');
         let dHtml = '';
         dailyNodes.forEach(node => {
-            // Loại bỏ chữ của nút Play (▶️) và các khoảng trắng thừa
-            let text = node.innerText.replace('▶️', '').replace('🗑', '').trim();
-            let isDone = node.classList.contains('done');
-            dHtml += `<div class="sum-item ${isDone ? 'done' : ''}">
-                        <span>${isDone ? '✅' : '⏳'}</span> 
-                        <span>${text}</span>
-                      </div>`;
+            let textSpan = node.querySelector('span[style*="font-weight:bold"]');
+            if (textSpan) {
+                let text = textSpan.textContent.trim();
+                let isDone = node.classList.contains('done');
+                dHtml += `<div class="sum-item ${isDone ? 'done' : ''}" style="margin-bottom: 8px;">
+                            <span>${isDone ? '✅' : '⏳'}</span> 
+                            <span>${text}</span>
+                          </div>`;
+            }
         });
-        document.getElementById('sumDailyList').innerHTML = dHtml || '<div class="sum-empty">Không có việc nào cả~ Babi nghỉ ngơi đi! 🌸</div>';
+        let sumDaily = document.getElementById('sumDailyList');
+        if(sumDaily) sumDaily.innerHTML = dHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Không có việc nào cả~ 🌸</div>';
 
-        // 2. Quét Kế Hoạch Tuần (Weekly)
+        // 2. Quét Kế Hoạch Tuần
         let weeklyNodes = document.querySelectorAll('#weekGrid .task-card');
         let wHtml = '';
         weeklyNodes.forEach(node => {
-            let text = node.innerText.replace('✕', '').trim(); // Lọc bỏ dấu Xóa nếu có
-            let isDone = node.classList.contains('done');
-            wHtml += `<div class="sum-item ${isDone ? 'done' : ''}">
-                        <span>${isDone ? '✅' : '📌'}</span> 
-                        <span>${text}</span>
-                      </div>`;
+            let textSpan = node.querySelector('.task-header span');
+            if (textSpan) {
+                let text = textSpan.textContent.trim();
+                let isDone = node.classList.contains('done'); 
+                wHtml += `<div class="sum-item ${isDone ? 'done' : ''}" style="margin-bottom: 8px;">
+                            <span>${isDone ? '✅' : '📌'}</span> 
+                            <span>${text}</span>
+                          </div>`;
+            }
         });
-        document.getElementById('sumWeeklyList').innerHTML = wHtml || '<div class="sum-empty">Tuần này trống trơn~ 🌟</div>';
+        let sumWeekly = document.getElementById('sumWeeklyList');
+        if(sumWeekly) sumWeekly.innerHTML = wHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Tuần này trống trơn~ 🌟</div>';
 
-        // 3. Quét Lịch Quan Trọng (Monthly)
+        // 3. Quét Lịch Quan Trọng
         let monthlyNodes = document.querySelectorAll('#calGrid .event-tag');
         let mHtml = '';
         monthlyNodes.forEach(node => {
-            let text = node.innerText.trim();
-            mHtml += `<div class="sum-item">
+            let text = node.textContent.trim();
+            mHtml += `<div class="sum-item" style="margin-bottom: 8px;">
                         <span>🗓️</span> 
                         <span>${text}</span>
                       </div>`;
         });
-        document.getElementById('sumMonthlyList').innerHTML = mHtml || '<div class="sum-empty">Chưa có sự kiện nào~ ✨</div>';
+        let sumMonthly = document.getElementById('sumMonthlyList');
+        if(sumMonthly) sumMonthly.innerHTML = mHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Chưa có sự kiện nào~ ✨</div>';
     }
 });

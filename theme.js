@@ -62,10 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', themeHTML);
 
-    // Cơ chế: Mở nút Setting thì tự động đóng các nút khác (List, Trái, Phải...)
+// Cơ chế: Đóng chéo thông minh - Tự động nhận diện nút mới thêm
     window.toggleExclusiveMenu = (menuIdToOpen) => {
-        const allMenus = ['settingsMenu', 'listMenu']; // Cứ thêm ID menu mới vào mảng này sau này
-        allMenus.forEach(id => {
+        // Khởi tạo sổ đăng ký tự động
+        if (!window.allMyMenus) window.allMyMenus = new Set();
+        window.allMyMenus.add(menuIdToOpen); // Ghi nhớ menu đang mở
+
+        // Quét tất cả các menu đã đăng ký và đóng những cái không được chọn
+        window.allMyMenus.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 if (id === menuIdToOpen) el.classList.toggle('open');

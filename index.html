@@ -79,7 +79,7 @@
     <div id="daily" class="tab-content active">
         <div class="input-row">
             <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Babi ơi?">
-            <input type="time" id="dailyTime" class="input-time">
+           <input type="number" id="dailyTime" placeholder="Phút" class="input-time" style="width: 80px; text-align: center;">
             <select id="dailyPrio" class="input-prio">
                 <option value="high">🔴 Quan trọng</option>
                 <option value="medium" selected>🟡 Trong 12 tiếng</option>
@@ -106,21 +106,21 @@
         </div>
         <div class="calendar-grid" id="calGrid"></div>
     </div>
-<div id="summaryTab" class="tab-content" style="background: transparent; box-shadow: none;">
+  <div id="summary" class="tab-content" style="background: transparent; box-shadow: none;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
             
-            <div class="summary-card">
-                <h3 class="sum-title">☀️ Việc Hôm Nay</h3>
+            <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">☀️ Việc Hôm Nay</h3>
                 <div id="sumDailyList" class="sum-list"></div>
             </div>
 
-            <div class="summary-card">
-                <h3 class="sum-title">📅 Kế Hoạch Tuần</h3>
+            <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">📅 Kế Hoạch Tuần</h3>
                 <div id="sumWeeklyList" class="sum-list"></div>
             </div>
 
-            <div class="summary-card">
-                <h3 class="sum-title">🗓️ Lịch Quan Trọng</h3>
+            <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">🗓️ Lịch Quan Trọng</h3>
                 <div id="sumMonthlyList" class="sum-list"></div>
             </div>
 

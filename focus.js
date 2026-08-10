@@ -217,3 +217,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// CẦU NỐI: ĐÓN DỮ LIỆU TỪ TAB VIỆC HÔM NAY SANG TRẠM TẬP TRUNG
+window.startFocusFromPlanner = function(taskName, minutes) {
+    // 1. Tự động chuyển sang Tab Focus
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    
+    let focusTab = document.getElementById('focusTab');
+    let focusBtn = document.getElementById('tabFocusBtn');
+    if(focusTab) focusTab.classList.add('active');
+    if(focusBtn) focusBtn.classList.add('active');
+
+    // 2. Tắt màn hình nút bự, bật màn hình đếm giờ
+    let welcome = document.getElementById('focusWelcomeScreen');
+    let ui = document.getElementById('pomodoroUIWrapper');
+    if(welcome) welcome.style.display = 'none';
+    if(ui) ui.style.display = 'flex';
+
+    // 3. Đổi tên công việc đang hiển thị
+    let taskLabel = document.getElementById('focusTaskName');
+    if(taskLabel) taskLabel.innerText = `🎯 Đang xử lý: ${taskName}`;
+
+    // 4. Điền số phút vào đồng hồ
+    let timeInput = document.getElementById('inputTimer');
+    let secDisplay = document.getElementById('timerSeconds');
+    if(timeInput) {
+        timeInput.value = minutes || 25; // Mặc định 25 phút nếu quên nhập
+        if(secDisplay) secDisplay.innerText = '00';
+        
+        // Đánh thức đồng hồ đếm ngược nhận diện số phút mới
+        timeInput.dispatchEvent(new Event('input'));
+    }
+};

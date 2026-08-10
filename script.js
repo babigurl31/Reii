@@ -33,13 +33,13 @@ function renderDaily() {
     if(!list || !history) return;
     list.innerHTML = ''; history.innerHTML = '';
     dailyTasks.forEach(t => {
-        let html = `
+let html = `
             <div class="daily-task ${t.done ? 'done' : ''}" style="opacity: ${t.archived ? '0.6' : '1'}">
                 <div style="flex:1">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent);" ${t.done ? 'checked' : ''}>
                         
-                        <button class="btn-play-task" onclick="if(window.startFocusFromPlanner) window.startFocusFromPlanner('${t.text}', this.parentElement.parentElement.querySelector('.task-time-input').value)" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
+                        <button class="btn-play-task" data-name="${t.text}" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
                         
                         <span style="font-weight:bold">${t.text}</span>
                     </div>
@@ -49,8 +49,7 @@ function renderDaily() {
                     </div>
                 </div>
                 <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;color:var(--red);font-weight:bold;cursor:pointer;" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ'}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
-            </div>`;
-        if(t.archived) history.innerHTML += html; else list.innerHTML += html;
+            </div>`;        if(t.archived) history.innerHTML += html; else list.innerHTML += html;
     });
 }
 function addDaily() {
@@ -199,6 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tabDailyBtn').addEventListener('click', e => switchTab('daily', e.currentTarget));
     document.getElementById('tabWeeklyBtn').addEventListener('click', e => switchTab('weekly', e.currentTarget));
     document.getElementById('tabMonthlyBtn').addEventListener('click', e => switchTab('monthly', e.currentTarget));
+    document.getElementById('tabFocusBtn').addEventListener('click', e => switchTab('focusTab', e.currentTarget));
+    document.getElementById('tabSummaryBtn').addEventListener('click', e => switchTab('summary', e.currentTarget));
 
     document.getElementById('btnDailyAdd').addEventListener('click', addDaily);
     document.getElementById('dailyInput').addEventListener('keypress', e => { if(e.key === 'Enter') addDaily(); });
@@ -211,8 +212,26 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnWkCancel').addEventListener('click', () => document.getElementById('wkModal').style.display='none');
 
     document.getElementById('daily').addEventListener('change', e => { if(e.target.classList.contains('chk-daily')) toggleDaily(parseInt(e.target.dataset.id)); });
-    document.getElementById('daily').addEventListener('click', e => {
-        if(e.target.classList.contains('btn-del-daily')) { let id = parseInt(e.target.dataset.id); if(e.target.dataset.archived === 'true') hardDeleteDaily(id); else archiveDaily(id); }
+document.getElementById('daily').addEventListener('click', e => {
+        // 1. Chức năng Xóa / Lưu trữ việc cũ (Vẫn giữ nguyên cho babi)
+        if(e.target.classList.contains('btn-del-daily')) { 
+            let id = parseInt(e.target.dataset.id); 
+            if(e.target.dataset.archived === 'true') hardDeleteDaily(id); 
+            else archiveDaily(id); 
+        }
+        
+        // 2. CHỨC NĂNG MỚI: Radar bắt tín hiệu nút Play sang Trạm Tập Trung
+        let playBtn = e.target.closest('.btn-play-task');
+        if(playBtn) {
+            let taskName = playBtn.dataset.name; // Lấy tên việc được giấu trong thẻ
+            let timeInput = playBtn.closest('.daily-task').querySelector('.task-time-input');
+            let minutes = timeInput ? timeInput.value : 25; // Lấy số phút, mặc định 25
+            
+            // Gọi hàm mở cửa bên file focus.js
+            if(window.startFocusFromPlanner) {
+                window.startFocusFromPlanner(taskName, minutes);
+            }
+        }
     });
 
     document.getElementById('weekly').addEventListener('change', e => { if(e.target.classList.contains('chk-wk')) toggleWk(e.target.dataset.key, parseInt(e.target.dataset.idx)); });
