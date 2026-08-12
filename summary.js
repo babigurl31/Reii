@@ -1,14 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabSummaryBtn = document.getElementById('tabSummaryBtn');
 
-    // Lắng nghe khi bấm nút Tổng Hợp thì chỉ quét dữ liệu thôi (Chuyển tab đã có script.js lo)
     if(tabSummaryBtn) {
         tabSummaryBtn.addEventListener('click', renderSummary);
     }
 
-    // Hàm quét và hiển thị dữ liệu
     function renderSummary() {
-        // 1. Quét Việc Hôm Nay
         let dailyNodes = document.querySelectorAll('#dailyList .daily-task');
         let dHtml = '';
         dailyNodes.forEach(node => {
@@ -23,9 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         let sumDaily = document.getElementById('sumDailyList');
-        if(sumDaily) sumDaily.innerHTML = dHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Không có việc nào cả~ 🌸</div>';
+        if(sumDaily) sumDaily.innerHTML = dHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">No tasks yet~ 🌸</div>';
 
-        // 2. Quét Kế Hoạch Tuần
         let weeklyNodes = document.querySelectorAll('#weekGrid .task-card');
         let wHtml = '';
         weeklyNodes.forEach(node => {
@@ -40,9 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         let sumWeekly = document.getElementById('sumWeeklyList');
-        if(sumWeekly) sumWeekly.innerHTML = wHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Tuần này trống trơn~ 🌟</div>';
+        if(sumWeekly) sumWeekly.innerHTML = wHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Nothing for this week~ 🌟</div>';
 
-        // 3. Quét Lịch Quan Trọng
         let monthlyNodes = document.querySelectorAll('#calGrid .event-tag');
         let mHtml = '';
         monthlyNodes.forEach(node => {
@@ -53,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
                       </div>`;
         });
         let sumMonthly = document.getElementById('sumMonthlyList');
-        if(sumMonthly) sumMonthly.innerHTML = mHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">Chưa có sự kiện nào~ ✨</div>';
+        if(sumMonthly) sumMonthly.innerHTML = mHtml || '<div class="sum-empty" style="color:#888; font-style:italic;">No upcoming events~ ✨</div>';
     }
 });
