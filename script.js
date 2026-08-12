@@ -1,3 +1,4 @@
+// Đã giữ nguyên hàm thời gian ở VN theo yêu cầu
 function updateClock() {
     const now = new Date();
     const options = { timeZone: 'Asia/Ho_Chi_Minh', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
@@ -15,18 +16,15 @@ function switchTab(id, targetEl) {
 }
 
 function editTitle() {
-    const newTitle = prompt("Nhập tên mới:", document.getElementById('siteTitle').innerText);
+    const newTitle = prompt("Enter new title:", document.getElementById('siteTitle').innerText);
     if(newTitle && newTitle.trim() !== '') { document.getElementById('siteTitle').innerText = newTitle.trim(); localStorage.setItem('qn_title', newTitle.trim()); }
 }
 function editGoal() {
-    const newGoal = prompt("Nhập mục tiêu mới:", document.getElementById('myGoal').innerText);
+    const newGoal = prompt("Enter new goal:", document.getElementById('myGoal').innerText);
     if(newGoal) { document.getElementById('myGoal').innerText = newGoal; localStorage.setItem('qn_goal', newGoal); }
 }
 
-const prioLabels = { high: '🔴 Quan trọng', medium: '🟡 Cần thiết', low: '🔵 Có thể delay' };
-const prioClasses = { high: 'prio-high', medium: 'prio-medium', low: 'prio-low' };
-
-// --- 1. VIỆC HÔM NAY ---
+// --- 1. DAILY TASKS (Xóa Priority) ---
 let dailyTasks = JSON.parse(localStorage.getItem('qn_daily_v2')) || [];
 function renderDaily() {
     const list = document.getElementById('dailyList'), history = document.getElementById('historyList');
@@ -38,34 +36,32 @@ let html = `
                 <div style="flex:1">
                     <div style="display:flex; align-items:center; gap:10px;">
                         <input type="checkbox" class="chk-daily" data-id="${t.id}" style="width:18px;height:18px;accent-color:var(--accent);" ${t.done ? 'checked' : ''}>
-                        
-                        <button class="btn-play-task" data-name="${t.text}" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus việc này!">▶️</button>
-                        
+                        <button class="btn-play-task" data-name="${t.text}" style="background: transparent; border: none; cursor: pointer; font-size: 16px;" title="Focus this task!">▶️</button>
                         <span style="font-weight:bold">${t.text}</span>
                     </div>
                     <div style="display:flex; align-items:center; font-size:11px; margin-top:5px; margin-left:28px; color:#666;">
-                        🕒 <input type="number" class="task-time-input" value="${t.time || 25}" style="width: 40px; padding: 2px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit;"> phút 
-                        <span style="margin-left: 10px;">| Mức độ: <span class="${prioClasses[t.prio]}">${prioLabels[t.prio]}</span></span>
+                        🕒 <input type="number" class="task-time-input" value="${t.time || 25}" style="width: 40px; padding: 2px; margin: 0 5px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-family: inherit;"> mins 
                     </div>
                 </div>
-                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;color:var(--red);font-weight:bold;cursor:pointer;" title="${t.archived ? 'Xóa vĩnh viễn' : 'Lưu trữ'}">${t.archived ? 'Xóa hẳn' : '✕'}</button>
-            </div>`;        if(t.archived) history.innerHTML += html; else list.innerHTML += html;
+                <button class="btn-del-daily" data-id="${t.id}" data-archived="${t.archived}" style="background:none;border:none;color:var(--red);font-weight:bold;cursor:pointer;" title="${t.archived ? 'Delete permanently' : 'Archive'}">${t.archived ? 'Del' : '✕'}</button>
+            </div>`;        
+            if(t.archived) history.innerHTML += html; else list.innerHTML += html;
     });
 }
 function addDaily() {
-    const t=document.getElementById('dailyInput'), tm=document.getElementById('dailyTime'), p=document.getElementById('dailyPrio');
+    const t=document.getElementById('dailyInput'), tm=document.getElementById('dailyTime');
     if(t.value.trim() !== '') { 
-        dailyTasks.push({ id: Date.now(), text: t.value.trim(), time: tm.value, prio: p.value, done: false, archived: false }); 
+        dailyTasks.push({ id: Date.now(), text: t.value.trim(), time: tm.value, done: false, archived: false }); 
         localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); t.value=''; tm.value=''; renderDaily(); 
     }
 }
 function toggleDaily(id) { let task = dailyTasks.find(t => t.id === id); if(task) task.done = !task.done; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }
 function archiveDaily(id) { let task = dailyTasks.find(t => t.id === id); if(task) task.archived = true; localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }
-function hardDeleteDaily(id) { if(confirm("Xóa vĩnh viễn công việc này?")) { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }}
+function hardDeleteDaily(id) { if(confirm("Permanently delete this task?")) { dailyTasks = dailyTasks.filter(t => t.id !== id); localStorage.setItem('qn_daily_v2', JSON.stringify(dailyTasks)); renderDaily(); }}
 
-// --- 2. KẾ HOẠCH TUẦN ĐÃ NÂNG CẤP ---
+// --- 2. WEEKLY PLAN ---
 let weekData = JSON.parse(localStorage.getItem('qn_week_v2')) || {};
-const daysWk = ['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7','CN'], timesWk = ['Sáng','Chiều','Tối'];
+const daysWk = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], timesWk = ['Morning','Afternoon','Evening'];
 let currentWkKey = '';
 
 function renderWk() {
@@ -77,24 +73,20 @@ function renderWk() {
         daysWk.forEach(d => {
             let key = `${d}-${t}`;
             let tasks = (weekData[key] || []).map((task, idx) => {
-                
-                // TỰ ĐỘNG PHA MÀU DỰA TRÊN MÃ MÀU CẬU CHỌN
                 let bgStyle = '';
                 let fwStyle = '';
                 if (task.isHighlight) {
                     let baseColor = task.color || '#ffea00';
-                    // Thêm '4D' vào đuôi mã hex để màu nền tự động nhạt đi thành màu pastel
                     bgStyle = `background-color: ${baseColor}4D; border-left: 4px solid ${baseColor};`;
                     fwStyle = `font-weight: bold;`;
                 }
-
                 return `
                 <div class="task-card" style="${bgStyle} border-radius: 6px; padding: 8px; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.2s;">
                     <div class="task-header" style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
                         <div style="display:flex; align-items:center; flex:1;">
                             <span style="${fwStyle} line-height:1.4;">${task.text}</span>
                         </div>
-                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red); font-weight:bold; padding-left:10px;" title="Xóa ghi chú">✕</button>
+                        <button class="task-del-btn btn-del-wk" data-key="${key}" data-idx="${idx}" style="background:transparent; border:none; cursor:pointer; color:var(--red); font-weight:bold; padding-left:10px;" title="Delete">✕</button>
                     </div>
                     <div class="task-meta" style="margin-top: 5px; font-size: 12px; color: #555;">
                         <span>🕒 ${task.startTime || '--:--'} - ${task.endTime || '--:--'}</span>
@@ -102,22 +94,19 @@ function renderWk() {
                 </div>
                 `;
             }).join('');
-            grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Thêm việc</div></div>`;
+            grid.innerHTML += `<div class="wk-cell" data-label="${d} - ${t}">${tasks}<div class="add-btn-small btn-add-wk" data-key="${key}">+ Add</div></div>`;
         });
     });
 }
 
 function openWkModal(key) { 
     currentWkKey = key; 
-    document.getElementById('wkModalTitle').innerText = `Thêm việc: ${key.replace('-', ' ')}`; 
+    document.getElementById('wkModalTitle').innerText = `Add Task: ${key.replace('-', ' ')}`; 
     document.getElementById('wkInput').value = ''; 
     document.getElementById('wkTime').value = ''; 
     if(document.getElementById('wkTimeEnd')) document.getElementById('wkTimeEnd').value = '';
-    
-    // Reset lại ô tick và trả ô chọn màu về mặc định
     if(document.getElementById('wkHighlight')) document.getElementById('wkHighlight').checked = false;
     if(document.getElementById('wkColor')) document.getElementById('wkColor').value = '#ffea00';
-    
     document.getElementById('wkModal').style.display = 'flex'; 
 }
 
@@ -125,61 +114,76 @@ function saveWk() {
     let t = document.getElementById('wkInput').value.trim();
     let startTm = document.getElementById('wkTime').value;
     let endTm = document.getElementById('wkTimeEnd') ? document.getElementById('wkTimeEnd').value : '';
-    
     let isHi = document.getElementById('wkHighlight') ? document.getElementById('wkHighlight').checked : false;
     let chosenColor = document.getElementById('wkColor') ? document.getElementById('wkColor').value : '#ffea00';
     
-    if(!t) return alert("Cần nhập tên công việc!");
+    if(!t) return alert("Task description is required!");
     if(!weekData[currentWkKey]) weekData[currentWkKey] = [];
     
-    // Lưu thẳng mã màu vào trong data của tuần
-    weekData[currentWkKey].push({ 
-        text: t, 
-        startTime: startTm, 
-        endTime: endTm, 
-        isHighlight: isHi, 
-        color: chosenColor, 
-        done: false 
-    });
-    
+    weekData[currentWkKey].push({ text: t, startTime: startTm, endTime: endTm, isHighlight: isHi, color: chosenColor, done: false });
     localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); 
     document.getElementById('wkModal').style.display='none'; 
     renderWk();
 }
 
-function toggleWk(key, idx) { weekData[key][idx].done = !weekData[key][idx].done; localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 function deleteWk(key, idx) { weekData[key].splice(idx, 1); localStorage.setItem('qn_week_v2', JSON.stringify(weekData)); renderWk(); }
 
-// --- 3. LỊCH SỰ KIỆN QUAN TRỌNG ---
+// --- 3. MONTHLY CALENDAR (Nâng cấp thêm màu) ---
 let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
 let currDate = new Date(); let currMonth = currDate.getMonth(); let currYear = currDate.getFullYear();
+let currentCalKey = '';
+
 function renderCal() {
     const grid = document.getElementById('calGrid');
     if(!grid) return;
-    document.getElementById('monthYearDisplay').innerText = `Tháng ${currMonth + 1} / ${currYear}`;
-    grid.innerHTML = `<div class="cal-header">T2</div><div class="cal-header">T3</div><div class="cal-header">T4</div><div class="cal-header">T5</div><div class="cal-header">T6</div><div class="cal-header">T7</div><div class="cal-header">CN</div>`;
+    document.getElementById('monthYearDisplay').innerText = `Month ${currMonth + 1} / ${currYear}`;
+    grid.innerHTML = `<div class="cal-header">Mon</div><div class="cal-header">Tue</div><div class="cal-header">Wed</div><div class="cal-header">Thu</div><div class="cal-header">Fri</div><div class="cal-header">Sat</div><div class="cal-header">Sun</div>`;
     let firstDay = new Date(currYear, currMonth, 1).getDay(), startOffset = firstDay === 0 ? 6 : firstDay - 1, daysInMonth = new Date(currYear, currMonth + 1, 0).getDate();
+    
     for(let i = 0; i < startOffset; i++) grid.innerHTML += `<div class="cal-day" style="border:none; background:transparent;"></div>`;
+    
     for(let i = 1; i <= daysInMonth; i++) {
         let dateKey = `${currYear}-${currMonth + 1}-${i}`;
-        let events = (calData[dateKey] || []).map((ev, idx) => `<div class="event-tag btn-del-cal" data-key="${dateKey}" data-idx="${idx}">${ev}</div>`).join('');
+        
+        // Render với màu được chọn (Fallback nếu là data cũ dạng chuỗi)
+        let events = (calData[dateKey] || []).map((ev, idx) => {
+            let text = typeof ev === 'object' ? ev.text : ev;
+            let bdColor = typeof ev === 'object' && ev.color ? ev.color : '#ffb3ba';
+            let bgColor = bdColor + '4D'; // Pha trong suốt
+            return `<div class="event-tag btn-del-cal" data-key="${dateKey}" data-idx="${idx}" style="background-color: ${bgColor}; border-left: 3px solid ${bdColor}; padding: 3px 6px; margin-bottom: 4px; border-radius: 4px; font-size: 11px; cursor: pointer;" title="Click to delete">${text}</div>`;
+        }).join('');
+
         let isToday = (i === new Date().getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear());
         let todayStyle = isToday ? 'background: #fff0f6; border: 2px solid var(--accent);' : '';
-        grid.innerHTML += `<div class="cal-day" style="${todayStyle}"><div class="day-num">${i}</div>${events}<div class="add-btn-small btn-add-cal" data-key="${dateKey}">+ Thêm</div></div>`;
+        grid.innerHTML += `<div class="cal-day" style="${todayStyle}"><div class="day-num">${i}</div>${events}<div class="add-btn-small btn-add-cal" data-key="${dateKey}">+ Add</div></div>`;
     }
 }
-function addCal(dateKey) { 
-    let v = prompt("Ghi chú sự kiện:"); 
-    if(v){ 
-        if(!calData[dateKey]) calData[dateKey]=[]; 
-        calData[dateKey].push(v); 
+
+function openCalModal(dateKey) {
+    currentCalKey = dateKey;
+    document.getElementById('calModalTitle').innerText = `Add Event: ${dateKey}`;
+    document.getElementById('calInput').value = '';
+    document.getElementById('calColor').value = '#ffb3ba'; // Màu mặc định
+    document.getElementById('calModal').style.display = 'flex';
+}
+
+function saveCal() {
+    let v = document.getElementById('calInput').value.trim();
+    let color = document.getElementById('calColor').value;
+    if(v) { 
+        if(!calData[currentCalKey]) calData[currentCalKey]=[]; 
+        calData[currentCalKey].push({ text: v, color: color }); 
         localStorage.setItem('qn_cal', JSON.stringify(calData)); 
+        document.getElementById('calModal').style.display = 'none';
         renderCal(); 
         if(typeof renderCircleProgress === 'function') renderCircleProgress(); 
+    } else {
+        alert("Event description is required!");
     }
 }
+
 function deleteCal(dateKey, idx) { 
-    if(confirm('Xóa sự kiện này?')) { 
+    if(confirm('Delete this event?')) { 
         calData[dateKey].splice(idx, 1); 
         localStorage.setItem('qn_cal', JSON.stringify(calData)); 
         renderCal(); 
@@ -211,37 +215,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnWkSave').addEventListener('click', saveWk);
     document.getElementById('btnWkCancel').addEventListener('click', () => document.getElementById('wkModal').style.display='none');
 
+    // Nút Calendar Event Modal
+    document.getElementById('btnCalSave').addEventListener('click', saveCal);
+    document.getElementById('btnCalCancel').addEventListener('click', () => document.getElementById('calModal').style.display='none');
+
     document.getElementById('daily').addEventListener('change', e => { if(e.target.classList.contains('chk-daily')) toggleDaily(parseInt(e.target.dataset.id)); });
-document.getElementById('daily').addEventListener('click', e => {
-        // 1. Chức năng Xóa / Lưu trữ việc cũ (Vẫn giữ nguyên cho babi)
+    document.getElementById('daily').addEventListener('click', e => {
         if(e.target.classList.contains('btn-del-daily')) { 
             let id = parseInt(e.target.dataset.id); 
             if(e.target.dataset.archived === 'true') hardDeleteDaily(id); 
             else archiveDaily(id); 
         }
-        
-        // 2. CHỨC NĂNG MỚI: Radar bắt tín hiệu nút Play sang Trạm Tập Trung
         let playBtn = e.target.closest('.btn-play-task');
         if(playBtn) {
-            let taskName = playBtn.dataset.name; // Lấy tên việc được giấu trong thẻ
+            let taskName = playBtn.dataset.name;
             let timeInput = playBtn.closest('.daily-task').querySelector('.task-time-input');
-            let minutes = timeInput ? timeInput.value : 25; // Lấy số phút, mặc định 25
-            
-            // Gọi hàm mở cửa bên file focus.js
+            let minutes = timeInput ? timeInput.value : 25;
             if(window.startFocusFromPlanner) {
                 window.startFocusFromPlanner(taskName, minutes);
             }
         }
     });
 
-    document.getElementById('weekly').addEventListener('change', e => { if(e.target.classList.contains('chk-wk')) toggleWk(e.target.dataset.key, parseInt(e.target.dataset.idx)); });
     document.getElementById('weekly').addEventListener('click', e => {
         if(e.target.classList.contains('btn-add-wk')) openWkModal(e.target.dataset.key);
         if(e.target.classList.contains('btn-del-wk')) deleteWk(e.target.dataset.key, parseInt(e.target.dataset.idx));
     });
 
     document.getElementById('monthly').addEventListener('click', e => {
-        if(e.target.classList.contains('btn-add-cal')) addCal(e.target.dataset.key);
+        if(e.target.classList.contains('btn-add-cal')) openCalModal(e.target.dataset.key);
         if(e.target.classList.contains('btn-del-cal')) deleteCal(e.target.dataset.key, parseInt(e.target.dataset.idx));
     });
 
