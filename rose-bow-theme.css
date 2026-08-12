@@ -1,0 +1,314 @@
+/* ==========================================================================
+   ROSE & BOW THEME — Hồng phấn / Đỏ hoa hồng / Vàng gold / Caro gingham
+   File này THAY THẾ bản "notebook-theme.css" (kem bơ/cam) trước đó.
+   Chỉ ghi đè màu sắc + thêm họa tiết trang trí — KHÔNG đổi border-radius
+   hay bất kỳ layout/grid nào đang chạy tốt.
+   Cách dùng: trong index.html, đổi:
+       <link rel="stylesheet" href="notebook-theme.css">
+   thành:
+       <link rel="stylesheet" href="rose-bow-theme.css">
+   (đặt SAU thẻ theme.css)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. BẢNG MÀU GỐC
+   -------------------------------------------------------------------------- */
+:root {
+    --bg-main: #FCEEE4;                /* nền kem hồng nhạt, nền caro mờ */
+    --bg-card: #FFF8F3;                /* nền "giấy" thẻ/bảng */
+    --accent:  #D6435B;                /* đỏ hoa hồng chủ đạo */
+    --accent-soft: #F6C9D2;            /* hồng phấn nhạt - nơ, tape */
+    --gold:    #E7B34C;                /* vàng gold - gáy xoắn, viền vương miện */
+    --leaf:    #7C9B63;                /* xanh lá điểm nhấn nhỏ */
+    --text-main: #7A2E3A;              /* chữ nâu-đỏ rosewood, dễ đọc trên nền hồng */
+    --text-muted: #A9707C;
+    --border:  #F2B7C4;                /* viền hồng phấn */
+    --red:     #D6435B;
+    --paper-line: color-mix(in srgb, var(--accent) 14%, transparent);
+    --paper-line-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   2. NỀN GIẤY CARO TOÀN TRANG (như ảnh mẫu)
+   -------------------------------------------------------------------------- */
+body {
+    background-color: var(--bg-main);
+    background-image:
+        linear-gradient(var(--paper-line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line-soft) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối giản */
+
+/* --------------------------------------------------------------------------
+   3. HEADER + Ô MỤC TIÊU — khung caro gingham + nơ + hoa hồng góc
+   -------------------------------------------------------------------------- */
+.header h1 { color: var(--accent); text-shadow: 1px 1px 0 rgba(255,255,255,0.6); }
+.clock-box { color: var(--text-main); }
+
+.goal-container {
+    position: relative;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(214,67,91,0.15);
+    background-color: var(--bg-card);
+    background-image:
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%),
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+    background-blend-mode: multiply;
+}
+.goal-text { color: var(--accent) !important; }
+
+/* nơ ruy băng dán góc trái */
+.goal-container::before {
+    content: "🎀";
+    position: absolute; top: -16px; left: 14px;
+    font-size: 26px; transform: rotate(-8deg);
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+    pointer-events: none;
+}
+/* hoa hồng nhỏ góc phải */
+.goal-container::after {
+    content: "🌹";
+    position: absolute; bottom: -12px; right: -8px;
+    font-size: 20px; transform: rotate(10deg);
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. NAV TABS — thẻ bìa hồng, giữ nguyên hình pill hiện có
+   -------------------------------------------------------------------------- */
+.tab-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    color: var(--accent);
+    box-shadow: 0 2px 5px rgba(214,67,91,0.08);
+}
+.tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff6f3;
+    box-shadow: 0 3px 10px rgba(214,67,91,0.4);
+}
+
+/* --------------------------------------------------------------------------
+   5. KHUNG NỘI DUNG CHUNG (.tab-content) — gáy xoắn ốc vàng gold + giấy kẻ
+   -------------------------------------------------------------------------- */
+.tab-content {
+    position: relative;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: 0 6px 20px rgba(214,67,91,0.10);
+    background-image: repeating-linear-gradient(
+        var(--bg-card) 0px, var(--bg-card) 27px,
+        var(--paper-line-soft) 27px, var(--paper-line-soft) 28px
+    );
+}
+#focusTab.tab-content,
+#focusTab.tab-content::before,
+#focusTab.tab-content::after { background-image: none; box-shadow: none; border: none; }
+
+/* gáy xoắn ốc vàng gold mép trên mỗi bảng */
+.tab-content::before {
+    content: "";
+    position: absolute; top: -10px; left: 26px; right: 26px; height: 20px;
+    background-image: radial-gradient(circle at center,
+        var(--bg-main) 5px, var(--gold) 6px, transparent 7px);
+    background-size: 30px 100%;
+    background-repeat: repeat-x;
+    pointer-events: none;
+}
+/* hoa hồng nấp góc dưới-phải */
+.tab-content:not(#focusTab)::after {
+    content: "🌹";
+    position: absolute; bottom: 10px; right: 14px;
+    font-size: 22px; opacity: 0.55; transform: rotate(-8deg);
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. TAB VIỆC HÔM NAY (Daily)
+   -------------------------------------------------------------------------- */
+.input-item, .input-time, .input-prio {
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+.btn-add-main {
+    background: var(--accent);
+    box-shadow: 0 3px 8px rgba(214,67,91,0.35);
+}
+.daily-task {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 2px 6px rgba(214,67,91,0.08);
+}
+.daily-task.done { border-left-color: var(--border); }
+.prio-high { color: var(--red); }
+.prio-medium { color: #D68A3B; }
+.prio-low { color: var(--leaf); }
+
+.history-section { border-top: 2px dashed var(--border); }
+.history-btn { color: var(--text-muted); }
+.history-list {
+    background: var(--bg-main);
+    border-radius: var(--radius);
+    padding: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   7. KẾ HOẠCH TUẦN (Weekly) — nền giấy ô caro nhạt + nơ tiêu đề
+   -------------------------------------------------------------------------- */
+.weekly-grid { background: var(--border); border-color: var(--border); }
+.wk-header, .wk-time, .wk-cell { background: var(--bg-card); }
+.wk-header, .wk-time { background: var(--bg-main); color: var(--accent); }
+.wk-cell {
+    background-image:
+        linear-gradient(var(--paper-line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line-soft) 1px, transparent 1px);
+    background-size: 18px 18px;
+}
+.task-card {
+    background: var(--bg-main);
+    border-left: 3px solid var(--accent);
+    box-shadow: 0 1px 4px rgba(214,67,91,0.1);
+}
+.task-card.done { border-left-color: var(--border); }
+.task-meta { color: var(--text-muted); }
+.task-del-btn { color: var(--red); }
+.add-btn-small { color: var(--accent); border: 1px dashed var(--border); }
+.add-btn-small:hover { background: var(--bg-main); border-color: var(--accent); }
+
+#weekly.tab-content::after { content: "🎀"; }
+
+/* --------------------------------------------------------------------------
+   8. LỊCH QUAN TRỌNG (Monthly) — nền giấy caro, vương miện vàng góc
+   -------------------------------------------------------------------------- */
+.cal-nav button {
+    background: var(--bg-main); color: var(--accent);
+    border: 1px solid var(--border);
+}
+.cal-nav button:hover { background: var(--accent); color: #fff6f3; }
+.cal-header { color: var(--accent); border-bottom: 2px solid var(--border); }
+.cal-day {
+    border: 1px solid var(--border);
+    background-color: var(--bg-card);
+    background-image:
+        linear-gradient(var(--paper-line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--paper-line-soft) 1px, transparent 1px);
+    background-size: 14px 14px;
+}
+.day-num { color: var(--text-main); }
+.event-tag {
+    background: var(--bg-main); color: var(--accent);
+    border-left: 3px solid var(--accent);
+}
+
+/* vương miện vàng góc trên-phải khung lịch, gợi nhớ chi tiết crown trong ảnh mẫu */
+#monthly.tab-content::after {
+    content: "👑";
+    top: -18px; bottom: auto; right: 30px; left: auto;
+    font-size: 22px; opacity: 0.9;
+    transform: rotate(6deg);
+}
+
+/* --------------------------------------------------------------------------
+   9. TỔNG HỢP (Summary) — nơ nhỏ trên mỗi thẻ
+   -------------------------------------------------------------------------- */
+.summary-card {
+    position: relative;
+    background: color-mix(in srgb, var(--bg-card) 90%, transparent);
+    border: 1px solid var(--border);
+}
+.sum-title { color: var(--accent); border-bottom: 2px dashed var(--border); }
+.sum-item {
+    background: var(--bg-card);
+    border-left: 3px solid var(--accent);
+    color: var(--text-main);
+}
+.sum-item.done { border-left-color: var(--border); }
+.sum-empty { color: var(--text-muted); }
+
+.summary-card::before {
+    content: "🎀";
+    position: absolute; top: -14px; left: 20px;
+    font-size: 20px; transform: rotate(-6deg);
+    pointer-events: none;
+}
+.summary-card:nth-of-type(1)::after { content: "☀️"; }
+.summary-card:nth-of-type(2)::after { content: "🌹"; }
+.summary-card:nth-of-type(3)::after { content: "✨"; }
+.summary-card::after {
+    position: absolute; bottom: 8px; right: 12px;
+    font-size: 18px; opacity: 0.55;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   10. POP-UP / MODAL (Theme Settings, Study/Vocab, wkModal)
+   -------------------------------------------------------------------------- */
+.theme-modal {
+    background-color: color-mix(in srgb, var(--accent) 6%, var(--bg-card)) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 12px 30px rgba(214,67,91,0.2);
+}
+.theme-modal h3 { border-bottom: 2px dashed var(--border); color: var(--accent); }
+.theme-modal input, .theme-modal select, .theme-modal textarea {
+    background-color: var(--bg-main) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+}
+.theme-modal::before {
+    content: "";
+    position: absolute; top: -10px; left: 22px; right: 22px; height: 20px;
+    background-image: radial-gradient(circle at center,
+        var(--bg-main) 5px, var(--gold) 6px, transparent 7px);
+    background-size: 26px 100%;
+    background-repeat: repeat-x;
+    pointer-events: none;
+}
+.mini-item { background: var(--bg-card) !important; border-left: 3px solid var(--accent); }
+.checklist-group { background: var(--bg-main); border: 1px solid var(--border); }
+.group-title { color: var(--accent); border-bottom: 1px dashed var(--border); }
+
+.modal-content { background: var(--bg-card); border: 1px solid var(--border); }
+.modal-content h3 { color: var(--accent); }
+
+/* --------------------------------------------------------------------------
+   11. NÚT SETTING / LIST / STUDY (góc màn hình)
+   -------------------------------------------------------------------------- */
+.main-set-btn, .set-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    box-shadow: 0 3px 8px rgba(214,67,91,0.15);
+}
+.main-set-btn:hover, .set-btn:hover { border-color: var(--accent); }
+.settings-menu, .list-menu, .study-menu {
+    background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+    border: 1px solid var(--border);
+}
+.study-input {
+    background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+/* --------------------------------------------------------------------------
+   12. FOCUS / POMODORO — CỐ Ý KHÔNG THÊM HỌA TIẾT, chỉ theo màu accent chung
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   13. RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+    .tab-content::before, .theme-modal::before { background-size: 22px 100%; }
+    .tab-content:not(#focusTab)::after,
+    .goal-container::before,
+    .goal-container::after,
+    .summary-card::before,
+    .summary-card::after,
+    #monthly.tab-content::after { font-size: 16px; }
+}

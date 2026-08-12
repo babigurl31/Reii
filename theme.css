@@ -244,7 +244,8 @@ body.is-focusing .header,
 body.is-focusing .nav-tabs,
 body.is-focusing .settings-wrapper,
 body.is-focusing .list-wrapper,
-body.is-focusing .circle-progress-wrapper {
+body.is-focusing .circle-progress-wrapper,
+body.is-focusing .study-wrapper {
     display: none !important;
     opacity: 0;
     pointer-events: none;
@@ -312,7 +313,7 @@ body.is-focusing .circle-progress-wrapper {
 .study-wrapper {
     position: fixed; top: 5px; left: 20px; z-index: 2000;
     display: flex; align-items: center; gap: 10px;
-    flex-direction: row; /* Nút chính đứng trước, Menu trượt ra phía sau (phải) */
+    flex-direction: row;
 }
 
 .study-menu {
