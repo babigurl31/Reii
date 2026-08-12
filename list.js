@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. CHÈN GIAO DIỆN NÚT VÀ MODAL VÀO WEB (Cập nhật giao diện nhập liệu)
     const listHTML = `
         <div class="list-wrapper">
             <div class="list-menu" id="listMenu">
                 <button class="set-btn" id="btnOpenWishlist" title="Wishlist"><img src="icon-wishlist.png" alt="Wishlist"></button>
-                <button class="set-btn" id="btnOpenChecklist" title="Checklist"><img src="icon-checklist.png" alt="Checklist"></button>
-                <button class="set-btn" id="btnOpenIdea" title="Ý tưởng"><img src="icon-idea.png" alt="Idea"></button>
-                <button class="set-btn" id="btnOpenMisc" title="Thập cẩm"><img src="icon-misc.png" alt="Misc"></button>
-                <button class="set-btn" id="btnOpenHistory" title="Lịch sử chung"><img src="icon-history.png" alt="History"></button>
+                <button class="set-btn" id="btnOpenChecklist" title="Shopping List"><img src="icon-checklist.png" alt="Checklist"></button>
+                <button class="set-btn" id="btnOpenIdea" title="Ideas"><img src="icon-idea.png" alt="Idea"></button>
+                <button class="set-btn" id="btnOpenMisc" title="Misc"><img src="icon-misc.png" alt="Misc"></button>
+                <button class="set-btn" id="btnOpenHistory" title="History"><img src="icon-history.png" alt="History"></button>
             </div>
             <button class="main-set-btn" id="btnListMain"><img src="icon-list-main.png" alt="List Menu"></button>
         </div>
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="theme-modal" style="max-height: 80vh; overflow-y: auto;">
                 <h3>✨ Wishlist</h3>
                 <div class="mini-input-group">
-                    <input type="text" id="wishlistInp" placeholder="Cậu muốn mua/làm gì? (Nhấn Enter để lưu)">
+                    <input type="text" id="wishlistInp" placeholder="What to buy/do? (Press Enter)">
                     <button id="btnAddWishlist">Save</button>
                 </div>
                 <ul class="mini-list" id="wishlistUl"></ul>
@@ -25,10 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div id="checklistModal" class="theme-modal-overlay">
             <div class="theme-modal" style="max-height: 80vh; overflow-y: auto; width: 90%; max-width: 450px;">
-                <h3>✅ List mua đồ</h3>
+                <h3>✅ Shopping List</h3>
                 <div class="mini-input-group">
-                    <input type="text" id="chkGroupInp" placeholder="Tạo mục mới (Nhấn Enter)...">
-                    <button id="btnAddChkGroup">Tạo</button>
+                    <input type="text" id="chkGroupInp" placeholder="Create new list (Press Enter)...">
+                    <button id="btnAddChkGroup">Create</button>
                 </div>
                 <div id="checklistContainer" style="text-align: left; margin-top: 15px;"></div>
             </div>
@@ -36,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div id="ideaModal" class="theme-modal-overlay">
             <div class="theme-modal" style="max-height: 80vh; overflow-y: auto; width: 90%; max-width: 500px;">
-                <h3>💡 Ý tưởng</h3>
-                <textarea id="ideaInp" placeholder="Viết thoải mái nhé Babi... (Enter để lưu, Shift+Enter để xuống dòng)" style="width: 100%; min-height: 80px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; margin-bottom: 10px; font-family: inherit; resize: vertical;"></textarea>
-                <button id="btnAddIdea" style="width: 100%; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 15px;">Lưu Ý Tưởng</button>
+                <h3>💡 Ideas</h3>
+                <textarea id="ideaInp" placeholder="Write freely, Babi... (Enter to save, Shift+Enter for new line)" style="width: 100%; min-height: 80px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); outline: none; margin-bottom: 10px; font-family: inherit; resize: vertical;"></textarea>
+                <button id="btnAddIdea" style="width: 100%; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 15px;">Save Idea</button>
                 <ul class="mini-list" id="ideaUl" style="text-align: left;"></ul>
-                <div class="modal-btns"><button class="cancel btnCloseList">Đóng</button></div>
+                <div class="modal-btns"><button class="cancel btnCloseList">Close</button></div>
             </div>
         </div>
 
@@ -53,35 +52,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="food">🍕 F&D</option>
                 </select>
                 <div class="mini-input-group">
-                    <input type="text" id="miscInp" placeholder="Nhập tên/Địa chỉ...">
-                    <button id="btnAddMisc">Lưu</button>
+                    <input type="text" id="miscInp" placeholder="Enter name/address...">
+                    <button id="btnAddMisc">Save</button>
                 </div>
-                <button id="btnRandomMovie" style="width: 100%; padding: 8px; background: #333; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">🎲 Chọn ngẫu nhiên phim</button>
+                <button id="btnRandomMovie" style="width: 100%; padding: 8px; background: #333; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px;">🎲 Pick a random movie</button>
                 <ul class="mini-list" id="miscUl" style="text-align: left;"></ul>
             </div>
         </div>
 
         <div id="listHistoryModal" class="theme-modal-overlay">
             <div class="theme-modal" style="max-height: 85vh; overflow-y: auto; width: 90%; max-width: 600px;">
-                <h3>🕰️ Lịch Sử Lưu Trữ</h3>
+                <h3>🕰️ History</h3>
                 <div style="text-align: left; margin-bottom: 15px; border-left: 3px solid #ffb6c1; padding-left: 10px; background: #fff0f5; border-radius: 4px; padding: 10px;">
-                    <h4 style="color: var(--accent); margin-bottom: 5px;">✨ Wishlist đã xong/xóa</h4>
+                    <h4 style="color: var(--accent); margin-bottom: 5px;">✨ Completed/Deleted Wishlist</h4>
                     <ul class="mini-list" id="histWishlistUl"></ul>
                 </div>
                 <div style="text-align: left; margin-bottom: 15px; border-left: 3px solid #64b5f6; padding-left: 10px; background: #e3f2fd; border-radius: 4px; padding: 10px;">
-                    <h4 style="color: #1e88e5; margin-bottom: 5px;">✅ Checklist đã hoàn thành</h4>
+                    <h4 style="color: #1e88e5; margin-bottom: 5px;">✅ Completed Checklists</h4>
                     <ul class="mini-list" id="histChecklistUl"></ul>
                 </div>
                 <div style="text-align: left; margin-bottom: 15px; border-left: 3px solid #ffd54f; padding-left: 10px; background: #fffde7; border-radius: 4px; padding: 10px;">
-                    <h4 style="color: #fbc02d; margin-bottom: 5px;">💡 Ý tưởng đã thực hiện</h4>
+                    <h4 style="color: #fbc02d; margin-bottom: 5px;">💡 Executed Ideas</h4>
                     <ul class="mini-list" id="histIdeaUl"></ul>
                 </div>
                 <div style="text-align: left; margin-bottom: 15px; border-left: 3px solid #81c784; padding-left: 10px; background: #e8f5e9; border-radius: 4px; padding: 10px;">
-                    <h4 style="color: #43a047; margin-bottom: 5px;">🍱 Mix đã xóa</h4>
+                    <h4 style="color: #43a047; margin-bottom: 5px;">🍱 Deleted Misc</h4>
                     <ul class="mini-list" id="histMiscUl"></ul>
                 </div>
                 <div class="modal-btns">
-                    <button id="btnClearHistory" style="background: var(--red);">Xóa sạch Lịch sử</button>
+                    <button id="btnClearHistory" style="background: var(--red);">Clear All History</button>
                 </div>
             </div>
         </div>
@@ -104,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.theme-modal-overlay').forEach(m => m.style.display = 'none');
     }));
 
-    // --- XỬ LÝ PHÍM ENTER CHO TẤT CẢ CÁC INPUT ---
     document.getElementById('wishlistInp').addEventListener('keypress', e => { if (e.key === 'Enter') document.getElementById('btnAddWishlist').click(); });
     document.getElementById('chkGroupInp').addEventListener('keypress', e => { if (e.key === 'Enter') document.getElementById('btnAddChkGroup').click(); });
     document.getElementById('checklistContainer').addEventListener('keypress', e => { 
@@ -114,14 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     document.getElementById('ideaInp').addEventListener('keypress', e => { 
-        if (e.key === 'Enter' && !e.shiftKey) { // Ấn Enter để lưu, Shift+Enter để xuống dòng
+        if (e.key === 'Enter' && !e.shiftKey) { 
             e.preventDefault(); 
             document.getElementById('btnAddIdea').click(); 
         } 
     });
     document.getElementById('miscInp').addEventListener('keypress', e => { if (e.key === 'Enter') document.getElementById('btnAddMisc').click(); });
 
-    // --- 2. WISHLIST (SỬ DỤNG CHECKBOX Ô VUÔNG) ---
     let wishlist = JSON.parse(localStorage.getItem('qn_wishlist')) || [];
     function renderWishlist() {
         let ul = document.getElementById('wishlistUl'); ul.innerHTML = '';
@@ -141,26 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if(v) { wishlist.push(v); localStorage.setItem('qn_wishlist', JSON.stringify(wishlist)); document.getElementById('wishlistInp').value=''; renderWishlist(); }
     });
     
-    // Bắt sự kiện Tick ô vuông cho Wishlist
     document.getElementById('wishlistUl').addEventListener('change', e => {
         if(e.target.classList.contains('chk-wish-done')) { 
             let idx = e.target.dataset.idx;
-            setTimeout(() => { // Delay 0.1s để ngắm dấu tick xong mới xóa
-                saveToListHistory('wishlist', `✅ Đã mua/Xong: ${wishlist[idx]}`); 
+            setTimeout(() => { 
+                saveToListHistory('wishlist', `✅ Bought/Done: ${wishlist[idx]}`); 
                 wishlist.splice(idx, 1); localStorage.setItem('qn_wishlist', JSON.stringify(wishlist)); renderWishlist(); 
             }, 300);
         }
     });
-    // Xóa ngang Wishlist
     document.getElementById('wishlistUl').addEventListener('click', e => {
         if(e.target.classList.contains('btn-wish-del')) { 
             let idx = e.target.dataset.idx;
-            saveToListHistory('wishlist', `❌ Hủy bỏ: ${wishlist[idx]}`); 
+            saveToListHistory('wishlist', `❌ Canceled: ${wishlist[idx]}`); 
             wishlist.splice(idx, 1); localStorage.setItem('qn_wishlist', JSON.stringify(wishlist)); renderWishlist(); 
         }
     });
 
-    // --- 3. CHECKLIST ---
     let checklists = JSON.parse(localStorage.getItem('qn_checklists')) || [];
     function renderChecklist() {
         let c = document.getElementById('checklistContainer'); c.innerHTML = '';
@@ -173,10 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
             c.innerHTML += `
                 <div class="checklist-group">
-                    <div class="group-title chk-title" data-gid="${g.id}" title="Double click để đổi tên">📋 ${g.title}</div>
+                    <div class="group-title chk-title" data-gid="${g.id}" title="Double click to rename">📋 ${g.title}</div>
                     <div style="display:flex; gap:5px; margin-bottom:8px;">
-                        <input type="text" id="chkInp_${g.id}" placeholder="Thêm đồ cần (Nhấn Enter)..." style="flex:1; padding:5px; border-radius:4px; border:1px solid var(--border); outline:none;">
-                        <button class="add-chk-item" data-gid="${g.id}" style="padding:5px 10px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer;">Thêm</button>
+                        <input type="text" id="chkInp_${g.id}" placeholder="Add item (Press Enter)..." style="flex:1; padding:5px; border-radius:4px; border:1px solid var(--border); outline:none;">
+                        <button class="add-chk-item" data-gid="${g.id}" style="padding:5px 10px; background:var(--accent); color:white; border:none; border-radius:4px; cursor:pointer;">Add</button>
                     </div>
                     ${itemsHtml}
                 </div>`;
@@ -197,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('checklistContainer').addEventListener('dblclick', e => {
         if(e.target.classList.contains('chk-title')) {
             let gid = parseInt(e.target.dataset.gid); let g = checklists.find(x => x.id === gid);
-            let n = prompt("Đổi tên mục checklist:", g.title);
+            let n = prompt("Rename checklist:", g.title);
             if(n) { g.title = n; localStorage.setItem('qn_checklists', JSON.stringify(checklists)); renderChecklist(); }
         }
     });
@@ -208,8 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
             item.done = !item.done;
             if(g.items.length > 0 && g.items.every(x => x.done)) {
                 setTimeout(() => {
-                    alert(`Tuyệt vời! Mục "${g.title}" đã chuẩn bị xong và được tự động xóa!`);
-                    saveToListHistory('checklist', `Mục: ${g.title} (Đã chuẩn bị xong ${g.items.length} món)`);
+                    alert(`Awesome! List "${g.title}" is ready and automatically removed!`);
+                    saveToListHistory('checklist', `List: ${g.title} (Completed ${g.items.length} items)`);
                     checklists = checklists.filter(x => x.id !== gid);
                     localStorage.setItem('qn_checklists', JSON.stringify(checklists)); renderChecklist();
                 }, 400);
@@ -217,13 +211,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 4. IDEAS (SỬ DỤNG CHECKBOX Ô VUÔNG) ---
     let ideas = JSON.parse(localStorage.getItem('qn_ideas_v2')) || [];
     function renderIdeas() {
         let ul = document.getElementById('ideaUl'); ul.innerHTML = '';
         ideas.forEach((item, i) => {
             ul.innerHTML += `<li class="mini-item" style="display:flex; align-items:flex-start; gap:8px;">
-                <input type="checkbox" class="chk-idea-done" data-idx="${i}" style="margin-top:2px; accent-color:var(--accent); width:15px; height:15px; cursor:pointer;" title="Đánh dấu hoàn thành">
+                <input type="checkbox" class="chk-idea-done" data-idx="${i}" style="margin-top:2px; accent-color:var(--accent); width:15px; height:15px; cursor:pointer;" title="Mark as done">
                 <span style="white-space: pre-wrap; font-size:13px; line-height: 1.4; flex:1;">${item}</span>
             </li>`;
         });
@@ -233,25 +226,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let v = document.getElementById('ideaInp').value.trim();
         if(v) { ideas.push(v); localStorage.setItem('qn_ideas_v2', JSON.stringify(ideas)); document.getElementById('ideaInp').value=''; renderIdeas(); }
     });
-    // Bắt sự kiện Tick ô vuông cho Idea
     document.getElementById('ideaUl').addEventListener('change', e => {
         if(e.target.classList.contains('chk-idea-done')) {
             let idx = e.target.dataset.idx;
-            setTimeout(() => { // Delay 0.3s
+            setTimeout(() => { 
                 saveToListHistory('idea', ideas[idx]);
                 ideas.splice(idx, 1); localStorage.setItem('qn_ideas_v2', JSON.stringify(ideas)); renderIdeas();
             }, 300);
         }
     });
 
-    // --- 5. MISC (THÊM TÍCH HỢP MAP) ---
     let misc = JSON.parse(localStorage.getItem('qn_misc')) || { movies: [], hangout: [], food: [] };
     let curCat = 'movies';
     function renderMisc() {
         let ul = document.getElementById('miscUl'); ul.innerHTML = '';
         if(misc[curCat]) {
             misc[curCat].forEach((item, i) => {
-                // Tạo nút Map nếu là mục đi chơi hoặc ăn uống
                 let mapBtn = '';
                 if(curCat === 'hangout' || curCat === 'food') {
                     let mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item)}`;
@@ -281,18 +271,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('miscUl').addEventListener('click', e => {
         if(e.target.classList.contains('btn-misc-del')) {
             let idx = e.target.dataset.idx;
-            let catName = curCat === 'movies' ? '🎬 Phim' : (curCat === 'hangout' ? '⛺ Đi chơi' : '🍕 Ăn uống');
-            saveToListHistory('misc', `[${catName}] Đã xóa: ${misc[curCat][idx]}`);
+            let catName = curCat === 'movies' ? '🎬 Movie' : (curCat === 'hangout' ? '⛺ Hangout' : '🍕 F&D');
+            saveToListHistory('misc', `[${catName}] Deleted: ${misc[curCat][idx]}`);
             misc[curCat].splice(idx, 1); localStorage.setItem('qn_misc', JSON.stringify(misc)); renderMisc();
         }
     });
     document.getElementById('btnRandomMovie').addEventListener('click', () => {
-        if(!misc.movies || misc.movies.length === 0) return alert("Chưa có phim nào trong danh sách babi ơi!");
+        if(!misc.movies || misc.movies.length === 0) return alert("There are no movies in the list yet, Babi!");
         let r = misc.movies[Math.floor(Math.random() * misc.movies.length)];
-        alert(`🎲 Vũ trụ mách bảo hôm nay Babi hãy xem phim:\n\n🎬 "${r}"`);
+        alert(`🎲 The universe tells you to watch this movie today, Babi:\n\n🎬 "${r}"`);
     });
 
-    // --- 6. LỊCH SỬ CHUNG ---
     function renderHistory() {
         let historyData = JSON.parse(localStorage.getItem('qn_list_history')) || { wishlist: [], checklist: [], idea: [], misc: [] };
         let ulWish = document.getElementById('histWishlistUl'); ulWish.innerHTML = '';
@@ -311,28 +300,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('btnClearHistory').addEventListener('click', () => {
-        if(confirm("Babi có chắc muốn xóa sạch toàn bộ lịch sử không? Hành động này không thể hoàn tác đâu nhé!")) {
+        if(confirm("Are you sure you want to clear all history, Babi? This action cannot be undone!")) {
             localStorage.setItem('qn_list_history', JSON.stringify({ wishlist: [], checklist: [], idea: [], misc: [] }));
             renderHistory();
         }
     });
-// --- BỘ NHẬN DIỆN CLICK RA NGOÀI (TÁCH BIỆT POPUP VÀ TỰ NHẬN DIỆN MENU MỚI) ---
+
     document.addEventListener('click', (e) => {
-        
-        // --- LUỒNG 1: ƯU TIÊN ĐÓNG POP-UP TRƯỚC ---
         if (e.target.classList.contains('theme-modal-overlay')) {
             e.target.style.display = 'none';
-            return; // Chặn lại, không xử lý tiếp
+            return; 
         }
 
-        // --- LUỒNG 1.5: ĐANG GÕ TRONG POP-UP THÌ KHÔNG LÀM GÌ CẢ ---
-        // Phép thuật ở đây: Nếu click trúng bất kỳ thứ gì BÊN TRONG Pop-up -> Dừng lại, giữ nguyên Menu!
         if (e.target.closest('.theme-modal')) {
             return; 
         }
 
-        // --- LUỒNG 2: CHỈ ĐÓNG MENU KHI CLICK RA KHOẢNG TRỐNG ---
-        // Hệ thống sẽ tự kiểm tra tất cả các nút (hiện tại và tương lai) có class .main-set-btn
         let clickedInsideMenu = false;
         let clickedOnMainBtn = e.target.closest('.main-set-btn');
 
@@ -343,7 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Nếu click không trúng menu nào, và không trúng nút chính nào -> Thu hồi tất cả menu
         if (!clickedInsideMenu && !clickedOnMainBtn && window.allMyMenus) {
             window.allMyMenus.forEach(id => {
                 const el = document.getElementById(id);
@@ -351,4 +333,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-    });
+});
