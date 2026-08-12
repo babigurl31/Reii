@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnTimerPause = document.getElementById('btnTimerPause');
     const btnResetTimer = document.getElementById('btnResetTimer');
     
-    // UI Elements
     const btnCenterPomoIcon = document.getElementById('btnCenterPomoIcon');
     const pomodoroUIWrapper = document.getElementById('pomodoroUIWrapper');
     const focusWelcomeScreen = document.getElementById('focusWelcomeScreen');
@@ -59,9 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'flex'; 
             
             if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
-            initialMinutes = 25;
-            if (inputTimer) inputTimer.value = 25;
-            timeLeft = 25 * 60;
+            initialMinutes = parseInt(inputTimer.value) || 25;
+            timeLeft = initialMinutes * 60;
             switchModeVisual('pomo');
             updateDisplay();
         });
@@ -82,23 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateDisplay() {
         let m = Math.floor(timeLeft / 60);
         let s = timeLeft % 60;
-        if (inputTimer) inputTimer.value = m;
+        // Cập nhật giá trị hiển thị mà không ghi đè giá trị gốc người dùng nhập
         if (timerSeconds) timerSeconds.innerText = s < 10 ? '0' + s : s;
+        // Chỉ cập nhật input nếu đang chạy để hiển thị số phút lùi dần
+        if (isRunning && inputTimer) inputTimer.value = m;
     }
-
-    window.startFocusFromPlanner = (taskName, minutes) => {
-        if (tabFocusBtn) tabFocusBtn.click();
-        if (focusWelcomeScreen) focusWelcomeScreen.style.display = 'none';
-        if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'flex';
-
-        if (focusTaskName) focusTaskName.innerText = "🎯 Processing: " + taskName;
-        let mins = parseInt(minutes) || 25;
-        if (inputTimer) inputTimer.value = mins;
-        initialMinutes = mins;
-        timeLeft = mins * 60;
-        switchModeVisual('pomo');
-        updateDisplay();
-    };
 
     function switchModeVisual(mode) {
         currentMode = mode;
@@ -119,12 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startTimer() {
         if (isRunning) return;
-        isRunning = true;
-
-        if (timeLeft === parseInt(inputTimer.value) * 60 || timeLeft <= 0) {
+        
+        // Nếu timer mới hoàn toàn hoặc đã đếm xong, lấy lại số phút từ ô input
+        if (timeLeft <= 0 || (!timer && timeLeft === initialMinutes * 60)) {
             initialMinutes = parseInt(inputTimer.value) || 25;
             timeLeft = initialMinutes * 60;
         }
+        
+        isRunning = true;
+        updateDisplay();
 
         timer = setInterval(() => {
             if (timeLeft > 0) {
@@ -155,20 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
             let randomCongrats = congratsMessages[Math.floor(Math.random() * congratsMessages.length)];
             alert(randomCongrats);
 
-            let breakMins = 5;
-            if (initialMinutes < 30) {
-                breakMins = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
-            } else {
-                breakMins = Math.floor(Math.random() * (15 - 11 + 1)) + 11;
-            }
+            let breakMins = initialMinutes < 30 
+                ? Math.floor(Math.random() * (10 - 5 + 1)) + 5 
+                : Math.floor(Math.random() * (15 - 11 + 1)) + 11;
 
             if (focusTaskName) focusTaskName.innerText = `⏳ Take a short break! (${breakMins} mins)`;
+            if (inputTimer) inputTimer.value = breakMins;
             timeLeft = breakMins * 60;
             switchModeVisual('break');
             updateDisplay();
         } else {
             alert("⏰ Break time is over, Babi! Ready to get back to focus! 💪");
             if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
+            // Quay lại số phút mặc định ban đầu
+            if (inputTimer) inputTimer.value = initialMinutes;
             timeLeft = initialMinutes * 60;
             switchModeVisual('pomo');
             updateDisplay();
@@ -191,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnResetTimer) {
         btnResetTimer.addEventListener('click', () => {
             pauseTimer();
-            let mins = parseInt(inputTimer.value) || 25;
-            timeLeft = mins * 60;
+            initialMinutes = parseInt(inputTimer.value) || 25;
+            timeLeft = initialMinutes * 60;
             switchModeVisual('pomo');
             if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
             updateDisplay();
@@ -230,8 +219,11 @@ window.startFocusFromPlanner = function(taskName, minutes) {
     let timeInput = document.getElementById('inputTimer');
     let secDisplay = document.getElementById('timerSeconds');
     if(timeInput) {
-        timeInput.value = minutes || 25; 
+        let mins = parseInt(minutes) || 25;
+        timeInput.value = mins; 
         if(secDisplay) secDisplay.innerText = '00';
-        timeInput.dispatchEvent(new Event('input'));
+        
+        // Trigger the change event manually so the timer updates its internal state
+        timeInput.dispatchEvent(new Event('change'));
     }
 };
