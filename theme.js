@@ -2,59 +2,59 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeHTML = `
         <div class="settings-wrapper">
             <div class="settings-menu" id="settingsMenu">
-                <button class="set-btn" id="btnThemeBg" title="Đổi hình nền"><img src="setting-bg.png" alt="Nền"></button>
-                <button class="set-btn" id="btnThemeColor" title="Đổi màu Theme"><img src="setting-color.png" alt="Màu"></button>
-                <button class="set-btn" id="btnThemeFont" title="Đổi Font chữ"><img src="setting-font.png" alt="Font"></button>
-                <button class="set-btn" id="btnThemeDark" title="Bật/Tắt Đèn">💡</button>
+                <button class="set-btn" id="btnThemeBg" title="Change Background"><img src="setting-bg.png" alt="Bg"></button>
+                <button class="set-btn" id="btnThemeColor" title="Change Theme Color"><img src="setting-color.png" alt="Color"></button>
+                <button class="set-btn" id="btnThemeFont" title="Change Font"><img src="setting-font.png" alt="Font"></button>
+                <button class="set-btn" id="btnThemeDark" title="Toggle Light/Dark">💡</button>
             </div>
-            <button class="main-set-btn" id="btnThemeMain"><img src="setting-main.png" alt="Cài đặt"></button>
+            <button class="main-set-btn" id="btnThemeMain" title="Settings"><img src="setting-main.png" alt="Settings"></button>
         </div>
         <div id="bgThemeModal" class="theme-modal-overlay">
             <div class="theme-modal">
-                <h3>Đổi Giao Diện Nền</h3>
+                <h3>Background Settings</h3>
                 <div class="toggle-container">
-                    <span>Màu Nhạt</span>
+                    <span>Solid Color</span>
                     <label class="switch">
                         <input type="checkbox" id="bgToggle">
                         <span class="slider"></span>
                     </label>
-                    <span>Dùng Ảnh</span>
+                    <span>Image/GIF</span>
                 </div>
-                <input type="text" id="bgLinkInput" placeholder="Dán link ảnh...">
+                <input type="text" id="bgLinkInput" placeholder="Paste image URL here...">
                 <div class="modal-btns">
-                    <button id="btnSaveBg">Áp Dụng</button>
-                    <button class="cancel btnCloseThemeModals">Hủy</button>
+                    <button id="btnSaveBg">Apply</button>
+                    <button class="cancel btnCloseThemeModals">Cancel</button>
                 </div>
             </div>
         </div>
         <div id="colorThemeModal" class="theme-modal-overlay">
             <div class="theme-modal">
-                <h3>Đổi Màu Web</h3>
+                <h3>Theme Color</h3>
                 <input type="color" id="colorPicker" style="width:100%; height: 50px; border:none; cursor:pointer; border-radius: 8px;">
-                <input type="text" id="hexInput" placeholder="VD: #ec407a">
+                <input type="text" id="hexInput" placeholder="e.g. #ec407a">
                 <div class="modal-btns">
-                    <button id="btnSaveColor">Lưu Màu</button>
-                    <button class="cancel btnCloseThemeModals">Hủy</button>
+                    <button id="btnSaveColor">Save Color</button>
+                    <button class="cancel btnCloseThemeModals">Cancel</button>
                 </div>
             </div>
         </div>
         <div id="fontThemeModal" class="theme-modal-overlay">
             <div class="theme-modal">
-                <h3>Đổi Font Chữ</h3>
+                <h3>Font Settings</h3>
                 <select id="fontSelect">
-                    <option value="Syne">Syne (Mặc định)</option>
+                    <option value="Syne">Syne (Default)</option>
                     <option value="Playfair Display">Playfair Display</option>
                     <option value="Montserrat">Montserrat</option>
                     <option value="Dancing Script">Dancing Script</option>
                     <option value="Quicksand">Quicksand</option>
                     <option value="Pacifico">Pacifico</option>
                     <option value="Patrick Hand">Patrick Hand</option>
-                    <option value="custom_font">👉 Nhập tên Font khác...</option>
+                    <option value="custom_font">👉 Enter another Font...</option>
                 </select>
-                <input type="text" id="customFontInput" placeholder="Nhập tên Font..." style="display:none;">
+                <input type="text" id="customFontInput" placeholder="Enter Font Name..." style="display:none;">
                 <div class="modal-btns">
-                    <button id="btnSaveFont">Áp Dụng</button>
-                    <button class="cancel btnCloseThemeModals">Hủy</button>
+                    <button id="btnSaveFont">Apply</button>
+                    <button class="cancel btnCloseThemeModals">Cancel</button>
                 </div>
             </div>
         </div>
@@ -62,13 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertAdjacentHTML('beforeend', themeHTML);
 
-// Cơ chế: Đóng chéo thông minh - Tự động nhận diện nút mới thêm
     window.toggleExclusiveMenu = (menuIdToOpen) => {
-        // Khởi tạo sổ đăng ký tự động
         if (!window.allMyMenus) window.allMyMenus = new Set();
-        window.allMyMenus.add(menuIdToOpen); // Ghi nhớ menu đang mở
+        window.allMyMenus.add(menuIdToOpen);
 
-        // Quét tất cả các menu đã đăng ký và đóng những cái không được chọn
         window.allMyMenus.forEach(id => {
             const el = document.getElementById(id);
             if (el) {
@@ -93,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('bgToggle').checked = (localStorage.getItem('qn_bg_mode') || 'image') === 'image';
         document.getElementById('bgLinkInput').style.display = document.getElementById('bgToggle').checked ? 'block' : 'none';
         document.getElementById('bgLinkInput').value = localStorage.getItem('qn_bg_link') || ''; 
-        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('bgToggle').addEventListener('change', e => document.getElementById('bgLinkInput').style.display = e.target.checked ? 'block' : 'none');
     document.getElementById('btnSaveBg').addEventListener('click', () => {
@@ -108,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let hex = localStorage.getItem('qn_theme_accent') || '#ec407a';
         document.getElementById('colorPicker').value = hex; 
         document.getElementById('hexInput').value = hex; 
-        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('colorPicker').addEventListener('input', e => document.getElementById('hexInput').value = e.target.value);
     document.getElementById('hexInput').addEventListener('input', e => { if(/^#[0-9A-F]{6}$/i.test(e.target.value)) document.getElementById('colorPicker').value = e.target.value; });
@@ -124,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let found = Array.from(sel.options).some(o => o.value === cur);
         if(found) sel.value = cur; 
         else { sel.value = 'custom_font'; document.getElementById('customFontInput').value = cur; document.getElementById('customFontInput').style.display = 'block'; }
-        // Đã xóa dòng đóng menu ở đây
     });
     document.getElementById('fontSelect').addEventListener('change', e => document.getElementById('customFontInput').style.display = e.target.value === 'custom_font' ? 'block' : 'none');
     document.getElementById('btnSaveFont').addEventListener('click', () => {
@@ -148,7 +142,6 @@ function hexToRgba(hex, alpha) {
     return `rgba(${parseInt(hex.substring(0,2), 16)}, ${parseInt(hex.substring(2,4), 16)}, ${parseInt(hex.substring(4,6), 16)}, ${alpha})`;
 }
 
-// BÊ Y NGUYÊN HÀM GỐC CỦA NGHI VÀO ĐÂY (Lớp màng phủ 0.3)
 function applyTheme() {
     let accent = localStorage.getItem('qn_theme_accent') || '#ec407a';
     let bgMode = localStorage.getItem('qn_bg_mode') || 'image';
