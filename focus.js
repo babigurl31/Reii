@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnTimerPause = document.getElementById('btnTimerPause');
     const btnResetTimer = document.getElementById('btnResetTimer');
     
-    // UI Elements Mới
+    // UI Elements
     const btnCenterPomoIcon = document.getElementById('btnCenterPomoIcon');
     const pomodoroUIWrapper = document.getElementById('pomodoroUIWrapper');
     const focusWelcomeScreen = document.getElementById('focusWelcomeScreen');
@@ -30,20 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (totalFocusTimeEl) totalFocusTimeEl.innerText = totalMinutes;
 
     const reminderMessages = [
-        "Babi ơi, nhấp một ngụm nước cho tỉnh táo đầu óc nhé! 💧",
-        "Cậu ơi, chỉnh lại dáng ngồi thẳng lưng lên nào để bảo vệ cột sống nhé! 🧘‍♀️",
-        "Thả lỏng đôi vai và chớp mắt vài cái cho đỡ mỏi nhé babi! ✨",
-        "Vươn vai nhẹ nhàng một xíu và uống nước đi nào cậu ơi! 🌸"
+        "Hey Babi, take a sip of water to stay refreshed! 💧",
+        "Hey, sit up straight to protect your spine! 🧘‍♀️",
+        "Relax your shoulders and blink a few times to rest your eyes, Babi! ✨",
+        "Do a gentle stretch and drink some water! 🌸"
     ];
 
     const congratsMessages = [
-        "Xuất sắc luôn babi ơi! Cậu đã hoàn thành mục tiêu vô cùng chăm chỉ! 🥰🌸",
-        "Đỉnh quá đi mất! Hãy thưởng cho bản thân một khoảng thời gian nghỉ ngơi xứng đáng nhé! 🌟",
-        "Babi làm tốt lắm nha, tự hào về sự tập trung của cậu ghê gớm! 🎉",
-        "Hoàn thành xuất sắc rồi! Cậu là số một luôn nha! 🦄✨"
+        "Excellent work, Babi! You worked so hard to reach your goal! 🥰🌸",
+        "Awesome! Treat yourself to a well-deserved break! 🌟",
+        "Great job, Babi! So proud of your focus! 🎉",
+        "Outstandingly done! You're number one! 🦄✨"
     ];
 
-    // --- MỞ TAB TẬP TRUNG ---
     if (tabFocusBtn) {
         tabFocusBtn.addEventListener('click', () => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -54,13 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- CHỨC NĂNG CLICK NÚT BỰ GIỮA MÀN HÌNH ---
     if (btnCenterPomoIcon) {
         btnCenterPomoIcon.addEventListener('click', () => {
-            if (focusWelcomeScreen) focusWelcomeScreen.style.display = 'none'; // Ẩn màn hình chờ
-            if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'flex'; // Hiện UI đếm giờ
+            if (focusWelcomeScreen) focusWelcomeScreen.style.display = 'none'; 
+            if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'flex'; 
             
-            if (focusTaskName) focusTaskName.innerText = "🎯 Tự do tập trung";
+            if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
             initialMinutes = 25;
             if (inputTimer) inputTimer.value = 25;
             timeLeft = 25 * 60;
@@ -69,12 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- QUAY LẠI VÀ RESET GIAO DIỆN ---
     if (btnExitFocus) {
         btnExitFocus.addEventListener('click', () => {
             document.body.classList.remove('is-focusing');
-            
-            // Trả Tab Focus về lại trạng thái màn hình trống có nút bự ban đầu
             if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'none';
             if (focusWelcomeScreen) focusWelcomeScreen.style.display = 'flex';
             pauseTimer();
@@ -91,15 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (timerSeconds) timerSeconds.innerText = s < 10 ? '0' + s : s;
     }
 
-    // --- NHẬN LỆNH TỪ PLANNER ---
     window.startFocusFromPlanner = (taskName, minutes) => {
         if (tabFocusBtn) tabFocusBtn.click();
-        
-        // Vào thẳng giao diện đếm giờ luôn
         if (focusWelcomeScreen) focusWelcomeScreen.style.display = 'none';
         if (pomodoroUIWrapper) pomodoroUIWrapper.style.display = 'flex';
 
-        if (focusTaskName) focusTaskName.innerText = "🎯 Đang xử lý: " + taskName;
+        if (focusTaskName) focusTaskName.innerText = "🎯 Processing: " + taskName;
         let mins = parseInt(minutes) || 25;
         if (inputTimer) inputTimer.value = mins;
         initialMinutes = mins;
@@ -170,13 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 breakMins = Math.floor(Math.random() * (15 - 11 + 1)) + 11;
             }
 
-            if (focusTaskName) focusTaskName.innerText = `⏳ Nghỉ giải lao một chút nhé! (${breakMins} phút)`;
+            if (focusTaskName) focusTaskName.innerText = `⏳ Take a short break! (${breakMins} mins)`;
             timeLeft = breakMins * 60;
             switchModeVisual('break');
             updateDisplay();
         } else {
-            alert("⏰ Thời gian nghỉ đã hết rồi babi ơi! Sẵn sàng quay lại vạch tập trung nào! 💪");
-            if (focusTaskName) focusTaskName.innerText = "🎯 Tự do tập trung";
+            alert("⏰ Break time is over, Babi! Ready to get back to focus! 💪");
+            if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
             timeLeft = initialMinutes * 60;
             switchModeVisual('pomo');
             updateDisplay();
@@ -202,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let mins = parseInt(inputTimer.value) || 25;
             timeLeft = mins * 60;
             switchModeVisual('pomo');
-            if (focusTaskName) focusTaskName.innerText = "🎯 Tự do tập trung";
+            if (focusTaskName) focusTaskName.innerText = "🎯 Free Focus";
             updateDisplay();
         });
     }
@@ -217,9 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// CẦU NỐI: ĐÓN DỮ LIỆU TỪ TAB VIỆC HÔM NAY SANG TRẠM TẬP TRUNG
+
 window.startFocusFromPlanner = function(taskName, minutes) {
-    // 1. Tự động chuyển sang Tab Focus
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     
@@ -228,24 +219,19 @@ window.startFocusFromPlanner = function(taskName, minutes) {
     if(focusTab) focusTab.classList.add('active');
     if(focusBtn) focusBtn.classList.add('active');
 
-    // 2. Tắt màn hình nút bự, bật màn hình đếm giờ
     let welcome = document.getElementById('focusWelcomeScreen');
     let ui = document.getElementById('pomodoroUIWrapper');
     if(welcome) welcome.style.display = 'none';
     if(ui) ui.style.display = 'flex';
 
-    // 3. Đổi tên công việc đang hiển thị
     let taskLabel = document.getElementById('focusTaskName');
-    if(taskLabel) taskLabel.innerText = `🎯 Đang xử lý: ${taskName}`;
+    if(taskLabel) taskLabel.innerText = `🎯 Processing: ${taskName}`;
 
-    // 4. Điền số phút vào đồng hồ
     let timeInput = document.getElementById('inputTimer');
     let secDisplay = document.getElementById('timerSeconds');
     if(timeInput) {
-        timeInput.value = minutes || 25; // Mặc định 25 phút nếu quên nhập
+        timeInput.value = minutes || 25; 
         if(secDisplay) secDisplay.innerText = '00';
-        
-        // Đánh thức đồng hồ đếm ngược nhận diện số phút mới
         timeInput.dispatchEvent(new Event('input'));
     }
 };
