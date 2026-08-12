@@ -5,12 +5,12 @@ function renderCircleProgress() {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    // 1. TÍNH TIẾN ĐỘ NĂM (%)
+    // 1. Calculate Year Progress (%)
     const startOfYear = new Date(now.getFullYear(), 0, 1);
     const endOfYear = new Date(now.getFullYear() + 1, 0, 1);
     const yearPercent = Math.min(100, Math.max(0, ((now - startOfYear) / (endOfYear - startOfYear)) * 100)).toFixed(1);
 
-    // 2. TÌM SỰ KIỆN GẦN NHẤT TRONG LỊCH
+    // 2. Find Upcoming Event
     let calData = JSON.parse(localStorage.getItem('qn_cal')) || {};
     let upcomingEvent = null;
     let minDaysToEvent = Infinity;
@@ -24,7 +24,12 @@ function renderCircleProgress() {
 
         if (diffDays >= 0 && diffDays < minDaysToEvent) {
             minDaysToEvent = diffDays;
-            upcomingEvent = { text: events[0].text || events[0], days: diffDays }; 
+            
+            // Xử lý an toàn cho cả dữ liệu lịch cũ (string) và mới (object có màu)
+            let firstEvent = events[0];
+            let eventText = typeof firstEvent === 'object' ? firstEvent.text : firstEvent;
+            
+            upcomingEvent = { text: eventText, days: diffDays }; 
         }
     }
 
@@ -39,7 +44,7 @@ function renderCircleProgress() {
         eventDaysStr = upcomingEvent.days === 0 ? "Today" : upcomingEvent.days;
     }
 
-    // 3. VẼ 2 VÒNG TRÒN RA WEB
+    // 3. Render
     container.innerHTML = `
         <div class="circle-box">
             <div class="circle-title">⏳ Year Progress</div>
