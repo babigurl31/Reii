@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="rose-bow-theme.css">
 </head>
 <body>
-<div class="header">
+    <div class="header">
         <h1>
             <span id="siteTitle" style="cursor: pointer;" title="Double click to rename">Rei</span> 
             <span class="secret-flower" id="secretTrigger" title="Just a flower... right?">🌸</span>
@@ -32,19 +32,17 @@
         <button class="tab-btn" id="tabMonthlyBtn">Monthly Calendar</button>
         <button class="tab-btn" id="tabSummaryBtn">Summary</button>
     </div>
-    
-<div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
-        
+
+    <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
         <div id="focusWelcomeScreen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; width: 100%;">
-            <button id="btnCenterPomoIcon" style="background: transparent; border: none; cursor: pointer; transition: transform 0.3s;" title="Mở Trạm Pomodoro Tự Do">
+            <button id="btnCenterPomoIcon" style="background: transparent; border: none; cursor: pointer; transition: transform 0.3s;" title="Open Free Pomodoro">
                 <img src="icon-pomodoro.png" alt="Pomo Icon" style="width: 180px; height: 180px; object-fit: contain;">
             </button>
         </div>
 
         <div id="pomodoroUIWrapper" style="display: none; width: 100%; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh;">
-            
             <div class="clean-focus-box" style="position: relative; padding: 20px; max-width: 500px; width: 100%; margin: 0 auto; background: transparent; border: none; backdrop-filter: none; box-shadow: none;">
-                <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 25px; font-weight: bold;">🎯 Tự do tập trung</div>
+                <div id="focusTaskName" style="font-size: 20px; color: var(--accent); margin-bottom: 25px; font-weight: bold;">🎯 Free Focus</div>
                 
                 <div style="display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px;">
                     <input type="number" id="inputTimer" value="25" min="1" max="180" style="width: 120px; font-size: 80px; border: none; text-align: right; color: var(--text-main); outline: none; background: transparent; font-weight: bold; font-family: inherit;">
@@ -59,28 +57,29 @@
                 </div>
 
                 <div style="font-size: 13px; color: #555; background: rgba(255,255,255,0.6); padding: 8px 18px; border-radius: 12px; display: inline-block; border: 1px solid var(--border);">
-                    ⏱️ Tổng thời gian tích lũy: <span id="totalFocusTime" style="font-weight: bold; color: var(--accent);">0</span> phút
+                    ⏱️ Total focus time: <span id="totalFocusTime" style="font-weight: bold; color: var(--accent);">0</span> mins
                 </div>
             </div>
 
             <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 35px;">
-                <button id="btnExitFocus" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Quay lại Theme chính">
+                <button id="btnExitFocus" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Back to Main Theme">
                     <img src="nut-back.png" alt="Back" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
-                <button id="btnTimerStart" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Bắt đầu">
+                <button id="btnTimerStart" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Start">
                     <img src="nut-start.png" alt="Start" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
-                <button id="btnTimerPause" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Tạm dừng">
+                <button id="btnTimerPause" style="background: transparent; border: none; cursor: pointer; padding: 0; transition: transform 0.2s;" title="Pause">
                     <img src="nut-pause.png" alt="Pause" style="width: 100px; height: 100px; object-fit: contain;">
                 </button>
             </div>
-
         </div>
     </div>
-<div id="daily" class="tab-content active">
+
+    <div id="daily" class="tab-content active">
         <div class="input-row">
             <input type="text" id="dailyInput" class="input-item" placeholder="What to do today, Babi?">
             <input type="number" id="dailyTime" placeholder="Min" class="input-time" style="width: 80px; text-align: center;">
+            <!-- ĐÃ XÓA SELECT PRIORITY Ở ĐÂY -->
             <button class="btn-add-main" id="btnDailyAdd">Add</button>
         </div>
         <div id="dailyList"></div>
@@ -102,76 +101,70 @@
         </div>
         <div class="calendar-grid" id="calGrid"></div>
     </div>
-  <div id="summary" class="tab-content" style="background: transparent; box-shadow: none;">
+
+    <div id="summary" class="tab-content" style="background: transparent; box-shadow: none;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            
             <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">☀️ Việc Hôm Nay</h3>
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">☀️ Daily Tasks</h3>
                 <div id="sumDailyList" class="sum-list"></div>
             </div>
-
             <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">📅 Kế Hoạch Tuần</h3>
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">📅 Weekly Plan</h3>
                 <div id="sumWeeklyList" class="sum-list"></div>
             </div>
-
             <div class="summary-card" style="background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(8px); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">🗓️ Lịch Quan Trọng</h3>
+                <h3 class="sum-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">🗓️ Monthly Calendar</h3>
                 <div id="sumMonthlyList" class="sum-list"></div>
             </div>
-
         </div>
     </div>
     
     <div id="circleProgressContainer" class="circle-progress-wrapper"></div>
     
-<div id="wkModal" class="theme-modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999;">
+    <!-- MODAL KẾ HOẠCH TUẦN -->
+    <div id="wkModal" class="theme-modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999;">
         <div class="theme-modal" style="background:white; padding:20px; border-radius:12px; width:90%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
-            <h3 id="wkModalTitle" style="color:var(--accent); margin-bottom:15px; font-size:18px;">Thêm việc tuần</h3>
-            
-            <input type="text" id="wkInput" placeholder="Nội dung công việc..." style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid var(--border); outline:none;">
-            
+            <h3 id="wkModalTitle" style="color:var(--accent); margin-bottom:15px; font-size:18px;">Add Weekly Task</h3>
+            <input type="text" id="wkInput" placeholder="Task description..." style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid var(--border); outline:none;">
             <div style="display:flex; gap:10px; margin-bottom:15px; align-items: center;">
                 <div style="flex: 1;">
-                    <label style="font-size: 12px; color: #666; font-weight: bold;">Bắt đầu:</label>
+                    <label style="font-size: 12px; color: #666; font-weight: bold;">Start:</label>
                     <input type="time" id="wkTime" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border); outline:none;">
                 </div>
                 <span style="font-weight: bold; color: #999; margin-top: 15px;">-</span>
                 <div style="flex: 1;">
-                    <label style="font-size: 12px; color: #666; font-weight: bold;">Kết thúc:</label>
+                    <label style="font-size: 12px; color: #666; font-weight: bold;">End:</label>
                     <input type="time" id="wkTimeEnd" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border); outline:none;">
                 </div>
             </div>
-
             <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
                 <input type="checkbox" id="wkHighlight" style="width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;">
-                <label for="wkHighlight" style="font-size: 13px; color: #555; cursor: pointer; font-weight: bold;">🌟 Nổi bật với màu:</label>
-                <input type="color" id="wkColor" value="#ffea00" style="width: 25px; height: 25px; border: none; cursor: pointer; padding: 0; background: transparent;" title="Nhấn để chọn màu hoặc dán mã">
+                <label for="wkHighlight" style="font-size: 13px; color: #555; cursor: pointer; font-weight: bold;">🌟 Highlight color:</label>
+                <input type="color" id="wkColor" value="#ffea00" style="width: 25px; height: 25px; border: none; cursor: pointer; padding: 0; background: transparent;" title="Click to choose a color or paste hex code">
             </div>
-
             <div style="display:flex; justify-content:flex-end; gap:10px;">
-                <button id="btnWkCancel" style="padding:8px 15px; border-radius:6px; border:none; background:#eee; cursor:pointer; font-weight:bold;">Hủy</button>
-                <button id="btnWkSave" style="padding:8px 15px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:bold;">Lưu</button>
+                <button id="btnWkCancel" style="padding:8px 15px; border-radius:6px; border:none; background:#eee; cursor:pointer; font-weight:bold;">Cancel</button>
+                <button id="btnWkSave" style="padding:8px 15px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:bold;">Save</button>
             </div>
         </div>
     </div>
+
+    <!-- MODAL THÊM SỰ KIỆN LỊCH (Đã được bổ sung) -->
     <div id="calModal" class="theme-modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999;">
         <div class="theme-modal" style="background:white; padding:20px; border-radius:12px; width:90%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
             <h3 id="calModalTitle" style="color:var(--accent); margin-bottom:15px; font-size:18px;">Add Event</h3>
-            
             <input type="text" id="calInput" placeholder="Event description..." style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid var(--border); outline:none;">
-            
             <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
                 <label style="font-size: 13px; color: #555; font-weight: bold;">🌟 Event Color:</label>
                 <input type="color" id="calColor" value="#ffb3ba" style="width: 25px; height: 25px; border: none; cursor: pointer; padding: 0; background: transparent;">
             </div>
-
             <div style="display:flex; justify-content:flex-end; gap:10px;">
                 <button id="btnCalCancel" style="padding:8px 15px; border-radius:6px; border:none; background:#eee; cursor:pointer; font-weight:bold;">Cancel</button>
                 <button id="btnCalSave" style="padding:8px 15px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:bold;">Save</button>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
     <script src="timer.js"></script>
     <script src="progress.js"></script>
