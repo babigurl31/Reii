@@ -14,25 +14,25 @@
     <link rel="stylesheet" href="rose-bow-theme.css">
 </head>
 <body>
-    <div class="header">
+<div class="header">
         <h1>
-            <span id="siteTitle" style="cursor: pointer;" title="Nhấn đúp để đổi tên">Rei</span> 
-            <span class="secret-flower" id="secretTrigger" title="Chỉ là bông hoa thôi... đúng không?">🌸</span>
+            <span id="siteTitle" style="cursor: pointer;" title="Double click to rename">Rei</span> 
+            <span class="secret-flower" id="secretTrigger" title="Just a flower... right?">🌸</span>
         </h1>
-        <div class="clock-box" id="vnClock">Đang tải giờ...</div>
+        <div class="clock-box" id="vnClock">Loading time...</div>
         <div class="goal-container">
-            <span class="goal-text" id="myGoal" style="cursor: pointer;" title="Nhấn đúp để chỉnh sửa">Mục tiêu: Kiếm việc! Kiếm 100 triệu đầu tiên!</span>
+            <span class="goal-text" id="myGoal" style="cursor: pointer;" title="Double click to edit">Goal: Get a job! Make the first 100 million!</span>
         </div>
     </div>
 
     <div class="nav-tabs">
-        <button class="tab-btn" id="tabFocusBtn">Trạm Tập Trung</button>
-        <button class="tab-btn active" id="tabDailyBtn">Việc Hôm Nay</button>
-        <button class="tab-btn" id="tabWeeklyBtn">Kế Hoạch Tuần</button>
-        <button class="tab-btn" id="tabMonthlyBtn">Lịch Quan Trọng</button>
-        <button class="tab-btn" id="tabSummaryBtn">Tổng Hợp</button>
+        <button class="tab-btn" id="tabFocusBtn">Focus Space</button>
+        <button class="tab-btn active" id="tabDailyBtn">Daily Tasks</button>
+        <button class="tab-btn" id="tabWeeklyBtn">Weekly Plan</button>
+        <button class="tab-btn" id="tabMonthlyBtn">Monthly Calendar</button>
+        <button class="tab-btn" id="tabSummaryBtn">Summary</button>
     </div>
-
+    
 <div id="focusTab" class="tab-content" style="background: transparent; box-shadow: none; text-align: center;">
         
         <div id="focusWelcomeScreen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; width: 100%;">
@@ -77,20 +77,15 @@
 
         </div>
     </div>
-    <div id="daily" class="tab-content active">
+<div id="daily" class="tab-content active">
         <div class="input-row">
-            <input type="text" id="dailyInput" class="input-item" placeholder="Hôm nay cần làm gì Babi ơi?">
-           <input type="number" id="dailyTime" placeholder="Phút" class="input-time" style="width: 80px; text-align: center;">
-            <select id="dailyPrio" class="input-prio">
-                <option value="high">🔴 Quan trọng</option>
-                <option value="medium" selected>🟡 Trong 12 tiếng</option>
-                <option value="low">🔵 Trong ngày</option>
-            </select>
-            <button class="btn-add-main" id="btnDailyAdd">Thêm</button>
+            <input type="text" id="dailyInput" class="input-item" placeholder="What to do today, Babi?">
+            <input type="number" id="dailyTime" placeholder="Min" class="input-time" style="width: 80px; text-align: center;">
+            <button class="btn-add-main" id="btnDailyAdd">Add</button>
         </div>
         <div id="dailyList"></div>
         <div class="history-section">
-            <button class="history-btn" id="btnToggleHistory">👁️ Xem / Ẩn lịch sử công việc đã xóa</button>
+            <button class="history-btn" id="btnToggleHistory">👁️ Show / Hide archived tasks</button>
             <div id="historyList" class="history-list"></div>
         </div>
     </div>
@@ -101,9 +96,9 @@
 
     <div id="monthly" class="tab-content">
         <div class="cal-nav">
-            <button id="btnPrevMonth">◀ Trước</button>
-            <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Tháng ...</h3>
-            <button id="btnNextMonth">Sau ▶</button>
+            <button id="btnPrevMonth">◀ Prev</button>
+            <h3 id="monthYearDisplay" style="color: var(--accent); margin: 0 20px;">Month ...</h3>
+            <button id="btnNextMonth">Next ▶</button>
         </div>
         <div class="calendar-grid" id="calGrid"></div>
     </div>
@@ -157,6 +152,23 @@
             <div style="display:flex; justify-content:flex-end; gap:10px;">
                 <button id="btnWkCancel" style="padding:8px 15px; border-radius:6px; border:none; background:#eee; cursor:pointer; font-weight:bold;">Hủy</button>
                 <button id="btnWkSave" style="padding:8px 15px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:bold;">Lưu</button>
+            </div>
+        </div>
+    </div>
+    <div id="calModal" class="theme-modal-overlay" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:999;">
+        <div class="theme-modal" style="background:white; padding:20px; border-radius:12px; width:90%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            <h3 id="calModalTitle" style="color:var(--accent); margin-bottom:15px; font-size:18px;">Add Event</h3>
+            
+            <input type="text" id="calInput" placeholder="Event description..." style="width:100%; padding:10px; margin-bottom:15px; border-radius:6px; border:1px solid var(--border); outline:none;">
+            
+            <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                <label style="font-size: 13px; color: #555; font-weight: bold;">🌟 Event Color:</label>
+                <input type="color" id="calColor" value="#ffb3ba" style="width: 25px; height: 25px; border: none; cursor: pointer; padding: 0; background: transparent;">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button id="btnCalCancel" style="padding:8px 15px; border-radius:6px; border:none; background:#eee; cursor:pointer; font-weight:bold;">Cancel</button>
+                <button id="btnCalSave" style="padding:8px 15px; border-radius:6px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:bold;">Save</button>
             </div>
         </div>
     </div>
