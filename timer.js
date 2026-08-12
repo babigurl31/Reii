@@ -6,14 +6,14 @@ let totalFocusSeconds = 0;
 let weeklyFocusSeconds = 0; 
 let sessionFocusSeconds = 0;
 
-const motivations = [ "Babi giỏi quá! Cứ giữ đà này nhé! 💪", "Sự tập trung của Babi đang tạo ra phép màu đó! ✨", "Mệt không? Uống ngụm nước rồi chiến tiếp nha! 💧", "Babi sắp chạm đến mục tiêu rồi, cố lên! 🚀", "Một cô gái chăm chỉ là một cô gái xinh đẹp nhất! 🌸", "Tuyệt vời! Cậu đang làm rất tốt! 👏" ];
+const motivations = [ "Great job, Babi! Keep it up! 💪", "Your focus is creating magic, Babi! ✨", "Tired? Grab a sip of water and keep going! 💧", "You're so close to your goal, Babi! You can do it! 🚀", "A hardworking girl is the prettiest girl! 🌸", "Awesome! You're doing great! 👏" ];
 
 function getMonday(d) {
     let date = new Date(d), day = date.getDay(), diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(date.setDate(diff)).toLocaleDateString('vi-VN');
+    return new Date(date.setDate(diff)).toLocaleDateString('en-US');
 }
 
-let todayStr = new Date().toLocaleDateString('vi-VN');
+let todayStr = new Date().toLocaleDateString('en-US');
 let currentWeekStr = getMonday(new Date());
 
 if (localStorage.getItem('qn_focus_date') !== todayStr) { localStorage.setItem('qn_total_focus', '0'); localStorage.setItem('qn_focus_date', todayStr); }
@@ -29,21 +29,21 @@ function formatTime(sec) {
 
 function updateTotalDisplay() {
     let totalMins = Math.floor(totalFocusSeconds / 60);
-    let displayElem = document.getElementById('totalFocusDisplay'); if (displayElem) displayElem.innerText = `${totalMins} phút`;
+    let displayElem = document.getElementById('totalFocusDisplay'); if (displayElem) displayElem.innerText = `${totalMins} mins`;
 
     let wMins = Math.floor(weeklyFocusSeconds / 60), wHours = Math.floor(wMins / 60), remainMins = wMins % 60;
     let displayWeekly = document.getElementById('weeklyFocusDisplay');
-    if (displayWeekly) { displayWeekly.innerText = wHours > 0 ? `${wHours} giờ ${remainMins} phút` : `${wMins} phút`; }
+    if (displayWeekly) { displayWeekly.innerText = wHours > 0 ? `${wHours} hrs ${remainMins} mins` : `${wMins} mins`; }
 }
 
 function toggleTimer() {
     const btn = document.getElementById('startTimerBtn'), modeText = document.getElementById('timerMode');
     let workMins = parseInt(document.getElementById('timerInput').value) || 25;
-    if (isTimerRunning) { clearInterval(timerInterval); btn.innerText = "Tiếp tục"; isTimerRunning = false; } 
+    if (isTimerRunning) { clearInterval(timerInterval); btn.innerText = "Resume"; isTimerRunning = false; } 
     else {
-        if (timeRemaining <= 0 || btn.innerText === "Bắt đầu") { timeRemaining = isWorking ? workMins * 60 : timeRemaining; if (isWorking) sessionFocusSeconds = 0; }
-        btn.innerText = "Tạm dừng"; isTimerRunning = true;
-        modeText.innerText = isWorking ? "🔥 Đang tập trung..." : modeText.innerText;
+        if (timeRemaining <= 0 || btn.innerText === "Start") { timeRemaining = isWorking ? workMins * 60 : timeRemaining; if (isWorking) sessionFocusSeconds = 0; }
+        btn.innerText = "Pause"; isTimerRunning = true;
+        modeText.innerText = isWorking ? "🔥 Focusing..." : modeText.innerText;
         modeText.style.color = isWorking ? "var(--red)" : "#388e3c";
 
         timerInterval = setInterval(() => {
@@ -52,22 +52,22 @@ function toggleTimer() {
                 totalFocusSeconds++; weeklyFocusSeconds++; sessionFocusSeconds++;
                 if (totalFocusSeconds % 60 === 0) { localStorage.setItem('qn_total_focus', totalFocusSeconds); localStorage.setItem('qn_weekly_focus', weeklyFocusSeconds); updateTotalDisplay(); }
                 if (sessionFocusSeconds > 0 && sessionFocusSeconds % 600 === 0) alert("💌 " + motivations[Math.floor(Math.random() * motivations.length)]);
-                if (sessionFocusSeconds === 60 * 60) alert("🚨 CẢNH BÁO: Babi đã ngồi liên tục 1 tiếng rồi đó! Hãy vươn vai đi lại chút nha! 👀");
+                if (sessionFocusSeconds === 60 * 60) alert("🚨 WARNING: Babi, you've been sitting for an hour! Stretch and walk around a bit! 👀");
             }
             if (timeRemaining <= 0) {
                 clearInterval(timerInterval); isTimerRunning = false;
                 if (isWorking) {
                     let randomBreakMins = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
                     isWorking = false; timeRemaining = randomBreakMins * 60;
-                    modeText.innerText = `☕ Nghỉ giải lao (${randomBreakMins} phút)`; modeText.style.color = "#388e3c";
-                    document.getElementById('timerDisplay').innerText = formatTime(timeRemaining); btn.innerText = "Bắt đầu nghỉ";
+                    modeText.innerText = `☕ Break Time (${randomBreakMins} mins)`; modeText.style.color = "#388e3c";
+                    document.getElementById('timerDisplay').innerText = formatTime(timeRemaining); btn.innerText = "Start Break";
                     localStorage.setItem('qn_total_focus', totalFocusSeconds); localStorage.setItem('qn_weekly_focus', weeklyFocusSeconds); updateTotalDisplay();
-                    alert(`Ting ting! 🎲 Bốc thăm ngẫu nhiên thưởng cho Babi ${randomBreakMins} phút nghỉ ngơi! 🎉`);
+                    alert(`Ting ting! 🎲 Babi, you randomly won a ${randomBreakMins}-minute break! 🎉`);
                 } else {
                     isWorking = true; workMins = parseInt(document.getElementById('timerInput').value) || 25; timeRemaining = workMins * 60;
-                    modeText.innerText = "🔥 Sẵn sàng làm việc!"; modeText.style.color = "var(--accent)";
-                    document.getElementById('timerDisplay').innerText = formatTime(timeRemaining); btn.innerText = "Bắt đầu làm";
-                    alert("Hết giờ nghỉ ngơi rồi Babi ơi! Quay lại chiến đấu thôi 💪");
+                    modeText.innerText = "🔥 Ready to work!"; modeText.style.color = "var(--accent)";
+                    document.getElementById('timerDisplay').innerText = formatTime(timeRemaining); btn.innerText = "Start Focus";
+                    alert("Break time is over, Babi! Back to work 💪");
                 }
             }
         }, 1000);
@@ -75,12 +75,12 @@ function toggleTimer() {
 }
 
 function resetTimer() {
-    if (confirm("Cài lại đồng hồ từ đầu nhé? (Phút tích lũy vẫn được giữ)")) {
+    if (confirm("Reset the timer? (Accumulated minutes will be kept)")) {
         clearInterval(timerInterval); isTimerRunning = false; isWorking = true; sessionFocusSeconds = 0;
         let workMins = parseInt(document.getElementById('timerInput').value) || 25; timeRemaining = workMins * 60;
         document.getElementById('timerDisplay').innerText = formatTime(timeRemaining);
-        document.getElementById('startTimerBtn').innerText = "Bắt đầu";
-        document.getElementById('timerMode').innerText = "Sẵn sàng làm việc!"; document.getElementById('timerMode').style.color = "var(--accent)";
+        document.getElementById('startTimerBtn').innerText = "Start";
+        document.getElementById('timerMode').innerText = "Ready to work!"; document.getElementById('timerMode').style.color = "var(--accent)";
     }
 }
 
