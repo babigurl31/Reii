@@ -1,35 +1,35 @@
 /* ==========================================================================
-   ROSE & BOW THEME — Hồng phấn / Đỏ hoa hồng / Vàng gold / Caro gingham
-   File này THAY THẾ bản "notebook-theme.css" (kem bơ/cam) trước đó.
-   Chỉ ghi đè màu sắc + thêm họa tiết trang trí — KHÔNG đổi border-radius
-   hay bất kỳ layout/grid nào đang chạy tốt.
-   Cách dùng: trong index.html, đổi:
+   ROSE & BOW THEME — Soft Pink / Rose Red / Gold / Gingham Check
+   This file REPLACES the earlier "notebook-theme.css" (cream/orange) theme.
+   It only overrides colors + adds decorative touches — it does NOT change
+   any border-radius or the layout/grid that's already working well.
+   Usage: in index.html, change:
        <link rel="stylesheet" href="notebook-theme.css">
-   thành:
+   to:
        <link rel="stylesheet" href="rose-bow-theme.css">
-   (đặt SAU thẻ theme.css)
+   (keep it AFTER the theme.css tag)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. BẢNG MÀU GỐC
+   1. BASE COLOR PALETTE
    -------------------------------------------------------------------------- */
 :root {
-    --bg-main: #FCEEE4;                /* nền kem hồng nhạt, nền caro mờ */
-    --bg-card: #FFF8F3;                /* nền "giấy" thẻ/bảng */
-    --accent:  #D6435B;                /* đỏ hoa hồng chủ đạo */
-    --accent-soft: #F6C9D2;            /* hồng phấn nhạt - nơ, tape */
-    --gold:    #E7B34C;                /* vàng gold - gáy xoắn, viền vương miện */
-    --leaf:    #7C9B63;                /* xanh lá điểm nhấn nhỏ */
-    --text-main: #7A2E3A;              /* chữ nâu-đỏ rosewood, dễ đọc trên nền hồng */
+    --bg-main: #FCEEE4;                /* pale pink-cream page background, faint check pattern */
+    --bg-card: #FFF8F3;                /* "paper" background for cards/panels */
+    --accent:  #D6435B;                /* main rose red */
+    --accent-soft: #F6C9D2;            /* soft pink - bows, tape */
+    --gold:    #E7B34C;                /* gold accent - crown border */
+    --leaf:    #7C9B63;                /* small green accent */
+    --text-main: #7A2E3A;              /* warm rosewood brown-red text, readable on pink */
     --text-muted: #A9707C;
-    --border:  #F2B7C4;                /* viền hồng phấn */
+    --border:  #F2B7C4;                /* soft pink border */
     --red:     #D6435B;
     --paper-line: color-mix(in srgb, var(--accent) 14%, transparent);
     --paper-line-soft: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 /* --------------------------------------------------------------------------
-   2. NỀN GIẤY CARO TOÀN TRANG (như ảnh mẫu)
+   2. FULL-PAGE GRID PAPER BACKGROUND (as in the reference image)
    -------------------------------------------------------------------------- */
 body {
     background-color: var(--bg-main);
@@ -38,18 +38,18 @@ body {
         linear-gradient(90deg, var(--paper-line-soft) 1px, transparent 1px);
     background-size: 22px 22px;
 }
-body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối giản */
+body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal */
 
 /* --------------------------------------------------------------------------
-   3. HEADER + Ô MỤC TIÊU — khung caro gingham + nơ + hoa hồng góc
+   3. HEADER + GOAL BOX — gingham check panel + bow + rose corner accents
    -------------------------------------------------------------------------- */
 .header h1 { color: var(--accent); text-shadow: 1px 1px 0 rgba(255,255,255,0.6); }
 .clock-box { color: var(--text-main); }
 
 .goal-container {
     position: relative;
-    border: 2px solid var(--accent);
-    box-shadow: 0 4px 12px rgba(214,67,91,0.15);
+    border: 2px dashed var(--accent);
+    box-shadow: 0 4px 12px rgba(214,67,91,0.10);
     background-color: var(--bg-card);
     background-image:
         linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%),
@@ -60,25 +60,18 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 .goal-text { color: var(--accent) !important; }
 
-/* nơ ruy băng dán góc trái */
+/* ribbon bow sticker, top-left corner */
 .goal-container::before {
     content: "🎀";
     position: absolute; top: -16px; left: 14px;
     font-size: 26px; transform: rotate(-8deg);
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
     pointer-events: none;
-}
-/* hoa hồng nhỏ góc phải */
-.goal-container::after {
-    content: "🌹";
-    position: absolute; bottom: -12px; right: -8px;
-    font-size: 20px; transform: rotate(10deg);
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
-    pointer-events: none;
+    z-index: 2;
 }
 
 /* --------------------------------------------------------------------------
-   4. NAV TABS — thẻ bìa hồng, giữ nguyên hình pill hiện có
+   4. NAV TABS — pink pill tabs, keeping the existing pill shape as-is
    -------------------------------------------------------------------------- */
 .tab-btn {
     background: var(--bg-card);
@@ -94,12 +87,12 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   5. KHUNG NỘI DUNG CHUNG (.tab-content) — gáy xoắn ốc vàng gold + giấy kẻ
+   5. SHARED CONTENT PANEL (.tab-content) — dashed border + ruled paper texture
    -------------------------------------------------------------------------- */
 .tab-content {
     position: relative;
     background-color: var(--bg-card);
-    border: 1px solid var(--border);
+    border: 2px dashed var(--border);
     box-shadow: 0 6px 20px rgba(214,67,91,0.10);
     background-image: repeating-linear-gradient(
         var(--bg-card) 0px, var(--bg-card) 27px,
@@ -110,17 +103,7 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 #focusTab.tab-content::before,
 #focusTab.tab-content::after { background-image: none; box-shadow: none; border: none; }
 
-/* gáy xoắn ốc vàng gold mép trên mỗi bảng */
-.tab-content::before {
-    content: "";
-    position: absolute; top: -10px; left: 26px; right: 26px; height: 20px;
-    background-image: radial-gradient(circle at center,
-        var(--bg-main) 5px, var(--gold) 6px, transparent 7px);
-    background-size: 30px 100%;
-    background-repeat: repeat-x;
-    pointer-events: none;
-}
-/* hoa hồng nấp góc dưới-phải */
+/* rose sticker tucked into the bottom-right corner */
 .tab-content:not(#focusTab)::after {
     content: "🌹";
     position: absolute; bottom: 10px; right: 14px;
@@ -129,7 +112,7 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   6. TAB VIỆC HÔM NAY (Daily)
+   6. DAILY TAB
    -------------------------------------------------------------------------- */
 .input-item, .input-time, .input-prio {
     background: var(--bg-main);
@@ -160,7 +143,7 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   7. KẾ HOẠCH TUẦN (Weekly) — nền giấy ô caro nhạt + nơ tiêu đề
+   7. WEEKLY PLANNER — faint grid paper texture + bow header accent
    -------------------------------------------------------------------------- */
 .weekly-grid { background: var(--border); border-color: var(--border); }
 .wk-header, .wk-time, .wk-cell { background: var(--bg-card); }
@@ -185,7 +168,7 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 #weekly.tab-content::after { content: "🎀"; }
 
 /* --------------------------------------------------------------------------
-   8. LỊCH QUAN TRỌNG (Monthly) — nền giấy caro, vương miện vàng góc
+   8. MONTHLY CALENDAR — grid paper texture + gold crown corner accent
    -------------------------------------------------------------------------- */
 .cal-nav button {
     background: var(--bg-main); color: var(--accent);
@@ -207,7 +190,8 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
     border-left: 3px solid var(--accent);
 }
 
-/* vương miện vàng góc trên-phải khung lịch, gợi nhớ chi tiết crown trong ảnh mẫu */
+/* gold crown in the top-right corner of the calendar panel, echoing the
+   crown detail from the reference image */
 #monthly.tab-content::after {
     content: "👑";
     top: -18px; bottom: auto; right: 30px; left: auto;
@@ -216,7 +200,7 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   9. TỔNG HỢP (Summary) — nơ nhỏ trên mỗi thẻ
+   9. SUMMARY TAB — small bow accent on each card
    -------------------------------------------------------------------------- */
 .summary-card {
     position: relative;
@@ -248,37 +232,52 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   10. POP-UP / MODAL (Theme Settings, Study/Vocab, wkModal)
+   10. POP-UPS / MODALS (Theme Settings, Study/Vocab, wkModal)
+   No more punched-hole spiral binding, no more lace trim. A gentle DASHED
+   border + a soft GINGHAM CHECK background. border-radius is left untouched.
    -------------------------------------------------------------------------- */
 .theme-modal {
-    background-color: color-mix(in srgb, var(--accent) 6%, var(--bg-card)) !important;
-    border: 1px solid var(--border) !important;
-    box-shadow: 0 12px 30px rgba(214,67,91,0.2);
+    position: relative;
+    background-color: var(--bg-card) !important;
+    background-image:
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%),
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%) !important;
+    background-size: 14px 14px !important;
+    background-position: 0 0, 7px 7px !important;
+    background-blend-mode: multiply;
+    border: 2px dashed var(--accent) !important;
+    box-shadow: 0 10px 24px rgba(122,46,58,0.14) !important;
 }
-.theme-modal h3 { border-bottom: 2px dashed var(--border); color: var(--accent); }
+.theme-modal h3 {
+    border-bottom: 2px dashed var(--border);
+    color: var(--accent);
+}
 .theme-modal input, .theme-modal select, .theme-modal textarea {
     background-color: var(--bg-main) !important;
     border: 1px solid var(--border) !important;
     color: var(--text-main) !important;
 }
-.theme-modal::before {
-    content: "";
-    position: absolute; top: -10px; left: 22px; right: 22px; height: 20px;
-    background-image: radial-gradient(circle at center,
-        var(--bg-main) 5px, var(--gold) 6px, transparent 7px);
-    background-size: 26px 100%;
-    background-repeat: repeat-x;
-    pointer-events: none;
-}
+
 .mini-item { background: var(--bg-card) !important; border-left: 3px solid var(--accent); }
 .checklist-group { background: var(--bg-main); border: 1px solid var(--border); }
 .group-title { color: var(--accent); border-bottom: 1px dashed var(--border); }
 
-.modal-content { background: var(--bg-card); border: 1px solid var(--border); }
+.modal-content {
+    position: relative;
+    background-color: var(--bg-card);
+    background-image:
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%),
+        linear-gradient(45deg, var(--accent-soft) 25%, transparent 25%, transparent 75%, var(--accent-soft) 75%);
+    background-size: 14px 14px;
+    background-position: 0 0, 7px 7px;
+    background-blend-mode: multiply;
+    border: 2px dashed var(--accent);
+    box-shadow: 0 10px 24px rgba(122,46,58,0.14);
+}
 .modal-content h3 { color: var(--accent); }
 
 /* --------------------------------------------------------------------------
-   11. NÚT SETTING / LIST / STUDY (góc màn hình)
+   11. SETTINGS / LIST / STUDY BUTTONS (corner of the screen)
    -------------------------------------------------------------------------- */
 .main-set-btn, .set-btn {
     background: var(--bg-card);
@@ -297,17 +296,16 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: giữ tối gi�
 }
 
 /* --------------------------------------------------------------------------
-   12. FOCUS / POMODORO — CỐ Ý KHÔNG THÊM HỌA TIẾT, chỉ theo màu accent chung
+   12. FOCUS / POMODORO — INTENTIONALLY NO DECORATION, only inherits the
+   shared accent/text colors so it stays minimal as requested.
    -------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------
    13. RESPONSIVE
    -------------------------------------------------------------------------- */
 @media (max-width: 600px) {
-    .tab-content::before, .theme-modal::before { background-size: 22px 100%; }
     .tab-content:not(#focusTab)::after,
     .goal-container::before,
-    .goal-container::after,
     .summary-card::before,
     .summary-card::after,
     #monthly.tab-content::after { font-size: 16px; }
