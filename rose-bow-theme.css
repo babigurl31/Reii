@@ -230,15 +230,16 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
 
 /* --------------------------------------------------------------------------
    10. POP-UPS / MODALS (Theme Settings, Study/Vocab, wkModal)
-   HEART-SCALLOPED CARD style: the flat dashed border is replaced with a
-   wavy lace trim running along the top and bottom edges (echoing the
-   heart-shaped card in the reference image), softer rounded corners, and
-   a small heart before the title. Kept as a rectangle so nothing inside
-   (form fields, etc.) gets clipped.
+   No more wavy lace trim. NOTEBOOK-style background: pastel pink ruled
+   paper lines.
    -------------------------------------------------------------------------- */
 .theme-modal {
     position: relative;
-    background-color: var(--bg-card) !important;
+    background-color: #FDEFF3 !important;
+    background-image: repeating-linear-gradient(
+        #FDEFF3 0px, #FDEFF3 25px,
+        var(--paper-line-soft) 25px, var(--paper-line-soft) 26px
+    ) !important;
     border: none !important;
     border-radius: 22px !important;
     box-shadow: 0 14px 30px rgba(122,46,58,0.2) !important;
@@ -255,25 +256,17 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     color: var(--text-main) !important;
 }
 
-/* wavy lace trim, top edge */
-.theme-modal::before {
-    content: "";
-    position: absolute; top: -11px; left: -4px; right: -4px; height: 20px;
-    background-image: radial-gradient(circle at 10px 11px,
-        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
-    pointer-events: none;
-}
-
 .mini-item { background: var(--bg-card) !important; border-left: 3px solid var(--accent); }
 .checklist-group { background: var(--bg-main); border: 1px solid var(--border); }
 .group-title { color: var(--accent); border-bottom: 1px dashed var(--border); }
 
 .modal-content {
     position: relative;
-    background-color: var(--bg-card);
+    background-color: #FDEFF3;
+    background-image: repeating-linear-gradient(
+        #FDEFF3 0px, #FDEFF3 25px,
+        var(--paper-line-soft) 25px, var(--paper-line-soft) 26px
+    );
     border: none;
     border-radius: 22px;
     box-shadow: 0 14px 30px rgba(122,46,58,0.2);
@@ -281,16 +274,6 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
 }
 .modal-content h3 { color: var(--accent); }
 .modal-content h3::before { content: "🩷 "; }
-.modal-content::before {
-    content: "";
-    position: absolute; top: -11px; left: -4px; right: -4px; height: 20px;
-    background-image: radial-gradient(circle at 10px 11px,
-        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
-    pointer-events: none;
-}
 
 /* --------------------------------------------------------------------------
    11. SETTINGS / LIST / STUDY BUTTONS (corner of the screen)
