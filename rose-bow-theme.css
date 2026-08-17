@@ -233,8 +233,11 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
 
 /* --------------------------------------------------------------------------
    10. POP-UPS / MODALS (Theme Settings, Study/Vocab, wkModal)
-   No more punched-hole spiral binding, no more lace trim. A gentle DASHED
-   border + a soft GINGHAM CHECK background. border-radius is left untouched.
+   HEART-SCALLOPED CARD style: the flat dashed border is replaced with a
+   wavy lace trim running along the top and bottom edges (echoing the
+   heart-shaped card in the reference image), softer rounded corners, and
+   a small heart before the title. Kept as a rectangle so nothing inside
+   (form fields, etc.) gets clipped.
    -------------------------------------------------------------------------- */
 .theme-modal {
     position: relative;
@@ -245,17 +248,43 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     background-size: 14px 14px !important;
     background-position: 0 0, 7px 7px !important;
     background-blend-mode: multiply;
-    border: 2px dashed var(--accent) !important;
-    box-shadow: 0 10px 24px rgba(122,46,58,0.14) !important;
+    border: none !important;
+    border-radius: 22px !important;
+    box-shadow: 0 14px 30px rgba(122,46,58,0.2) !important;
+    margin: 14px 6px;
 }
 .theme-modal h3 {
     border-bottom: 2px dashed var(--border);
     color: var(--accent);
 }
+.theme-modal h3::before { content: "🩷 "; }
 .theme-modal input, .theme-modal select, .theme-modal textarea {
     background-color: var(--bg-main) !important;
     border: 1px solid var(--border) !important;
     color: var(--text-main) !important;
+}
+
+/* wavy lace trim, top edge */
+.theme-modal::before {
+    content: "";
+    position: absolute; top: -11px; left: -4px; right: -4px; height: 20px;
+    background-image: radial-gradient(circle at 10px 11px,
+        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
+    pointer-events: none;
+}
+/* wavy lace trim, bottom edge */
+.theme-modal::after {
+    content: "";
+    position: absolute; bottom: -11px; left: -4px; right: -4px; height: 20px;
+    background-image: radial-gradient(circle at 10px 9px,
+        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 -1px 1px rgba(214,67,91,0.18));
+    pointer-events: none;
 }
 
 .mini-item { background: var(--bg-card) !important; border-left: 3px solid var(--accent); }
@@ -271,10 +300,33 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     background-size: 14px 14px;
     background-position: 0 0, 7px 7px;
     background-blend-mode: multiply;
-    border: 2px dashed var(--accent);
-    box-shadow: 0 10px 24px rgba(122,46,58,0.14);
+    border: none;
+    border-radius: 22px;
+    box-shadow: 0 14px 30px rgba(122,46,58,0.2);
+    margin: 14px 6px;
 }
 .modal-content h3 { color: var(--accent); }
+.modal-content h3::before { content: "🩷 "; }
+.modal-content::before {
+    content: "";
+    position: absolute; top: -11px; left: -4px; right: -4px; height: 20px;
+    background-image: radial-gradient(circle at 10px 11px,
+        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
+    pointer-events: none;
+}
+.modal-content::after {
+    content: "";
+    position: absolute; bottom: -11px; left: -4px; right: -4px; height: 20px;
+    background-image: radial-gradient(circle at 10px 9px,
+        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
+    background-size: 20px 20px;
+    background-repeat: repeat-x;
+    filter: drop-shadow(0 -1px 1px rgba(214,67,91,0.18));
+    pointer-events: none;
+}
 
 /* --------------------------------------------------------------------------
    11. SETTINGS / LIST / STUDY BUTTONS (corner of the screen)
