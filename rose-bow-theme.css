@@ -266,17 +266,6 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
     pointer-events: none;
 }
-/* wavy lace trim, bottom edge */
-.theme-modal::after {
-    content: "";
-    position: absolute; bottom: -11px; left: -4px; right: -4px; height: 20px;
-    background-image: radial-gradient(circle at 10px 9px,
-        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    filter: drop-shadow(0 -1px 1px rgba(214,67,91,0.18));
-    pointer-events: none;
-}
 
 .mini-item { background: var(--bg-card) !important; border-left: 3px solid var(--accent); }
 .checklist-group { background: var(--bg-main); border: 1px solid var(--border); }
@@ -300,16 +289,6 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     background-size: 20px 20px;
     background-repeat: repeat-x;
     filter: drop-shadow(0 1px 1px rgba(214,67,91,0.18));
-    pointer-events: none;
-}
-.modal-content::after {
-    content: "";
-    position: absolute; bottom: -11px; left: -4px; right: -4px; height: 20px;
-    background-image: radial-gradient(circle at 10px 9px,
-        var(--bg-card) 8px, var(--accent-soft) 9px, var(--accent-soft) 10.5px, transparent 11px);
-    background-size: 20px 20px;
-    background-repeat: repeat-x;
-    filter: drop-shadow(0 -1px 1px rgba(214,67,91,0.18));
     pointer-events: none;
 }
 
