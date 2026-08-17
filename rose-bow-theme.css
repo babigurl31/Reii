@@ -1,15 +1,3 @@
-/* ==========================================================================
-   ROSE & BOW THEME — Soft Pink / Rose Red / Gold / Gingham Check
-   This file REPLACES the earlier "notebook-theme.css" (cream/orange) theme.
-   It only overrides colors + adds decorative touches — it does NOT change
-   any border-radius or the layout/grid that's already working well.
-   Usage: in index.html, change:
-       <link rel="stylesheet" href="notebook-theme.css">
-   to:
-       <link rel="stylesheet" href="rose-bow-theme.css">
-   (keep it AFTER the theme.css tag)
-   ========================================================================== */
-
 /* --------------------------------------------------------------------------
    1. BASE COLOR PALETTE
    -------------------------------------------------------------------------- */
