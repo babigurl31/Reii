@@ -249,7 +249,6 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     border-bottom: 2px dashed var(--border);
     color: var(--accent);
 }
-.theme-modal h3::before { content: "🩷 "; }
 .theme-modal input, .theme-modal select, .theme-modal textarea {
     background-color: var(--bg-main) !important;
     border: 1px solid var(--border) !important;
@@ -273,7 +272,6 @@ body.is-focusing { background-image: none; } /* Focus/Pomodoro: keep it minimal 
     margin: 14px 6px;
 }
 .modal-content h3 { color: var(--accent); }
-.modal-content h3::before { content: "🩷 "; }
 
 /* --------------------------------------------------------------------------
    11. SETTINGS / LIST / STUDY BUTTONS (corner of the screen)
